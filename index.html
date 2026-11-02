@@ -167,6 +167,25 @@ body.in-vers .brand{color:#c9c2ff;text-shadow:0 0 18px rgba(120,100,255,.6)}
 @media (max-width:760px){ #kara{top:calc(env(safe-area-inset-top,0px) + 52px)} }
 #fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .28s ease;z-index:50}
 #fade.on{opacity:1;transition:none}
+#cardBg{position:fixed;inset:0;background:rgba(10,7,12,.55);display:grid;place-items:center;padding:16px;z-index:45}
+.tcard{width:min(340px,100%);background:#fbf6ec;color:#24181c;border-radius:20px;border:3px solid #24181c;box-shadow:0 18px 40px rgba(0,0,0,.45),inset 0 0 0 6px #fbf6ec,inset 0 0 0 8px #d6a84c;padding:22px 18px 16px;display:flex;flex-direction:column;gap:12px;text-align:center;animation:cardIn .35s cubic-bezier(.2,1.4,.4,1)}
+@keyframes cardIn{from{transform:rotateY(90deg) scale(.8);opacity:0}}
+.ctag{align-self:center;font-size:12px;font-weight:700;letter-spacing:.08em;padding:4px 12px;border-radius:999px;color:#fff;background:#8e2f47}
+.ctag.k-balance{background:#3b5fa8}.ctag.k-truth{background:#6d4a8a}.ctag.k-drink{background:#c2453a}
+.cby{font-size:12px;color:#7a6a5b}
+.cq{font-family:var(--display);font-size:21px;line-height:1.4;word-break:keep-all;text-wrap:balance}
+.copts{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.copt{display:flex;justify-content:space-between;align-items:center;gap:8px;border:2px solid #24181c;background:#fff;border-radius:12px;padding:10px 12px;font:inherit;font-size:15px;color:#24181c;cursor:pointer;text-align:left}
+.copt b{font-size:13px;color:#8e2f47;flex:none}
+.copt:hover{background:#f1e6d2}
+.cvs{font-family:var(--display);font-size:13px;color:#7a6a5b}
+.crow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tcard .btn-ghost{color:#24181c;border-color:#24181c}
+.tag.matched .name{border-color:#ff8fa8;box-shadow:0 0 0 2px rgba(255,143,168,.35)}
+.tag.matched .name::before{content:'♥ ';color:#ff8fa8}
+.modal.match{border-color:#ff8fa8}
+.modal.match h3{color:#ffb3c4}
+@media (prefers-reduced-motion:reduce){.tcard{animation:none}}
 .btn-open{background:#2b3d66;border:1px solid #6aa0ff;color:#dce8ff;border-radius:12px;padding:12px 18px;font-weight:600;letter-spacing:.12em}
 
 #oneshot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 16px);width:min(340px,calc(100vw - 32px));height:min(440px,58vh);background:var(--panel);border:1px solid var(--wine);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.55)}
@@ -203,6 +222,8 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
 .sw button[aria-pressed="true"]{outline:2px solid var(--brass-hi);outline-offset:2px}
 .nick{background:var(--panel-2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:16px;outline:none}
 .nick:focus{border-color:var(--brass)}
+.hw{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;align-items:center;gap:6px 8px;font-size:13px;color:var(--muted)}
+.hw input{padding:8px 10px;font-size:15px;min-width:0;width:100%}
 .agree{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.5}
 .agree input{margin-top:3px;accent-color:var(--brass);width:16px;height:16px}
 .enter-row{display:flex;gap:8px;position:sticky;bottom:0;padding-top:8px;background:linear-gradient(180deg,transparent,rgba(31,24,38,.98) 30%)}
@@ -292,6 +313,7 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
   </div>
 </div></div>
 
+<div id="cardBg" hidden><div class="tcard" id="cardBox" role="dialog" aria-label="술게임 카드"></div></div>
 <div class="modal-bg" id="modal" hidden><div class="modal" id="modalBox"></div></div>
 <div class="modal-bg" id="ladder" hidden><div class="modal ladder" id="ladderBox"></div></div>
 
@@ -308,7 +330,12 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
   <div class="wardrobe">
     <h2>드레스룸</h2>
     <div class="sec"><label for="nick">닉네임</label><input class="nick" id="nick" maxlength="12" placeholder="2~12자" autocomplete="off"></div>
+    <div class="sec"><div class="lbl">캐릭터 프리셋 · 고르면 한 번에 바뀌어요</div><div class="chips" id="presets"></div></div>
     <div class="sec"><div class="lbl">체형</div><div class="chips" data-k="body"></div></div>
+    <div class="sec"><div class="lbl">키 · 몸무게 (선택)</div>
+      <div class="hw"><label for="hgt">키</label><input class="nick" id="hgt" type="number" inputmode="numeric" min="140" max="210" placeholder="175"><span>cm</span><label for="wgt">몸무게</label><input class="nick" id="wgt" type="number" inputmode="numeric" min="40" max="200" placeholder="80"><span>kg</span></div>
+      <div class="hint" id="hwHint" style="text-align:left">숫자는 이 기기에만 저장되고, 다른 사람에게는 캐릭터 비율만 보여요.</div></div>
+    <div class="sec"><div class="lbl">얼굴형 · 눈썹</div><div class="chips" data-k="face"></div><div class="chips" data-k="brow"></div></div>
     <div class="sec"><div class="lbl">피부톤</div><div class="sw" data-k="skin"></div></div>
     <div class="sec"><div class="lbl">헤어</div><div class="chips" data-k="hair"></div><div class="sw" data-k="hairColor"></div></div>
     <div class="sec"><div class="lbl">수염</div><div class="chips" data-k="beard"></div></div>
@@ -436,25 +463,40 @@ const rid = (n=8) => Array.from(crypto.getRandomValues(new Uint8Array(n)), b=>'a
 const OPTS = {
   body:[['slim','슬림'],['normal','보통'],['muscle','근육'],['big','듬직']],
   skin:['#f7dcc0','#eac09a','#cf9a6e','#a8734c','#7a4e30','#523220'],
-  hair:[['none','민머리'],['buzz','버즈컷'],['short','숏컷'],['side','사이드 파트'],['curly','곱슬'],['mohawk','모히칸'],['bun','묶음 머리']],
-  hairColor:['#1d1715','#4a2e1e','#8a5a32','#d9b56a','#c7c3c0','#a33a2a','#3b5fa8'],
-  beard:[['none','없음'],['stubble','수염 자국'],['mustache','콧수염'],['goatee','염소수염'],['full','풍성한 수염']],
-  outfit:[['tshirt','티셔츠'],['tank','민소매'],['shirt','셔츠'],['suit','수트'],['knit','니트'],['hoodie','후드'],['leather','가죽 재킷']],
-  top:['#f2ede4','#1f1f24','#7a1f2e','#2f4a7a','#3e6b4f','#c98a2b','#6d4a8a','#d7788a'],
+  face:[['round','동글'],['wide','넙적'],['oval','갸름']],
+  brow:[['normal','보통 눈썹'],['thick','진한 눈썹']],
+  hair:[['none','민머리'],['buzz','버즈컷'],['fade','투블럭 페이드'],['short','숏컷'],['side','사이드 파트'],['curly','곱슬'],['mohawk','모히칸'],['bun','묶음 머리']],
+  hairColor:['#1d1715','#3a3533','#4a2e1e','#8a5a32','#d9b56a','#c7c3c0','#a33a2a','#3b5fa8'],
+  beard:[['none','없음'],['stubble','수염 자국'],['mustache','콧수염'],['short','짧은 수염'],['goatee','콧수염+턱수염'],['full','풍성한 수염']],
+  outfit:[['tshirt','티셔츠'],['polo','폴로 셔츠'],['tank','민소매'],['rash','래시가드'],['shirt','셔츠'],['suit','수트'],['knit','니트'],['hoodie','후드'],['leather','가죽 재킷'],['hanbok','한복']],
+  top:['#f2ede4','#1f1f24','#2b3550','#2a3fa8','#8fb3cf','#cdb592','#e98a8f','#7a1f2e','#2f4a7a','#3e6b4f','#c98a2b','#6d4a8a'],
   bottom:['#24242b','#3b4a66','#5b4636','#c9bfae','#2f3a2f','#7a1f2e'],
-  acc:[['glasses','안경'],['shades','선글라스'],['cap','캡모자'],['beanie','비니'],['bowtie','나비넥타이'],['chain','금목걸이'],['headphones','헤드폰'],['earring','귀걸이']]
+  acc:[['glasses','검정테 안경'],['metalglasses','메탈 안경'],['shades','선글라스'],['cross','십자가 목걸이'],['scarf','머플러'],['cap','캡모자'],['beanie','비니'],['bowtie','나비넥타이'],['chain','금목걸이'],['headphones','헤드폰'],['earring','귀걸이']]
 };
-const DEFAULT_LOOK = {body:'normal',skin:OPTS.skin[1],hair:'short',hairColor:OPTS.hairColor[0],beard:'stubble',outfit:'shirt',top:OPTS.top[3],bottom:OPTS.bottom[0],acc:[]};
+const DEFAULT_LOOK = {body:'normal',face:'round',brow:'normal',skin:OPTS.skin[1],hair:'short',hairColor:OPTS.hairColor[0],beard:'stubble',outfit:'shirt',top:OPTS.top[8],bottom:OPTS.bottom[0],acc:[],hs:1,wf:1};
+/* character presets: stylised looks inspired by the reference photos (features only) */
+const PRESETS = [
+  ['페이드 안경', {body:'big',face:'round',brow:'thick',skin:'#eac09a',hair:'fade',hairColor:'#1d1715',beard:'goatee',outfit:'tshirt',top:'#2b3550',bottom:'#24242b',acc:['metalglasses','cross']}],
+  ['한복 신사', {body:'big',face:'wide',brow:'normal',skin:'#eac09a',hair:'short',hairColor:'#1d1715',beard:'short',outfit:'hanbok',top:'#2a3fa8',bottom:'#2a3fa8',acc:[]}],
+  ['수영장 안경', {body:'big',face:'round',brow:'normal',skin:'#f7dcc0',hair:'side',hairColor:'#1d1715',beard:'none',outfit:'rash',top:'#8fb3cf',bottom:'#3b4a66',acc:['glasses']}],
+  ['핑크 머플러', {body:'big',face:'wide',brow:'thick',skin:'#cf9a6e',hair:'buzz',hairColor:'#3a3533',beard:'goatee',outfit:'knit',top:'#e98a8f',bottom:'#24242b',acc:['scarf']}],
+  ['올블랙 수염', {body:'big',face:'wide',brow:'thick',skin:'#cf9a6e',hair:'buzz',hairColor:'#1d1715',beard:'goatee',outfit:'leather',top:'#1f1f24',bottom:'#24242b',acc:[]}],
+  ['화이트티 안경', {body:'muscle',face:'oval',brow:'normal',skin:'#eac09a',hair:'fade',hairColor:'#3a3533',beard:'none',outfit:'tshirt',top:'#f2ede4',bottom:'#3b4a66',acc:['metalglasses']}],
+  ['네이비 수염', {body:'big',face:'round',brow:'thick',skin:'#eac09a',hair:'short',hairColor:'#1d1715',beard:'goatee',outfit:'tshirt',top:'#2b3550',bottom:'#24242b',acc:[]}],
+  ['베이지 폴로', {body:'big',face:'wide',brow:'thick',skin:'#cf9a6e',hair:'buzz',hairColor:'#1d1715',beard:'mustache',outfit:'polo',top:'#cdb592',bottom:'#24242b',acc:[]}]
+];
 const pick = a => a[Math.floor(Math.random()*a.length)];
 function randomLook(){
   const acc = OPTS.acc.map(a=>a[0]).filter(()=>Math.random()<.18);
-  return {body:pick(OPTS.body)[0],skin:pick(OPTS.skin),hair:pick(OPTS.hair)[0],hairColor:pick(OPTS.hairColor),beard:pick(OPTS.beard)[0],outfit:pick(OPTS.outfit)[0],top:pick(OPTS.top),bottom:pick(OPTS.bottom),acc};
+  return {body:pick(OPTS.body)[0],face:pick(OPTS.face)[0],brow:pick(OPTS.brow)[0],skin:pick(OPTS.skin),hair:pick(OPTS.hair)[0],hairColor:pick(OPTS.hairColor),beard:pick(OPTS.beard)[0],outfit:pick(OPTS.outfit)[0],top:pick(OPTS.top),bottom:pick(OPTS.bottom),acc};
 }
 const HEX = /^#[0-9a-f]{6}$/i;
 function sanitizeLook(l){
   const o = Object.assign({}, DEFAULT_LOOK, {acc:[]});
   if(!l || typeof l!=='object') return o;
-  for(const k of ['body','hair','beard','outfit']) if(OPTS[k].some(x=>x[0]===l[k])) o[k]=l[k];
+  for(const k of ['body','face','brow','hair','beard','outfit']) if(OPTS[k].some(x=>x[0]===l[k])) o[k]=l[k];
+  if(Number.isFinite(+l.hs)) o.hs=Math.round(clamp(+l.hs,.88,1.12)*100)/100;
+  if(Number.isFinite(+l.wf)) o.wf=Math.round(clamp(+l.wf,.85,1.35)*100)/100;
   for(const k of ['skin','hairColor','top','bottom']) if(typeof l[k]==='string' && HEX.test(l[k])) o[k]=l[k];
   const acc = Array.isArray(l.acc) ? l.acc : (l.acc && typeof l.acc==='object' ? Object.values(l.acc) : []);
   o.acc = acc.filter(a=>OPTS.acc.some(x=>x[0]===a)).slice(0,8);
@@ -515,7 +557,7 @@ function makeCounterSet(k){
 /* ================= Character ================= */
 function makeChar(lookIn, bare){
   const L = sanitizeLook(lookIn);
-  const W = {slim:.82,normal:1,muscle:1.14,big:1.3}[L.body];
+  const W = Math.min(1.7, {slim:.82,normal:1,muscle:1.14,big:1.3}[L.body] * (L.wf||1));
   const skin = mat(L.skin,.6), hairM = mat(L.hairColor,.85);
   let topM = mat(L.top, L.outfit==='leather'?.32:(L.outfit==='knit'?1:.8), L.outfit==='leather'?.15:0); if(bare) topM = skin;
   const botM = mat(L.bottom,.85), dark = mat('#17121a',.4,.3), gold = mat('#d6a84c',.3,.85);
@@ -554,14 +596,32 @@ function makeChar(lookIn, bare){
   } else if(L.outfit==='knit'){
     const hem = M(G.cyl(.27*W,.27*W,.06,20), mat(shade(L.top,.8),1), 0,-.24,0); hem.scale.z=.82; torso.add(hem);
     const neck = M(new THREE.TorusGeometry(.12,.035,8,18), mat(shade(L.top,.8),1), 0,.27,0); neck.rotation.x=Math.PI/2; torso.add(neck);
+  } else if(L.outfit==='hanbok'){
+    const white=mat('#f6f2ea',.8), trim=mat(shade(L.top,1.35),.6,.2);
+    for(const s of [-1,1]){ const c=M(new THREE.BoxGeometry(.075,.32,.025), white, s*.055,.12,zf+.006); c.rotation.z = s*.62; torso.add(c); const t=M(new THREE.BoxGeometry(.05,.3,.02), trim, s*.11,.1,zf-.005); t.rotation.z=s*.62; torso.add(t); }
+    const ribbon=mat('#5b2a6e',.6); const knot=M(G.sph(.04,10,8), ribbon, .1,-.07,zf+.03); torso.add(knot);
+    for(const s of [-1,1]){ const r=M(new THREE.ConeGeometry(.045,.13,4), ribbon, .1+s*.06,-.07,zf+.025); r.rotation.z = s*Math.PI/2; torso.add(r); }
+    torso.add(M(new THREE.BoxGeometry(.035,.22,.02), ribbon, .1,-.19,zf+.02));
+    const hem=M(G.cyl(.27*W+.01,.29*W,.16,20), topM, 0,-.24,0); hem.scale.z=.85; torso.add(hem);
+  } else if(L.outfit==='polo'){
+    for(const s of [-1,1]){ const c=M(new THREE.BoxGeometry(.13,.05,.03), mat(shade(L.top,.9),.8), s*.065,.25,zf-.025); c.rotation.z = s*.35; torso.add(c); }
+    torso.add(M(new THREE.BoxGeometry(.04,.14,.012), mat(shade(L.top,.92),.8), 0,.17,zf+.003));
+    for(let i=0;i<2;i++) torso.add(M(G.sph(.012,8,6), mat('#efe8dc',.5), 0,.21-i*.06, zf+.012));
+  } else if(L.outfit==='rash'){
+    torso.add(M(new THREE.BoxGeometry(.012,.4,.012), mat('#d8dadf',.25,.8), 0,.04,zf+.01));
+    const neck = M(G.cyl(.13,.14,.07,18,1,true), topM, 0,.28,0); torso.add(neck);
   } else if(L.outfit==='tank'){
     const neck = M(new THREE.TorusGeometry(.14,.02,6,18,Math.PI), mat(shade(L.top,.8),.8), 0,.22,zf-.04); neck.rotation.z=Math.PI; torso.add(neck);
   }
   if(has('bowtie')){ for(const s of [-1,1]){ const c=M(new THREE.ConeGeometry(.055,.1,4), mat('#8e2f47',.5), s*.05,.24,zf+.02); c.rotation.z = s*Math.PI/2; torso.add(c);} torso.add(M(G.sph(.025,8,6), mat('#6e2236',.5),0,.24,zf+.03)); }
+  if(has('cross')){ const silver=mat('#cfd2d8',.2,.9); const ch=M(new THREE.TorusGeometry(.2*W+.02,.006,6,30), silver, 0,.17,.03); ch.rotation.x=Math.PI/2-.6; ch.scale.y=.95; torso.add(ch);
+    const cz=zf+.012; torso.add(M(new THREE.BoxGeometry(.022,.075,.012), silver, 0,.02,cz)); torso.add(M(new THREE.BoxGeometry(.05,.02,.012), silver, 0,.035,cz)); }
+  if(has('scarf')){ const sm=mat('#f0a43a',.95); const sc=M(new THREE.TorusGeometry(.2,.06,8,22), sm, 0,.26,0); sc.rotation.x=Math.PI/2; sc.scale.set(W*.95,W*.85,1); torso.add(sc);
+    const tail=M(new THREE.BoxGeometry(.1,.3,.04), sm, .1,.08,zf+.03); tail.rotation.z=-.15; torso.add(tail); }
   if(has('chain')){ const ch = M(new THREE.TorusGeometry(.2*W+.03,.013,6,30), gold, 0,.17,.03); ch.rotation.x = Math.PI/2-.55; ch.scale.y = .85; torso.add(ch); }
 
-  const sleeveUp = L.outfit==='tank'? skin : topM;
-  const sleeveLow = (L.outfit==='tank'||L.outfit==='tshirt')? skin : topM;
+  const sleeveUp = (L.outfit==='tank'||L.outfit==='rash')? skin : topM;
+  const sleeveLow = ['tank','tshirt','polo','rash'].includes(L.outfit)? skin : topM;
   const aw = Math.sqrt(W)*(L.body==='muscle'?1.18:1);
   const arms=[]; let glass;
   for(const s of [-1,1]){
@@ -573,13 +633,14 @@ function makeChar(lookIn, bare){
     rig.add(g); arms.push(g);
   }
   const head = new THREE.Group(); head.position.y = 1.22; rig.add(head);
+  head.scale.set(...({round:[1,1,1], wide:[1.1,.96,1.02], oval:[.94,1.06,.98]}[L.face]||[1,1,1]));
   head.add(M(G.sph(.36,26,20), skin));
   for(const s of [-1,1]){ const e=M(G.sph(.07,10,8), skin, s*.35,-.02,0); e.scale.set(.5,.8,.6); head.add(e); }
   const eyeM = mat('#16100f',.3);
   for(const s of [-1,1]){
     head.add(M(G.sph(.036,10,8), eyeM, s*.12,.02,.33));
     head.add(M(G.sph(.011,6,6), mat('#ffffff',.2), s*.12+.012,.035,.362));
-    const b = M(new THREE.BoxGeometry(.1,.022,.02), hairM, s*.12,.11,.33); b.rotation.z = -s*.12; head.add(b);
+    const thick = L.brow==='thick'; const b = M(new THREE.BoxGeometry(thick?.12:.1, thick?.036:.022, .022), hairM, s*.12, thick?.115:.11, .33); b.rotation.z = -s*(thick?.08:.12); head.add(b);
   }
   head.add(M(G.sph(.045,10,8), mat(shade(L.skin,.92),.6), 0,-.05,.355));
   const mouth = M(new THREE.TorusGeometry(.05,.011,6,12,Math.PI), mat('#5a2b2b',.6), 0,-.13,.325); mouth.rotation.z = Math.PI; head.add(mouth);
@@ -588,6 +649,11 @@ function makeChar(lookIn, bare){
   const capGeo = (r,len)=> new THREE.SphereGeometry(r,26,12,0,Math.PI*2,0,len);
   if(L.hair!=='none'){
     if(L.hair==='buzz'){ const h=M(capGeo(.367,1.22),hairM); h.rotation.x=-.35; head.add(h); }
+    else if(L.hair==='fade'){
+      const side=M(capGeo(.366,1.3), new THREE.MeshStandardMaterial({color:L.hairColor,transparent:true,opacity:.5,roughness:1})); side.rotation.x=-.3; head.add(side);
+      const top=M(capGeo(.372,.78),hairM); top.rotation.x=-.25; head.add(top);
+      if(!hat) for(let i=0;i<11;i++){ const a=(i/11)*Math.PI*2, r=.1+(i%3)*.05; const sp=M(new THREE.ConeGeometry(.055,.17,6), hairM, Math.cos(a)*r*1.4, .33+(i%2)*.02, Math.sin(a)*r+.06); sp.rotation.set(Math.sin(a)*.5+.25, 0, -Math.cos(a)*.45); head.add(sp); }
+    }
     else {
       const h=M(capGeo(.38,1.32),hairM); h.rotation.x=-.3; head.add(h);
       if(L.hair==='short'){ const f=M(G.sph(.13),hairM,0,.27,.22); f.scale.set(1.7,.6,.8); head.add(f); }
@@ -597,16 +663,19 @@ function makeChar(lookIn, bare){
       if(!hat && L.hair==='bun'){ head.add(M(G.sph(.13,12,10),hairM,0,.3,-.25)); }
     }
   }
-  if(L.beard==='stubble') head.add(M(new THREE.SphereGeometry(.364,24,12,0,Math.PI,Math.PI*.56,Math.PI*.33), new THREE.MeshStandardMaterial({color:L.hairColor,transparent:true,opacity:.42,roughness:1})));
+  if(L.beard==='stubble' || L.beard==='short') head.add(M(new THREE.SphereGeometry(.364,24,12,0,Math.PI,Math.PI*.56,Math.PI*.33), new THREE.MeshStandardMaterial({color:L.hairColor,transparent:true,opacity:.42,roughness:1})));
   if(L.beard==='full'){ head.add(M(new THREE.SphereGeometry(.385,24,12,0,Math.PI,Math.PI*.6,Math.PI*.36),hairM)); const c=M(G.sph(.14),hairM,0,-.32,.17); c.scale.set(1.25,1,.9); head.add(c); }
   if(L.beard==='goatee'){ const g=M(G.sph(.07,10,8),hairM,0,-.27,.27); g.scale.set(1,1.3,.8); head.add(g); }
-  if(['mustache','goatee','full'].includes(L.beard)){ const m=M(G.cap(.028,.13),hairM,0,-.088,.35); m.rotation.z=Math.PI/2; head.add(m); }
+  if(L.beard==='short'){ const g=M(G.sph(.065,10,8),hairM,0,-.28,.26); g.scale.set(1.3,.8,.7); head.add(g); }
+  if(['mustache','goatee','full','short'].includes(L.beard)){ const m=M(G.cap(.028,.13),hairM,0,-.088,.35); m.rotation.z=Math.PI/2; head.add(m); }
   if(has('glasses')){ for(const s of [-1,1]) head.add(M(new THREE.TorusGeometry(.072,.012,6,18),dark,s*.12,.02,.352)); head.add(M(new THREE.BoxGeometry(.07,.012,.012),dark,0,.035,.358)); }
+  if(has('metalglasses')){ const silver=mat('#8c8f96',.2,.9); for(const s of [-1,1]){ const r=M(new THREE.TorusGeometry(.078,.008,6,24),silver,s*.122,.02,.354); r.scale.set(1.08,.92,1); head.add(r);} head.add(M(new THREE.BoxGeometry(.07,.008,.008),silver,0,.04,.358)); for(const s of [-1,1]) head.add(M(new THREE.BoxGeometry(.008,.008,.3),silver,s*.2,.03,.2)); }
   if(has('shades')){ for(const s of [-1,1]) head.add(M(new THREE.BoxGeometry(.15,.085,.025),mat('#0d0b10',.1,.6),s*.105,.02,.355)); head.add(M(new THREE.BoxGeometry(.07,.015,.015),dark,0,.04,.36)); }
   if(has('cap')){ const c=M(capGeo(.39,1.18),mat(shade(L.bottom,1.2),.8)); c.rotation.x=-.15; head.add(c); const br=M(new THREE.BoxGeometry(.32,.025,.22),mat(shade(L.bottom,1.2),.8),0,.15,.38); br.rotation.x=.12; head.add(br); }
   else if(has('beanie')){ const bm=mat(shade(L.top,.9),1); head.add(M(capGeo(.395,1.22),bm)); const f=M(new THREE.TorusGeometry(.355,.055,8,26),bm,0,.13,0); f.rotation.x=Math.PI/2; head.add(f); head.add(M(G.sph(.07,10,8),bm,0,.42,0)); }
   if(has('headphones')){ head.add(M(new THREE.TorusGeometry(.4,.025,8,26,Math.PI),dark)); for(const s of [-1,1]){ const cup=M(G.cyl(.1,.1,.07,16),dark,s*.39,0,0); cup.rotation.z=Math.PI/2; head.add(cup); head.add(M(G.cyl(.06,.06,.075,16),gold,s*.4,0,0).rotateZ(Math.PI/2)); } }
   if(has('earring')) head.add(M(G.sph(.026,8,6),gold,.36,-.13,0));
+  root.scale.setScalar(L.hs||1);
   root.userData.parts = {rig, legs, arms, head, torso, glass, glassKind:null};
   return root;
 }
@@ -659,8 +728,8 @@ function buildWardrobe(){
         const b=document.createElement('button'); b.type='button'; b.textContent=label; b.dataset.v=v;
         b.addEventListener('click',()=>{
           if(k==='acc'){ look.acc = look.acc.includes(v)? look.acc.filter(x=>x!==v) : look.acc.concat(v);
-            const excl = {cap:'beanie',beanie:'cap',glasses:'shades',shades:'glasses'};
-            if(excl[v] && look.acc.includes(v)) look.acc = look.acc.filter(x=>x!==excl[v]);
+            const excl = {cap:['beanie'],beanie:['cap'],glasses:['shades','metalglasses'],shades:['glasses','metalglasses'],metalglasses:['glasses','shades']};
+            if(excl[v] && look.acc.includes(v)) look.acc = look.acc.filter(x=>!excl[v].includes(x));
           } else look[k]=v;
           onLookChange();
         });
@@ -712,6 +781,26 @@ function startPreview(){
 }
 function setPreviewChar(){ if(!pv) return; pv.holder.clear(); const root=makeChar(look); pv.holder.add(root); pv.ent={root,anim:'idle',seed:0}; }
 function onLookChange(){ look=sanitizeLook(look); store.set('bc-look',look); syncWardrobe(); setPreviewChar(); }
+/* presets */
+(function(){ const box=$('#presets'); for(const [name,pl] of PRESETS){ const b=document.createElement('button'); b.type='button'; b.textContent=name;
+  b.addEventListener('click',()=>{ look=Object.assign({}, pl, {acc:[...pl.acc], hs:look.hs, wf:look.wf}); onLookChange(); }); box.appendChild(b); } })();
+/* height & weight: kept on this device; only the derived proportions travel with the character */
+(function(){
+  const h=$('#hgt'), w=$('#wgt'), hint=$('#hwHint'), saved=store.get('bc-hw')||{};
+  if(saved.h) h.value=saved.h; if(saved.w) w.value=saved.w;
+  const apply=()=>{
+    const hv=+h.value, wv=+w.value; const okH = hv>=140 && hv<=210, okW = wv>=40 && wv<=200;
+    if((h.value && !okH) || (w.value && !okW)){ hint.textContent='키는 140~210cm, 몸무게는 40~200kg 사이로 넣어 주세요.'; return; }
+    hint.textContent='숫자는 이 기기에만 저장되고, 다른 사람에게는 캐릭터 비율만 보여요.';
+    store.set('bc-hw',{h:okH?hv:'', w:okW?wv:''});
+    const H = okH ? hv : 175;
+    look.hs = okH ? clamp(H/175,.88,1.12) : 1;
+    look.wf = okW ? clamp(1+((wv/((H/100)**2))-24)*.03,.85,1.35) : 1;
+    onLookChange();
+  };
+  h.addEventListener('input',apply); w.addEventListener('input',apply);
+  if(saved.h||saved.w) apply();
+})();
 buildWardrobe(); startPreview(); validEntry();
 
 /* ================= Music: lounge jazz + dark room mood (generated live, no samples) ================= */
@@ -976,7 +1065,7 @@ function poufTable(x,z){
   addObs(x-.65,z-.35,x+.65,z+.35);
   for(const s of [-1,1]){ const pz=z+s*.78;
     scene.add(M(G.cyl(.27,.25,.4,20), mat('#e6e0d4',1), x,.2,pz)); const tp=M(G.sph(.27,18,8), mat('#ece6db',1), x,.4,pz); tp.scale.y=.22; scene.add(tp);
-    addSeat({x, z:pz, ry: s<0? 0 : Math.PI, top:.45, y:.34, ax:x+.78, az:pz, label:'푸프'}); }
+    addSeat({x, z:pz, ry: s<0? 0 : Math.PI, top:.45, y:.34, ax:x+.78, az:pz, label:'푸프', tb:'m'+x+','+z}); }
 }
 /* Generated "music video" for the projection screen: no footage, drawn live */
 function makeMV(){
@@ -1050,7 +1139,7 @@ function buildFront(wallM, brassM){
   // front lounge: channel sofa along the wall, marble table, round sconces
   channelSofa(5.0,7.2,3.6,true,-1);
   addObs(3.2,7.25,6.8,7.65);
-  for(const x of [3.6,4.55,5.45,6.4]) addSeat({x, z:7.1, ry:Math.PI, top:.42, y:.31, ax:x, az:6.6, label:'프런트 소파'});
+  for(const x of [3.6,4.55,5.45,6.4]) addSeat({x, z:7.1, ry:Math.PI, top:.42, y:.31, ax:x, az:6.6, label:'프런트 소파', tb:'front'});
   scene.add(M(new THREE.BoxGeometry(1.6,.05,.6), marbleM(), 5.0,.42,5.9)); scene.add(M(new THREE.BoxGeometry(.6,.4,.3), mat('#151417',.5,.3), 5.0,.2,5.9));
   goldLamp(5.5,.445,5.85);
   addObs(4.2,5.6,5.8,6.2);
@@ -1164,17 +1253,17 @@ function buildWorld(){
     addObs(x-.65,z-.35,x+.65,z+.35);
     for(const s of [-1,1]){ const pz=z+s*.78;
       scene.add(M(G.cyl(.27,.25,.4,20), mat('#e6e0d4',1), x,.2,pz)); const tp=M(G.sph(.27,18,8), mat('#ece6db',1), x,.4,pz); tp.scale.y=.22; scene.add(tp);
-      addSeat({x, z:pz, ry: s<0? 0 : Math.PI, top:.45, y:.34, ax:x+.78, az:pz, label:'푸프'}); }
+      addSeat({x, z:pz, ry: s<0? 0 : Math.PI, top:.45, y:.34, ax:x+.78, az:pz, label:'푸프', tb:'m'+x+','+z}); }
   }
   // lounge: channel-tufted taupe sofas around a marble table
   const rug = M(new THREE.CircleGeometry(2.6,40), mat('#2a2628',1), 5.6,.008,-1.1); rug.rotation.x=-Math.PI/2; scene.add(rug);
   const rugRing = M(new THREE.RingGeometry(2.48,2.54,48), mat('#c9a052',.6,.4), 5.6,.012,-1.1); rugRing.rotation.x=-Math.PI/2; scene.add(rugRing);
   channelSofa(5.5,-2.95,2.8,true,1);
   addObs(4.1,-3.45,6.9,-2.55);
-  for(const x of [4.6,5.5,6.4]) addSeat({x, z:-2.85, ry:0, top:.42, y:.31, ax:x, az:-2.05, label:'라운지 소파'});
+  for(const x of [4.6,5.5,6.4]) addSeat({x, z:-2.85, ry:0, top:.42, y:.31, ax:x, az:-2.05, label:'라운지 소파', tb:'lounge'});
   channelSofa(8.05,-.9,2.6,false,-1);
   addObs(7.65,-2.2,8.55,.4);
-  for(const z of [-1.8,-.9,0]) addSeat({x:7.95, z, ry:-Math.PI/2, top:.42, y:.31, ax:7.15, az:z, label:'라운지 소파'});
+  for(const z of [-1.8,-.9,0]) addSeat({x:7.95, z, ry:-Math.PI/2, top:.42, y:.31, ax:7.15, az:z, label:'라운지 소파', tb:'lounge'});
   scene.add(M(new THREE.BoxGeometry(1.2,.05,.8), marbleM(), 5.6,.42,-1.1)); scene.add(M(new THREE.BoxGeometry(.5,.4,.3), mat('#151417',.5,.3), 5.6,.2,-1.1));
   goldLamp(5.9,.445,-1.2);
   addObs(5.0,-1.5,6.2,-.7);
@@ -1261,7 +1350,7 @@ function buildDarkRoom(wallM, brassM, velvet, velvet2){
   const strip = M(new THREE.BoxGeometry(.04,.04,d-.6), new THREE.MeshBasicMaterial({color:0xff3d6e}), DARK.x1-.28,2.4,cz); scene.add(strip);
   scene.add(M(new THREE.BoxGeometry(.9,.42,2.4), velvet, DARK.x1+.15,.21,-1.9)); scene.add(M(new THREE.BoxGeometry(.25,.8,2.4), velvet2, DARK.x1-.2,.52,-1.9));
   addObs(DARK.x1-.4,-3.1,DARK.x1+.6,-.7,DOBS);
-  for(const z of [-2.45,-1.35]) addSeat({x:DARK.x1+.3, z, ry:Math.PI/2, top:.42, y:.31, ax:DARK.x1+1.25, az:z, label:'다크룸 소파', dark:true});
+  for(const z of [-2.45,-1.35]) addSeat({x:DARK.x1+.3, z, ry:Math.PI/2, top:.42, y:.31, ax:DARK.x1+1.25, az:z, label:'다크룸 소파', dark:true, tb:'dark'});
   scene.add(M(G.cyl(.32,.32,.45,22), mat('#120a0e',.3,.3), DARK.x1+1.7,.225,-1.9)); addObs(DARK.x1+1.38,-2.22,DARK.x1+2.02,-1.58,DOBS);
   for(const [dx,dz] of [[-.08,.05],[.1,-.06],[0,.12]]) scene.add(M(G.cyl(.03,.03,.09+dz*.4,10), new THREE.MeshBasicMaterial({color:0xff7a4a}), DARK.x1+1.7+dx,.5,-1.9+dz));
   const rug = M(new THREE.CircleGeometry(1.4,32), mat('#3a0f1f',1), DARK.x1+1.4,.006,-1.9); rug.rotation.x=-Math.PI/2; scene.add(rug);
@@ -1376,6 +1465,7 @@ function renderEmotes(){
   }
   if(me && me.dk){ add('다크룸 나가기',()=>Dark.leave(), true); add('스킨십 ♥',()=>openDarkCard(), true); add(me.topless?'상의 입기':'상의 벗기',()=>setTopless(!me.topless), true); }
   for(const [k,label] of EMOTES){ if(k==='sit' && me && me.seat>=0) continue; if(me && me.dk && (k==='bow'||k==='cheers')) continue; add(label,()=>doEmote(k)); }
+  if(me && me.seat>=0 && Cards.myTable()) add('술게임 카드',()=>Cards.draw(), true);
   if(me && me.seat>=0) add('일어서기',()=>{ standUp(); renderEmotes(); }, true);
   if(me && me.hold) add(drinkName(me.hold)+' 비우기',()=>{ me.hold=null; pushPresence(true); renderEmotes(); toast('잔을 비웠어요'); }, true);
   if(me && me.cd) add('카운터 잔 집기',()=>pickCounterDrink(), true);
@@ -1462,6 +1552,14 @@ function openCard(ent){
   send.onclick=()=>{ const c=cardShell(ent.nick+'님에게 한 잔', '받는 사람 손에 바로 잔이 들려요.', 'peer'); c.appendChild(drinkGrid(k=>{ closeCard(); room.emit('drink',{to:ent.peer,d:k}).catch(()=>toast('보내지 못했어요. 잠시 후 다시 해 주세요.')); })); };
   inv.onclick=()=>{ closeCard(); invite(ent); };
   row.append(send,inv); card.appendChild(row);
+  const hrow=document.createElement('div'); hrow.className='row';
+  const hb=document.createElement('button'); hb.type='button'; hb.className='btn-ghost';
+  const sent=Hearts.mine.has(ent.peer), matched=Hearts.isMatched(ent.peer);
+  hb.textContent = matched ? '♥ 서로 하트! (하트 거두기)' : (sent ? '♥ 몰래 하트 보냄 (거두기)' : '♡ 몰래 하트 보내기');
+  hb.style.borderColor='#ff8fa8'; if(!room||!room.fb) hb.disabled=true;
+  hb.onclick=()=>{ closeCard(); if(sent) Hearts.cancel(ent.peer); else Hearts.send(ent.peer); };
+  hrow.appendChild(hb); card.appendChild(hrow);
+  const note=document.createElement('div'); note.className='sub'; note.style.marginTop='0'; note.textContent='하트는 상대에게 알려지지 않아요. 서로 보냈을 때만 두 사람에게 매칭 알림이 떠요.'; card.appendChild(note);
 }
 function showModal(build, cls){ const bg=$('#modal'), box=$('#modalBox'); box.className='modal'+(cls?' '+cls:''); box.textContent=''; build(box); bg.hidden=false; }
 function hideModal(){ $('#modal').hidden=true; }
@@ -1497,7 +1595,7 @@ function upsertPeer(p){
   const pr = p.presence||{}; const nick = cleanNick(pr.nick);
   if(!nick){ const e=ents.get(p.peer); if(e){ removeEntity(e); ents.delete(p.peer);} return; }
   let e = ents.get(p.peer);
-  if(!e){ e = makeEntity({nick, look:pr.look, peer:p.peer}); e.x=e.tx=+pr.x||0; e.z=e.tz=+pr.z||0; ents.set(p.peer,e); if(!pr.dk) toast(`${nick}님이 들어왔어요`); }
+  if(!e){ e = makeEntity({nick, look:pr.look, peer:p.peer}); e.x=e.tx=+pr.x||0; e.z=e.tz=+pr.z||0; ents.set(p.peer,e); e.tag.classList.toggle('matched', Hearts.isMatched(p.peer)); if(!pr.dk) toast(`${nick}님이 들어왔어요`); }
   else { rebuildLook(e, pr.look, !!pr.tl && !!pr.dk); if(e.nick!==nick){ e.nick=nick; e.nameEl.textContent=nick; } }
   const inDark = !!pr.dk, newRoom = inDark ? 'dark' : (pr.vr ? 'vers' : 'main');
   if(newRoom!==roomOf(e) && !e.first){ /* teleport across rooms */ e.x=+pr.x||0; e.z=+pr.z||0; }
@@ -1550,10 +1648,12 @@ async function connectRoom(){
   room.on('accept', m=>{ const d=m.data||{}; if(d.to!==myPeer || !pendingInvite || d.code!==pendingInvite.code) return; const p=pendingInvite; pendingInvite=null; hideModal(); enterOneShot(p.code, m.peer, 0); });
   room.on('decline', m=>{ const d=m.data||{}; if(d.to!==myPeer || !pendingInvite || d.code!==pendingInvite.code) return; pendingInvite=null; hideModal(); toast(`${nickOf(m.peer)}님이 지금은 어렵대요`); });
   room.on('ladder', m=>{ if(me.dk && !m.sameTab) return; Ladder.run(m.data||{}, m.sameTab? me.nick : nickOf(m.peer)); });
+  room.on('card', m=>Cards.onCard(m)); room.on('cardv', m=>Cards.onVote(m)); room.on('cardd', m=>Cards.onDrink(m));
   room.on('vfx', m=>{ const d=m.data||{}; if(!['smoke','cheer'].includes(d.k)) return; const ent = m.sameTab? me : ents.get(m.peer); if(!m.sameTab && !(ent && ent.vr)) return; onVfx(d, ent, m.sameTab? me.nick : nickOf(m.peer)); });
   Dark.watch();
   Darts.attach();
   Karaoke.attach();
+  Hearts.attach();
 }
 function invite(ent){
   if(!room||!connected||os) return;
@@ -2004,7 +2104,7 @@ function buildVersRoom(){
     scene.add(M(G.cyl(.05,.05,.7,10), mat('#111',.3,.6), x,.37,z)); scene.add(M(new THREE.BoxGeometry(.5,.02,.5), mat('#111',.3,.6), x,.01,z));
     VOBS.push({x1:x-.45,z1:z-.45,x2:x+.45,z2:z+.45});
     for(const s of [-1,1]){ const pz=z+s*.66, ry= s<0 ? 0 : Math.PI; shellChair(x,pz,ry);
-      addSeat({x, z:pz, ry, top:.5, y:.4, ax:x+.75, az:pz, label:'VERS 테이블', room:'vers'}); }
+      addSeat({x, z:pz, ry, top:.5, y:.4, ax:x+.75, az:pz, label:'VERS 테이블', room:'vers', tb:'v'+x+','+z}); }
   }
   // bartender V
   versBt = makeEntity({nick:'바텐더 V', look:{body:'normal',skin:'#eac09a',hair:'side',hairColor:'#1d1715',beard:'stubble',outfit:'shirt',top:'#1f1f24',bottom:'#24242b',acc:['chain']}, npc:true});
@@ -2086,7 +2186,7 @@ const Karaoke = {
   srv(){ return room && room.fb ? room.fb.now() : Date.now(); },
   myId(){ return room ? room.uid : 'me'; },
   clean(n){ if(!n || typeof n!=='object' || !/^[\w-]{11}$/.test(n.vid||'')) return null;
-    return {id:String(n.id||''), uid:String(n.uid||''), nick:cleanNick(n.nick)||'누군가', vid:n.vid, title:String(n.title||'').replace(/[\u0000-\u001f]/g,'').slice(0,60)||'노래', startAt:Number(n.startAt)||0, mic:!!n.mic}; },
+    return {id:String(n.id||''), uid:String(n.uid||''), nick:cleanNick(n.nick)||'누군가', vid:n.vid, title:String(n.title||'').replace(/[\u0000-\u001f]/g,'').slice(0,60)||'노래', startAt:Number(n.startAt)||0, playAt:Number(n.playAt)||0, mic:!!n.mic}; },
   attach(){
     if(this.attached) return; this.attached=true;
     if(room && room.fb){ this.db=room.fb.db;
@@ -2094,6 +2194,7 @@ const Karaoke = {
       this.db.ref('vers/queue').orderByChild('t').on('value', s=>{ const q=[]; s.forEach(c=>{ const v=c.val(); if(v && /^[\w-]{11}$/.test(v.vid||'')) q.push({key:c.key, uid:String(v.uid||''), nick:cleanNick(v.nick)||'누군가', vid:v.vid, title:String(v.title||'').slice(0,60)||'노래'}); }); this.queue=q; this.render(); });
     }
     setInterval(()=>this.tick(), 2000);
+    setInterval(()=>this.syncStep(), 1000);
     this.render();
   },
   tick(){
@@ -2103,15 +2204,13 @@ const Karaoke = {
     if(!present){ if(!this.missingSince) this.missingSince=performance.now(); else if(performance.now()-this.missingSince>8000){ this.missingSince=0; this.finish(n.id); } }
     else this.missingSince=0;
     if(this.srv()-n.startAt > 15*60*1000) this.finish(n.id);
-    const p=this.player;
-    if(p && p.getPlayerState && this.loadedId===n.id){ try{ const exp=(this.srv()-n.startAt)/1000; if(p.getPlayerState()===1 && exp>1 && Math.abs(p.getCurrentTime()-exp)>2.5) p.seekTo(exp,true); }catch(e){} }
     this.render();
   },
   advance(){
     if(this.busy) return; const item=this.queue[0]; if(!item) return;
     if(item.uid!==this.myId() && !ents.has(item.uid)){ this.remove(item.key); return; }
     this.busy=true;
-    const data={id:item.key, uid:item.uid, nick:item.nick, vid:item.vid, title:item.title, startAt:this.srv()+4000, mic:false};
+    const data={id:item.key, uid:item.uid, nick:item.nick, vid:item.vid, title:item.title, startAt:this.srv(), mic:false};
     if(!this.db){ this.queue.shift(); this.now=this.clean(data); this.busy=false; this.onNow(); return; }
     this.db.ref('vers/now').transaction(cur=> cur ? undefined : data)
       .then(r=>{ if(r.committed) this.db.ref('vers/queue/'+item.key).remove().catch(()=>{}); })
@@ -2142,7 +2241,7 @@ const Karaoke = {
     }
     if(me && me.anim==='sing' && (!n || n.uid!==my)){ me.anim='idle'; me.animUntil=0; pushPresence(true); }
     if(me && me.vr){ if(n && n.mic && n.uid!==my) Rtc.listen(n); else Rtc.stopListen(); }
-    if(n && n.id!==this.annId){ this.annId=n.id; $('#karaMsg').textContent=''; if(me && me.vr){ toast(`♪ ${n.nick}님 차례 · ${n.title}`); if(versBt) say(versBt, `다음 무대는 ${n.nick}님입니다! 박수!`); Smoke.burst=4; } }
+    if(n && n.id!==this.annId){ this.annId=n.id; delete $('#karaMsg').dataset.err; $('#karaMsg').textContent=''; if(me && me.vr){ toast(`♪ ${n.nick}님 차례 · ${n.title}`); if(versBt) say(versBt, `다음 무대는 ${n.nick}님입니다! 박수!`); Smoke.burst=4; } }
     Smoke.level = n ? 1 : .2;
     this.syncPlay(); bgm(); this.render(); renderEmotes();
   },
@@ -2182,16 +2281,42 @@ const Karaoke = {
     this.ensurePlayer().then(p=>{
       if(!p){ $('#karaMsg').textContent='유튜브 플레이어를 불러오지 못했어요. 새로고침해 주세요'; return; }
       const cur=this.now; if(!cur || cur.id!==n.id || !me.vr || this.loadedId===n.id) return;
-      this.loadedId=n.id;
-      const wait=n.startAt-this.srv();
-      if(wait>300){ p.cueVideoById({videoId:n.vid, startSeconds:0}); this.startTimer=setTimeout(()=>{ if(this.now && this.now.id===n.id){ p.playVideo(); this.checkAuto(); } }, wait); }
-      else { p.loadVideoById({videoId:n.vid, startSeconds:Math.max(0,-wait/1000)}); this.checkAuto(); }
+      this.loadedId=n.id; this.held=false;
+      /* everyone starts loading at once so each person's ad (if any) runs in parallel;
+         the singer's real start time (playAt) then becomes the shared clock */
+      const start = (n.uid!==this.myId() && n.playAt) ? Math.max(0,(this.srv()-n.playAt)/1000) : 0;
+      p.loadVideoById({videoId:n.vid, startSeconds:start}); this.checkAuto();
     });
+  },
+  wait(t){ const m=$('#karaMsg'); if(m.dataset.err) return; if(m.textContent!==t) m.textContent=t; },
+  syncStep(){
+    if(!me || !me.vr) return; const n=this.now, p=this.player;
+    if(!n || !p || !p.getPlayerState || this.loadedId!==n.id) return;
+    let st, cur; try{ st=p.getPlayerState(); cur=p.getCurrentTime()||0; }catch(e){ return; }
+    if(n.uid===this.myId()){
+      // the singer's own playback is the reference: publish when t=0 happened in server time
+      if(st===1 && cur>.3){ const anchor=Math.round(this.srv()-cur*1000);
+        if(!n.playAt || Math.abs(anchor-n.playAt)>700){ n.playAt=anchor; if(this.db) this.db.ref('vers/now').transaction(c=> c && c.id===n.id ? Object.assign({},c,{playAt:anchor}) : undefined).catch(()=>{}); }
+        this.wait(''); }
+      else if(st!==1 && st!==2) this.wait('반주 준비 중이에요. 광고가 나오면 끝난 뒤 시작돼요');
+      return;
+    }
+    if(!n.playAt){
+      // singer hasn't started yet (often an ad on their side): hold at the beginning
+      if(st===1 && cur>.2){ try{ p.pauseVideo(); p.seekTo(0,true); }catch(e){} this.held=true; }
+      this.wait(`${n.nick}님 반주가 시작되면 같이 재생돼요`); return;
+    }
+    const exp=(this.srv()-n.playAt)/1000;
+    const adLike = st===1 && cur<.3 && exp>2;
+    if(adLike){ this.wait('광고가 끝나면 가수 위치로 바로 따라가요'); return; }
+    if(this.held || st===2 || st===5){ try{ p.seekTo(Math.max(0,exp),true); p.playVideo(); }catch(e){} this.held=false; }
+    else if(st===1 && Math.abs(cur-exp)>1.5){ try{ p.seekTo(Math.max(0,exp),true); }catch(e){} }
+    this.wait(st===1 || st===3 ? '' : '광고가 끝나면 가수 위치로 바로 따라가요');
   },
   checkAuto(){ clearTimeout(this.autoT); this.autoT=setTimeout(()=>{ const p=this.player; if(!p || !p.getPlayerState || !this.now) return; const st=p.getPlayerState(); if(st!==1 && st!==3) $('#karaTap').hidden=false; }, 2600); },
   tapPlay(){
     $('#karaTap').hidden=true; const p=this.player;
-    if(p && this.now){ try{ const exp=Math.max(0,(this.srv()-this.now.startAt)/1000); p.seekTo(exp,true); p.playVideo(); }catch(e){} }
+    if(p && this.now){ try{ const n=this.now; const exp = (n.uid!==this.myId() && n.playAt) ? Math.max(0,(this.srv()-n.playAt)/1000) : p.getCurrentTime(); if(n.uid!==this.myId() && n.playAt) p.seekTo(exp,true); p.playVideo(); this.held=false; }catch(e){} }
     if(Rtc.audio) Rtc.audio.play().catch(()=>{});
   },
   onState(e){
@@ -2201,7 +2326,7 @@ const Karaoke = {
   onErr(e){
     const n=this.now; if(!n) return;
     const msg=(e.data===101||e.data===150) ? '이 영상은 다른 사이트에서 재생이 막혀 있어요' : '이 영상을 재생할 수 없어요';
-    $('#karaMsg').textContent=msg+'. 다른 노래방 영상으로 예약해 주세요';
+    $('#karaMsg').dataset.err='1'; $('#karaMsg').textContent=msg+'. 다른 노래방 영상으로 예약해 주세요';
     if(n.uid===this.myId()){ toast(msg); setTimeout(()=>this.finish(n.id),2500); }
   },
   vfx(k){
@@ -2303,6 +2428,130 @@ $('#karaTitle').addEventListener('input', ()=>{ const q=($('#karaTitle').value.t
 $('#karaAdd').addEventListener('click', ()=>Karaoke.reserve());
 $('#karaSkip').addEventListener('click', ()=>{ if(Karaoke.now) Karaoke.finish(Karaoke.now.id); });
 $('#karaTap').addEventListener('click', ()=>Karaoke.tapPlay());
+
+/* ================= Secret hearts: only a mutual pair ever finds out ================= */
+const Hearts = {
+  mine:new Set(), matched:new Set(), watching:new Map(),
+  key(){ return 'bc-match-'+(room ? room.uid : ''); },
+  attach(){
+    if(!(room && room.fb)) return;
+    const db=room.fb.db, uid=room.uid;
+    (store.get(this.key())||[]).forEach(x=>this.matched.add(x));
+    db.ref('hearts/'+uid).on('value', s=>{
+      const v=s.val()||{}; const now=new Set(Object.keys(v));
+      for(const t of now) if(!this.watching.has(t)) this.watch(t);
+      for(const [t,w] of this.watching) if(!now.has(t)){ w.ref.off('value', w.cb); this.watching.delete(t); }
+      this.mine=now; this.paint();
+    }, ()=>{});
+  },
+  watch(t, tries=0){
+    const ref=room.fb.db.ref('hearts/'+t+'/'+room.uid);
+    const cb=s=>{ if(s.exists()) this.onMatch(t); };
+    this.watching.set(t,{ref,cb});
+    // readable only once my own heart to them exists, so a refusal right after sending is retried
+    ref.on('value', cb, ()=>{ if(tries<3 && this.mine.has(t)) setTimeout(()=>{ if(this.watching.get(t) && this.watching.get(t).ref===ref) this.watch(t,tries+1); }, 1500); });
+  },
+  onMatch(t){
+    const fresh=!this.matched.has(t); this.matched.add(t); store.set(this.key(),[...this.matched]); this.paint();
+    if(!fresh) return;
+    const ent=ents.get(t), nick=nickOf(t);
+    floatAt(me,'♥'); if(ent && !ent.hidden) floatAt(ent,'♥');
+    showModal(box=>{
+      const h=document.createElement('h3'); h.textContent='매칭됐어요!';
+      const p=document.createElement('p'); p.textContent=`${nick}님도 몰래 하트를 보냈어요. 서로 마음이 통했네요. 이 알림은 두 사람에게만 떠요.`;
+      const row=document.createElement('div'); row.className='row';
+      const close=document.createElement('button'); close.className='btn-ghost'; close.type='button'; close.textContent='닫기'; close.onclick=hideModal;
+      row.appendChild(close);
+      if(ent && !me.dk && room && connected){ const inv=document.createElement('button'); inv.className='btn-brass'; inv.type='button'; inv.textContent='원샷 룸 초대'; inv.onclick=()=>{ hideModal(); invite(ent); }; row.appendChild(inv); }
+      box.append(h,p,row);
+    }, 'match');
+  },
+  isMatched(t){ return this.matched.has(t) && this.mine.has(t); },
+  paint(){ for(const [id,e] of ents) e.tag.classList.toggle('matched', this.isMatched(id)); },
+  send(t){
+    if(!(room && room.fb)){ toast('하트는 서버에 연결됐을 때만 보낼 수 있어요'); return; }
+    room.fb.db.ref('hearts/'+room.uid+'/'+t).set(room.fb.SV)
+      .then(()=>toast('몰래 하트를 보냈어요. 상대도 누르면 두 사람에게만 알려 드려요'))
+      .catch(()=>toast('하트를 보내지 못했어요. 보안 규칙을 새로 붙여 넣었는지 확인해 주세요'));
+  },
+  cancel(t){
+    if(!(room && room.fb)) return;
+    room.fb.db.ref('hearts/'+room.uid+'/'+t).remove().catch(()=>{});
+    this.matched.delete(t); store.set(this.key(),[...this.matched]); this.paint(); toast('하트를 거뒀어요');
+  }
+};
+
+/* ================= Table drinking-game cards ================= */
+const DECK = {
+  balance:[
+    ['평생 소주만','평생 맥주만'],['첫 만남에 바로 고백','100일 기다렸다 고백'],['연락 자주 하는 애인','만나면 잘해 주는 애인'],
+    ['곰 같은 애인','여우 같은 애인'],['노래방 마이크 독점','노래방 탬버린 담당'],['데이트는 집콕','데이트는 맛집 투어'],
+    ['요리 천재 애인','청소 천재 애인'],['10살 연상','10살 연하'],['헬스장에서 만난 인연','술자리에서 만난 인연'],
+    ['카톡 답장 1분 칼답','1시간 뒤 정성 장문'],['애인 친구들과 친하기','내 친구들과 친하기'],['여름 바닷가 여행','겨울 온천 여행'],
+    ['깜짝 이벤트 해 주는 애인','기념일 정확히 챙기는 애인'],['수염 있는 애인','수염 없는 애인'],['노래 잘하는 애인','춤 잘 추는 애인'],
+    ['고기는 무조건 소고기','고기는 무조건 삼겹살'],['커플 반지','커플 티'],['전 애인 연락 오면 받는다','바로 차단한다'],
+    ['아침형 애인','올빼미형 애인'],['단둘이 조용한 술자리','다 같이 시끌벅적 술자리']
+  ],
+  truth:[
+    '이 테이블에서 첫인상이 가장 좋았던 사람은?','최근에 설렌 순간은 언제였어요?','지금까지 해 본 플러팅 중 제일 과감했던 건?',
+    '이상형을 세 단어로 말한다면?','버드케이지에 처음 온 날 기억나는 장면은?','나의 가장 자신 있는 매력 포인트는?',
+    '마지막으로 운 건 언제, 왜?','휴대폰 사진첩의 가장 최근 사진은?','술 마시고 한 실수 중 제일 웃긴 것은?',
+    '이 테이블에서 한 명과 여행 간다면 누구?','연애할 때 절대 못 참는 것 하나는?','요즘 가장 많이 듣는 노래는?',
+    '10년 뒤 나는 어디서 뭘 하고 있을까?','들어 본 칭찬 중 가장 기억에 남는 말은?','나만의 숨은 특기는?','오늘 여기 오기 전에 뭐 했어요?'
+  ],
+  drink:[
+    '오늘 운동하고 온 사람 마셔!','안경 쓴 사람 마셔!','수염 있는 사람 마셔!','이번 주에 야근한 사람 마셔!',
+    '최근 3일 안에 라면 먹은 사람 마셔!','이 테이블 막내라면 마셔!','생일이 상반기인 사람 마셔!','오늘 노래 예약한 사람 마셔!',
+    '짝사랑해 본 적 있는 사람 마셔!','어제도 술 마신 사람 마셔!','게임 하다 밤새 본 사람 마셔!','강아지파라면 마셔!',
+    '검은 옷 입은 사람 마셔!','전 애인 아직 팔로우 중인 사람 마셔!','오늘 처음 본 사람이 있다면 둘 다 마셔!','이 테이블에서 키가 제일 큰 사람 마셔!'
+  ]
+};
+const KIND_LABEL = {balance:'밸런스 게임', truth:'진실 혹은 원샷', drink:'마셔라 카드'};
+const Cards = {
+  cur:null,
+  tableOf(e){ return e && e.seat>=0 && SEATS[e.seat] ? (SEATS[e.seat].tb||null) : null; },
+  myTable(){ return this.tableOf(me); },
+  draw(){
+    const tb=this.myTable(); if(!tb){ toast('테이블이나 소파에 앉으면 술게임 카드를 뽑을 수 있어요'); return; }
+    const k=pick(['balance','truth','drink','balance','drink']); const d={tb, k, i:Math.floor(Math.random()*DECK[k].length), id:rid(6)};
+    if(room && connected) room.emit('card',d).catch(()=>this.show(d,me.nick)); else this.show(d,me.nick);
+  },
+  onCard(m){ const d=m.data||{}; if(!DECK[d.k] || DECK[d.k][d.i]===undefined) return; if(!m.sameTab && d.tb!==this.myTable()) return; this.show(d, m.sameTab? me.nick : nickOf(m.peer)); },
+  show(d, by){ this.cur={id:String(d.id), tb:d.tb, k:d.k, i:d.i, by, votes:{}}; this.render(); $('#cardBg').hidden=false; },
+  close(){ $('#cardBg').hidden=true; },
+  vote(c){ const cur=this.cur; if(!cur) return; const msg={id:cur.id, tb:cur.tb, c};
+    if(room && connected) room.emit('cardv',msg).catch(()=>{}); else { cur.votes.me=c; this.render(); } },
+  onVote(m){ const d=m.data||{}; const cur=this.cur; if(!cur || d.id!==cur.id || (d.c!==0 && d.c!==1)) return; cur.votes[m.peer]=d.c; this.render(); },
+  drink(){ const cur=this.cur; setAnim(me,'cheers',1800); floatAt(me,'원샷!'); pushPresence(true);
+    if(room && connected && cur) room.emit('cardd',{id:cur.id, tb:cur.tb}).catch(()=>{}); else toast(`${me.nick}님 원샷!`);
+    this.close(); },
+  onDrink(m){ const d=m.data||{}; if(!m.sameTab && d.tb!==this.myTable()) return; const nick=m.sameTab? me.nick : nickOf(m.peer);
+    toast(`${nick}님 원샷!`); if(!m.sameTab){ const e=ents.get(m.peer); if(e && !e.hidden) floatAt(e,'원샷!'); } },
+  render(){
+    const cur=this.cur, box=$('#cardBox'); if(!cur) return; box.textContent='';
+    const tag=document.createElement('div'); tag.className='ctag k-'+cur.k; tag.textContent=KIND_LABEL[cur.k];
+    const by=document.createElement('div'); by.className='cby'; by.textContent=`${cur.by}님이 뽑은 카드 · 같은 테이블에만 보여요`;
+    const q=document.createElement('div'); q.className='cq';
+    const row=document.createElement('div'); row.className='crow';
+    const btn=(t,cls,fn)=>{ const b=document.createElement('button'); b.type='button'; b.className=cls; b.textContent=t; b.onclick=fn; row.appendChild(b); return b; };
+    if(cur.k==='balance'){
+      const [a,b]=DECK.balance[cur.i]; q.textContent='둘 중 하나만 고른다면?';
+      const n=[0,0]; for(const v of Object.values(cur.votes)) n[v]++;
+      const opts=document.createElement('div'); opts.className='copts';
+      [a,b].forEach((t,k)=>{ const o=document.createElement('button'); o.type='button'; o.className='copt'; const s1=document.createElement('span'); s1.textContent=t; const s2=document.createElement('b'); s2.textContent=n[k]+'명'; o.append(s1,s2); o.onclick=()=>this.vote(k); opts.appendChild(o); if(k===0){ const vs=document.createElement('div'); vs.className='cvs'; vs.textContent='VS'; opts.appendChild(vs); } });
+      box.append(tag,by,q,opts);
+      btn('한 장 더','btn-ghost',()=>this.draw()); btn('닫기','btn-brass',()=>this.close());
+    } else if(cur.k==='truth'){
+      q.textContent=DECK.truth[cur.i]; box.append(tag,by,q);
+      btn('패스하고 원샷','btn-ghost',()=>this.drink()); btn('대답했어요','btn-brass',()=>this.close());
+    } else {
+      q.textContent=DECK.drink[cur.i]; box.append(tag,by,q);
+      btn('해당 없어요','btn-ghost',()=>this.close()); btn('해당돼요, 원샷!','btn-brass',()=>this.drink());
+    }
+    box.appendChild(row);
+  }
+};
+$('#cardBg').addEventListener('click', e=>{ if(e.target.id==='cardBg') Cards.close(); });
 
 /* ================= Darts ================= */
 const Darts = {
