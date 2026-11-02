@@ -247,6 +247,30 @@ body.in-vers .brand{color:#c9c2ff;text-shadow:0 0 18px rgba(120,100,255,.6)}
 .bj .btn-ghost{color:#f3efe6;border-color:#d9f0e2}
 .kform select{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:14px;color:inherit;min-width:0}
 @media (prefers-reduced-motion:reduce){.kscore,.bjc{animation:none}.tci{transition:none}}
+#themeChip{position:fixed;left:max(16px,env(safe-area-inset-left,0px));top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5;cursor:pointer;color:var(--text,#f3efe6);max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis}
+#themeChip.hh{background:rgba(120,30,70,.85);box-shadow:0 0 14px rgba(255,111,176,.45)}
+body.in-vers #themeChip,body.in-dark #themeChip{display:none}
+@media (max-width:760px){ #themeChip{top:calc(env(safe-area-inset-top,0px) + 50px);font-size:11px;padding:4px 9px} }
+.modal.theme .wk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;font-size:10.5px}
+.modal.theme .wk div{display:flex;flex-direction:column;gap:2px;padding:6px 2px;border:1px solid var(--line);border-radius:8px;color:var(--muted);word-break:keep-all;line-height:1.25}
+.modal.theme .wk div.on{border-color:var(--brass);color:var(--brass-hi)}
+.modal.theme .wk b{font-size:12px;color:inherit}
+.glass{display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center;padding:10px;border:1px solid var(--line);border-radius:14px;margin:6px 0}
+.glass b{font-family:var(--display);font-size:20px;color:var(--brass-hi)}
+.glass small{color:var(--muted);font-size:12px}
+.glass p{margin:6px 0 0;font-size:14.5px;line-height:1.5;word-break:keep-all}
+.glass .lucky{font-size:12px;color:#c9b3ef}
+#danceBg{position:fixed;inset:0;display:flex;align-items:flex-end;justify-content:center;padding:16px 16px calc(env(safe-area-inset-bottom,0px) + 16px);background:linear-gradient(180deg,transparent 30%,rgba(10,7,12,.7));z-index:44;pointer-events:none}
+.dance{pointer-events:auto;width:min(340px,100%);background:rgba(31,24,38,.92);border:1px solid #ff6fb0;border-radius:20px;padding:12px;display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center}
+#danceOpp{font-family:var(--display);font-size:16px;color:#ffd0e4}
+#dancePad{width:100%;aspect-ratio:1;touch-action:none;user-select:none;-webkit-user-select:none;cursor:pointer;border-radius:16px;background:radial-gradient(circle,#3a1838,#1a0f1c 70%)}
+#dancePad canvas{width:100%;height:100%;display:block}
+.dance p{margin:0;font-size:12.5px;color:var(--muted)}
+.modal.dance{border-color:#ff6fb0}
+.dbres{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dbres div{display:flex;flex-direction:column;gap:2px;padding:10px 6px;border:1px solid var(--line);border-radius:12px}
+.dbres div.w{border-color:#ffe08a;box-shadow:0 0 16px rgba(255,224,138,.3)}
+.dbres b{font-size:13.5px;overflow-wrap:anywhere}.dbres strong{font-family:var(--display);font-size:30px;color:#ffe08a}.dbres small{font-size:11.5px;color:var(--muted)}
 .btn-open{background:#2b3d66;border:1px solid #6aa0ff;color:#dce8ff;border-radius:12px;padding:12px 18px;font-weight:600;letter-spacing:.12em}
 
 #oneshot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 16px);width:min(340px,calc(100vw - 32px));height:min(440px,58vh);background:var(--panel);border:1px solid var(--wine);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.55)}
@@ -326,6 +350,7 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
     <button class="ibtn" id="logBtn" type="button" aria-label="대화 기록"><span class="lg">대화 기록</span><span class="sm">기록</span></button>
     <button class="ibtn" id="dressBtn" type="button" aria-label="옷 갈아입기"><span class="lg">옷 갈아입기</span><span class="sm">옷장</span></button>
   </div>
+  <button class="chip" id="themeChip" type="button" aria-label="오늘의 테마와 해피아워"></button>
   <div id="toasts" aria-live="polite"></div>
   <div id="log" hidden></div>
   <div class="hud-bottom">
@@ -376,6 +401,7 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
 </div></div>
 
 <div id="cardBg" hidden><div class="tcard" id="cardBox" role="dialog" aria-label="술게임 카드"></div></div>
+<div id="danceBg" hidden><div class="dance" role="dialog" aria-label="댄스 배틀"><div id="danceOpp"></div><div id="dancePad"><canvas id="danceCv" width="600" height="600"></canvas></div><p>노란 링이 분홍 원에 겹치는 순간 탭!</p></div></div>
 <div id="kscoreBg" class="ovl" hidden><div class="kscore" id="kscoreBox" role="dialog" aria-label="노래 점수"></div></div>
 <div id="tarotBg" class="ovl" hidden><div class="tarot" id="tarotBox" role="dialog" aria-label="타로"></div></div>
 <div id="bjBg" class="ovl" hidden><div class="bj" id="bjBox" role="dialog" aria-label="블랙잭"></div></div>
@@ -1248,6 +1274,7 @@ function buildWorld(){
   scene.background = new THREE.Color('#111013');
   scene.fog = new THREE.Fog('#111013', 16, 34);
   lights.hemi = new THREE.HemisphereLight(0xffe6c4,0x141216,.5); scene.add(lights.hemi);
+  lights.theme = new THREE.PointLight(0xffffff,.55,24,1.1); lights.theme.position.set(0,3.7,0); scene.add(lights.theme);
   lights.dir = new THREE.DirectionalLight(0xffe9cc,.3); lights.dir.position.set(3,9,8); scene.add(lights.dir);
   const ft = tileTex(); ft.repeat.set(10,8);
   const floor = M(new THREE.PlaneGeometry(20,16), new THREE.MeshStandardMaterial({map:ft,roughness:.35,metalness:.1})); floor.rotation.x=-Math.PI/2; scene.add(floor); floors.push(floor);
@@ -1586,6 +1613,12 @@ function renderEmotes(){
     if(mine){ add(Rtc.stream?'마이크 끄기':'마이크 켜기',()=>{ if(Rtc.stream) Rtc.micOff(); else Rtc.micOn(); }, true); add('곡 끝내기',()=>Karaoke.finish(n.id), true); }
     add('환호',()=>Karaoke.vfx('cheer'), true); add('스모그',()=>Karaoke.vfx('smoke'), true);
   }
+  if(me && DB.inMain()){
+    const c=DB.active() ? DB.cur : null, my=DB.my();
+    if(DB.canHost()) add('댄스 배틀 신청',()=>DB.host(), true);
+    if(c && c.phase==='open' && c.a!==my) add('배틀 도전!',()=>DB.challenge(), true);
+    if(c && c.phase==='live' && !DB.isBattler()){ add(c.aNick+' 응원',()=>DB.vote('a'), true); add(c.bNick+' 응원',()=>DB.vote('b'), true); }
+  }
   if(me && me.dk){ add('다크룸 나가기',()=>Dark.leave(), true); add('스킨십 ♥',()=>openDarkCard(), true); add(me.topless?'상의 입기':'상의 벗기',()=>setTopless(!me.topless), true); }
   for(const [k,label] of EMOTES){ if(k==='sit' && me && me.seat>=0) continue; if(me && me.dk && (k==='bow'||k==='cheers')) continue; add(label,()=>doEmote(k)); }
   if(me && me.seat>=0 && Cards.myTable()){ const tb=Cards.myTable(); if(tb==='bj') add('블랙잭',()=>BJ.open(), true); else add('술게임 카드',()=>Cards.draw(), true); if(tb===TAROT_TB) add('타로 보기',()=>Tarot.open(), true); }
@@ -1665,13 +1698,13 @@ function openCard(ent){
   if(ent===versBt){
     const card = cardShell(ent.nick, '주문하면 바로 손에 잔을 쥐여 드려요. 노래하면서 마시세요.', 'bar');
     card.appendChild(drinkGrid(k=>versOrder(k)));
-    const row=document.createElement('div'); row.className='row'; const lb=document.createElement('button'); lb.className='btn-ghost'; lb.type='button'; lb.textContent='술값 사다리 타기'; lb.onclick=()=>{ closeCard(); Ladder.open(); }; row.appendChild(lb); card.appendChild(row);
+    const row=document.createElement('div'); row.className='row'; const tg=document.createElement('button'); tg.className='btn-brass'; tg.type='button'; tg.textContent='오늘의 한 잔 + 운세'; tg.onclick=()=>openTodayGlass(ent); row.appendChild(tg); const lb=document.createElement('button'); lb.className='btn-ghost'; lb.type='button'; lb.textContent='술값 사다리 타기'; lb.onclick=()=>{ closeCard(); Ladder.open(); }; row.appendChild(lb); card.appendChild(row);
     return;
   }
   if(ent.npc){
     const card = cardShell(ent.nick, me.cd ? '카운터에 잔이 이미 있어요. 새로 시키면 바꿔 드려요.' : '주문하면 카운터 위, 당신 앞자리에 잔을 놓아 드려요.', 'bar');
     card.appendChild(drinkGrid(k=>orderDrink(k, ent)));
-    const row=document.createElement('div'); row.className='row'; const lb=document.createElement('button'); lb.className='btn-ghost'; lb.type='button'; lb.textContent='술값 사다리 타기'; lb.onclick=()=>{ closeCard(); Ladder.open(); }; row.appendChild(lb); card.appendChild(row);
+    const row=document.createElement('div'); row.className='row'; const tg=document.createElement('button'); tg.className='btn-brass'; tg.type='button'; tg.textContent='오늘의 한 잔 + 운세'; tg.onclick=()=>openTodayGlass(ent); row.appendChild(tg); const lb=document.createElement('button'); lb.className='btn-ghost'; lb.type='button'; lb.textContent='술값 사다리 타기'; lb.onclick=()=>{ closeCard(); Ladder.open(); }; row.appendChild(lb); card.appendChild(row);
     return;
   }
   if(me.dk && ent.dk){ openDarkCard(ent); return; }
@@ -1681,7 +1714,7 @@ function openCard(ent){
   const inv=document.createElement('button'); inv.className='btn-brass'; inv.type='button'; inv.textContent='원샷 룸 초대';
   if(!room||!connected){ send.disabled=inv.disabled=true; }
   if(os || me.dk) inv.disabled=true;
-  send.onclick=()=>{ const c=cardShell(ent.nick+'님에게 한 잔', '받는 사람 손에 바로 잔이 들려요.', 'peer'); c.appendChild(drinkGrid(k=>{ closeCard(); const paid=BJ.spend(20); room.emit('drink',{to:ent.peer,d:k,c:paid?1:0}).then(()=>{ if(paid) toast(`블랙잭 칩 20개로 샀어요 · 남은 칩 ${BJ.chips()}개`); }).catch(()=>{ if(paid) BJ.setChips(BJ.chips()+20); toast('보내지 못했어요. 잠시 후 다시 해 주세요.'); }); })); };
+  send.onclick=()=>{ const c=cardShell(ent.nick+'님에게 한 잔', '받는 사람 손에 바로 잔이 들려요.', 'peer'); c.appendChild(drinkGrid(k=>{ closeCard(); const hh=Theme.happy(), paid=!hh && BJ.spend(20); room.emit('drink',{to:ent.peer,d:k,c:paid?1:0,h:hh?1:0}).then(()=>{ if(paid) toast(`블랙잭 칩 20개로 샀어요 · 남은 칩 ${BJ.chips()}개`); }).catch(()=>{ if(paid) BJ.setChips(BJ.chips()+20); toast('보내지 못했어요. 잠시 후 다시 해 주세요.'); }); })); };
   inv.onclick=()=>{ closeCard(); invite(ent); };
   row.append(send,inv); card.appendChild(row);
   const hrow=document.createElement('div'); hrow.className='row';
@@ -1766,7 +1799,7 @@ async function connectRoom(){
     if(!m.sameTab && k==='heart' && ent) floatAt(ent,'♥'); });
   room.on('drink', m=>{ const d=m.data||{}; if(!DRINKS.some(x=>x[0]===d.d)) return;
     const from = m.sameTab? me.nick : nickOf(m.peer);
-    if(d.to===myPeer && !m.sameTab){ toast(`${from}님이 ${d.c?'칩으로 산 ':''}${drinkName(d.d)} 한 잔을 보냈어요`); me.hold=d.d; setAnim(me,'cheers',2400); pushPresence(true); renderEmotes(); const ent=ents.get(m.peer); if(ent && !ent.hidden) floatAt(ent,'♥'); }
+    if(d.to===myPeer && !m.sameTab){ toast(`${from}님이 ${d.h?'해피아워 ':(d.c?'칩으로 산 ':'')}${drinkName(d.d)} 한 잔을 보냈어요`); me.hold=d.d; setAnim(me,'cheers',2400); pushPresence(true); renderEmotes(); const ent=ents.get(m.peer); if(ent && !ent.hidden) floatAt(ent,'♥'); }
     else toast(`${from}님이 ${nickOf(d.to)}님에게 ${drinkName(d.d)}을 보냈어요`); });
   room.on('invite', m=>{ const d=m.data||{}; if(m.sameTab || d.to!==myPeer) return; const code=String(d.code||''); if(!/^os-[a-z0-9]{8}$/.test(code)) return;
     if(os || pendingInvite || me.dk){ room.emit('decline',{to:m.peer,code}).catch(()=>{}); return; }
@@ -1780,6 +1813,7 @@ async function connectRoom(){
   room.on('accept', m=>{ const d=m.data||{}; if(d.to!==myPeer || !pendingInvite || d.code!==pendingInvite.code) return; const p=pendingInvite; pendingInvite=null; hideModal(); enterOneShot(p.code, m.peer, 0); });
   room.on('decline', m=>{ const d=m.data||{}; if(d.to!==myPeer || !pendingInvite || d.code!==pendingInvite.code) return; pendingInvite=null; hideModal(); toast(`${nickOf(m.peer)}님이 지금은 어렵대요`); });
   room.on('ladder', m=>{ if(me.dk && !m.sameTab) return; Ladder.run(m.data||{}, m.sameTab? me.nick : nickOf(m.peer)); });
+  room.on('dbattle', m=>DB.onEvent(m));
   room.on('kvote', m=>KScore.onVote(m)); room.on('tarot', m=>Tarot.onShare(m)); room.on('bj', m=>BJ.onResult(m));
   room.on('card', m=>Cards.onCard(m)); room.on('cardv', m=>Cards.onVote(m)); room.on('cardd', m=>Cards.onDrink(m));
   room.on('vfx', m=>{ const d=m.data||{}; if(!['smoke','cheer'].includes(d.k)) return; const ent = m.sameTab? me : ents.get(m.peer); if(!m.sameTab && !(ent && ent.vr)) return; onVfx(d, ent, m.sameTab? me.nick : nickOf(m.peer)); });
@@ -1886,6 +1920,7 @@ const Dark = {
   }
 };
 function setAmbience(mode){
+  setTimeout(()=>Theme.paint(),0);
   const dark = mode===true || mode==='dark';
   document.body.classList.toggle('in-vers', mode==='vers');
   if(mode==='vers'){ scene.fog.color.set('#07061a'); scene.fog.near=14; scene.fog.far=30; scene.background.set('#07061a'); lights.hemi.intensity=.3; lights.dir.intensity=.12; lights.dark.intensity=1.3; if(lights.darkFill) lights.darkFill.intensity=0; camDist=10.5; return; }
@@ -2269,7 +2304,7 @@ function updateVersFx(dt, t){
 }
 
 /* ---- entering / leaving VERS ---- */
-function bgm(){ if(!me || $('#world').hidden) return; if(me.dk) Music.play('dark'); else if(me.vr){ if(Karaoke.now) Music.stop(); else Music.play('club'); } else Music.play('jazz'); }
+function bgm(){ if(!me || $('#world').hidden) return; if(me.dk) Music.play('dark'); else if(me.vr){ if(Karaoke.now) Music.stop(); else Music.play('club'); } else Music.play(DB.live() ? 'club' : 'jazz'); }
 function flash(){ const f=$('#fade'); f.classList.add('on'); requestAnimationFrame(()=>requestAnimationFrame(()=>f.classList.remove('on'))); }
 const Vers = {
   cool:0,
@@ -2657,7 +2692,7 @@ const Cards = {
   myTable(){ return this.tableOf(me); },
   draw(){
     const tb=this.myTable(); if(!tb){ toast('테이블이나 소파에 앉으면 술게임 카드를 뽑을 수 있어요'); return; }
-    const k=pick(['balance','truth','drink','balance','drink']); const d={tb, k, i:Math.floor(Math.random()*DECK[k].length), id:rid(6)};
+    const k=pick(Theme.perk('drinkCards') ? ['balance','truth','drink','drink','drink','balance'] : ['balance','truth','drink','balance','drink']); const d={tb, k, i:Math.floor(Math.random()*DECK[k].length), id:rid(6)};
     if(room && connected) room.emit('card',d).catch(()=>this.show(d,me.nick)); else this.show(d,me.nick);
   },
   onCard(m){ const d=m.data||{}; if(!DECK[d.k] || DECK[d.k][d.i]===undefined) return; if(!m.sameTab && d.tb!==this.myTable()) return; this.show(d, m.sameTab? me.nick : nickOf(m.peer)); },
@@ -2701,7 +2736,7 @@ $('#cardBg').addEventListener('click', e=>{ if(e.target.id==='cardBg') Cards.clo
 function hashStr(s){ let h=2166136261; for(const ch of String(s)){ h^=ch.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
 const KScore = {
   cur:null, timer:0,
-  score(id){ return 70 + hashStr(id)%31; },
+  score(id){ return Math.min(100, 70 + hashStr(id)%31 + (Theme.perk('karaoke')||0)); },
   comment(sc){
     if(sc>=98) return '전설의 무대! 버드케이지 명예의 전당감이에요';
     if(sc>=93) return '원곡자가 듣고 울고 갔어요';
@@ -2788,7 +2823,8 @@ function tarotLine(topic, card){
 function tarotAdvice(topic, cards){
   const ups=cards.filter(c=>!c[1]).length;
   const last=TAROT[cards[2][0]];
-  if(topic==='match') return ups>=2 ? `궁합 점수 ${78+ups*6}점 · '${last[1]}'의 기운이 두 사람을 이어 줘요` : `궁합 점수 ${62+ups*7}점 · 서로 속도를 맞추면 좋아져요`;
+  const tb=Theme.perk('tarot')||0;
+  if(topic==='match') return ups>=2 ? `궁합 점수 ${Math.min(100,78+ups*6+tb)}점 · '${last[1]}'의 기운이 두 사람을 이어 줘요` : `궁합 점수 ${62+ups*7+tb}점 · 서로 속도를 맞추면 좋아져요`;
   return ups===3 ? `흐름이 아주 좋아요. 키워드는 '${last[1]}'` : ups===2 ? `대체로 순조로워요. '${last[1]}'에 집중해 보세요` : ups===1 ? `조금 꼬여도 풀려요. 서두르지 마세요` : `오늘은 숨 고르기. 원샷 한 잔으로 털어 버려요`;
 }
 const TAROT_TB = 'm-3.6,2.2';
@@ -2900,7 +2936,7 @@ const BJ = {
   dealer:null, shoe:[], st:null, bet:50,
   today(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); },
   chips(){ let c=store.get('bc-chips'); if(!c || typeof c!=='object' || !Number.isFinite(c.n)) c={n:1000,d:this.today()};
-    if(c.d!==this.today()){ if(c.n<1000) c.n=1000; c.d=this.today(); store.set('bc-chips',c); }
+    const refill=Theme.perk('chips')||1000; if(c.d!==this.today()){ if(c.n<refill) c.n=refill; c.d=this.today(); store.set('bc-chips',c); }
     return Math.max(0,Math.floor(c.n)); },
   setChips(n){ store.set('bc-chips',{n:Math.max(0,Math.floor(n)), d:this.today()}); },
   spend(n){ const c=this.chips(); if(c<n) return false; this.setChips(c-n); return true; },
@@ -2980,6 +3016,223 @@ const BJ = {
       box.appendChild(row);
     }
     box.appendChild(el('p','tnote','칩은 무료 게임용이에요. 살 수도, 돈으로 바꿀 수도 없어요. 칩 20개로 친구에게 한 잔 보낼 수 있어요.'));
+  }
+};
+
+
+/* ================= Day themes + happy hour (Korea local time) ================= */
+const THEMES = [
+  {name:'선데이 라운지',  color:'#ffd9a0', drink:'highball',     rule:'느긋한 일요일. 처음 온 사람에게 먼저 인사해 주세요'},
+  {name:'블루 먼데이',    color:'#6aa0ff', drink:'mojito',       rule:'월요병 탈출! 제일 피곤해 보이는 사람에게 한 잔 보내기'},
+  {name:'타로 나이트',    color:'#b48cff', drink:'signature',    rule:'타로 궁합 점수 +5 · 타로 마스터가 후해요', perk:{tarot:5}},
+  {name:'수염 데이',      color:'#d6a84c', drink:'oldfashioned', rule:'수염 있는 사람이 건배 제의! 술게임 마셔라 카드 2배', perk:{drinkCards:true}},
+  {name:'노래방 목요일',  color:'#7c6cff', drink:'beer',         rule:'VERS 무대 점수 +3 보너스', perk:{karaoke:3}},
+  {name:'불금 디스코',    color:'#ff6fb0', drink:'soju',         rule:'블랙잭 칩 1,500개 충전 · 댄스 배틀 점수 +5', perk:{chips:1500, dance:5}},
+  {name:'토요 빅 나이트', color:'#ff8a5c', drink:'martini',      rule:'블랙잭 칩 1,500개 충전 · 해피아워 23시까지', perk:{chips:1500, late:true}}
+];
+const DAYK = ['일','월','화','수','목','금','토'];
+const Theme = {
+  day(){ return new Date().getDay(); },
+  get(){ return THEMES[this.day()]; },
+  perk(k){ const p=this.get().perk; return p && p[k]; },
+  hhEnd(){ return this.perk('late') ? 23 : 22; },
+  happy(){ const h=new Date().getHours(); return h>=20 && h<this.hhEnd(); },
+  label(){ const t=this.get(); return `${DAYK[this.day()]} · ${t.name}${this.happy()?' · 해피아워':''}`; },
+  wasHappy:null, lastDay:null,
+  tick(){
+    const hh=this.happy(), d=this.day();
+    if(d!==this.lastDay){ this.lastDay=d; this.apply(); }
+    if(this.wasHappy!==null && hh!==this.wasHappy){
+      if(hh){ toast(`해피아워 시작! ${this.hhEnd()}시까지 친구에게 보내는 한 잔은 칩 없이 무료예요`); if(bartenders[0]) say(bartenders[0],'해피아워 시작입니다! 오늘의 칵테일 '+drinkName(this.get().drink)+' 어떠세요?'); }
+      else toast('해피아워가 끝났어요. 다음 해피아워는 내일 저녁 8시!');
+    }
+    this.wasHappy=hh; this.paint();
+  },
+  apply(){
+    if(!lights.theme) return; lights.theme.color.set(this.get().color);
+    this.paint();
+  },
+  paint(){
+    const c=$('#themeChip'); if(c){ const l=this.label(); if(c.textContent!==l) c.textContent=l; c.classList.toggle('hh', this.happy()); c.style.borderColor=this.get().color; }
+    if(lights.theme) lights.theme.intensity = (me && !me.dk && !me.vr) ? (this.happy()? 1.1 : .55) : 0;
+  },
+  open(){
+    const t=this.get();
+    showModal(box=>{
+      const h=document.createElement('h3'); h.textContent=`오늘은 ${t.name}`; h.style.color=t.color;
+      const p1=document.createElement('p'); p1.textContent=t.rule;
+      const p2=document.createElement('p'); p2.textContent=`오늘의 칵테일: ${drinkName(t.drink)} · 바텐더에게 주문해 보세요`;
+      const p3=document.createElement('p'); p3.textContent= this.happy() ? `지금 해피아워! ${this.hhEnd()}시까지 친구에게 보내는 한 잔은 칩이 들지 않아요.` : `해피아워는 매일 저녁 8시 ~ ${this.hhEnd()}시예요.`;
+      const wk=document.createElement('div'); wk.className='wk';
+      THEMES.forEach((x,i)=>{ const r=document.createElement('div'); r.className= i===this.day()?'on':''; const b=document.createElement('b'); b.textContent=DAYK[i]; const s=document.createElement('span'); s.textContent=x.name; r.append(b,s); wk.appendChild(r); });
+      const row=document.createElement('div'); row.className='row'; const c=document.createElement('button'); c.className='btn-brass'; c.type='button'; c.textContent='닫기'; c.onclick=hideModal; row.appendChild(c);
+      box.append(h,p1,p2,p3,wk,row);
+    }, 'theme');
+  }
+};
+
+/* ================= Bartender: today's glass + one-line fortune ================= */
+const FORTUNES = [
+  '오늘 처음 말 건 사람이 오래갈 인연이에요','건배를 먼저 제의하면 좋은 일이 생겨요','오늘은 웃는 얼굴이 최고의 무기예요',
+  '지갑보다 마음을 여는 날이에요','눈이 세 번 마주친 사람에게 한 잔 보내 보세요','노래 한 곡이 분위기를 바꿀 거예요',
+  '오늘은 듣는 쪽이 이겨요. 질문을 많이 하세요','익숙한 자리 말고 새 테이블에 앉아 보세요','작은 칭찬이 큰 호감으로 돌아와요',
+  '오늘 밤 행운의 숫자는 7. 블랙잭 테이블을 노려 보세요','무리하지 말고 물 한 잔 같이 마시면 운이 올라요','오래 연락 못 한 친구에게 안부를 전해 보세요',
+  '진심은 짧게 말할수록 잘 전해져요','오늘은 리드하는 쪽이 매력 있어 보여요','춤 한 번 추면 기분이 확 풀려요',
+  '오늘은 몰래 하트가 통할 확률이 높아요','두 번째 잔에서 진짜 이야기가 나와요','오늘 만난 사람과의 사진 한 장이 오래 남아요',
+  '술값 사다리에서 오늘은 왼쪽이 행운이에요','기다리던 연락이 올 거예요','오늘은 칭찬받을 일이 생겨요',
+  '평소보다 한 톤 밝게 인사해 보세요','오늘은 운동 얘기로 대화가 술술 풀려요','한 잔 덜 마시면 한 사람 더 친해져요'
+];
+const LUCKY_COLORS = ['버건디','골드','네이비','블랙','화이트','올리브','라벤더','코랄'];
+function todayKey(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function todaysGlass(nick){
+  const h=hashStr(nick+'|'+todayKey()); const t=Theme.get();
+  const k = (h%10)<3 ? t.drink : DRINKS[(h>>>4)%DRINKS.length][0];
+  return {k, fortune:FORTUNES[(h>>>9)%FORTUNES.length], num:1+((h>>>14)%9), color:LUCKY_COLORS[(h>>>18)%LUCKY_COLORS.length]};
+}
+function openTodayGlass(bt){
+  const g=todaysGlass(me.nick), d=DRINKS.find(x=>x[0]===g.k);
+  const card=cardShell(bt.nick+'의 오늘의 한 잔', `${me.nick}님에게 오늘 어울리는 술과 한 줄 운세예요.`, 'bar');
+  const box=document.createElement('div'); box.className='glass';
+  const n=document.createElement('b'); n.textContent=d[1]; const s=document.createElement('small'); s.textContent=d[2];
+  const f=document.createElement('p'); f.textContent='“'+g.fortune+'”';
+  const l=document.createElement('div'); l.className='lucky'; l.textContent=`행운의 숫자 ${g.num} · 행운의 색 ${g.color}`;
+  box.append(n,s,f,l); card.appendChild(box);
+  const row=document.createElement('div'); row.className='row';
+  const ok=document.createElement('button'); ok.className='btn-brass'; ok.type='button'; ok.textContent='이걸로 주세요';
+  ok.onclick=()=>{ if(bt===versBt) versOrder(g.k); else orderDrink(g.k, bt); };
+  const back=document.createElement('button'); back.className='btn-ghost'; back.type='button'; back.textContent='메뉴 보기'; back.onclick=()=>openCard(bt);
+  row.append(back,ok); card.appendChild(row);
+  say(bt, `오늘 ${me.nick}님은 ${d[1]}! ${g.fortune}.`);
+}
+
+/* ================= Dance battle on the main stage ================= */
+const DB_BEAT=500, DB_SLOTS=24, DB_LEAD=900;
+function dbNotes(id){ const out=[]; for(let k=0;k<DB_SLOTS;k++){ if(k>0 && hashStr(id+':'+k)%5===0) continue; out.push(k*DB_BEAT); } return out; }
+function dbJudge(dtMs){ const a=Math.abs(dtMs); return a<=70 ? 100 : a<=140 ? 70 : a<=200 ? 40 : -1; }
+function dbFinal(rhythm, votes, bonus){ return Math.round(rhythm) + votes*5 + (bonus||0); }
+const DB = {
+  cur:null, game:null,
+  my(){ return room ? room.uid : 'me'; },
+  srv(){ return room && room.fb ? room.fb.now() : Date.now(); },
+  emit(d){ if(room && connected) return room.emit('dbattle',d).catch(()=>toast('보내지 못했어요. 잠시 후 다시 해 주세요')); this.onEvent({data:d, peer:this.my(), sameTab:true}); },
+  inMain(){ return me && !me.dk && !me.vr && !os; },
+  onStage(){ return this.inMain() && Math.hypot(me.x-STAGE.x, me.z-STAGE.z)<2.4; },
+  active(){ const c=this.cur; if(!c) return false; if(performance.now()-c.t0>70000){ this.cur=null; return false; } return c.phase!=='done'; },
+  live(){ return this.active() && this.cur.phase==='live'; },
+  canHost(){ return this.onStage() && !this.active() && me.seat<0; },
+  host(){ this.emit({op:'open', id:rid(6), nick:me.nick}); },
+  challenge(){ const c=this.cur; if(!c || c.phase!=='open') return;
+    const go=()=>this.emit({op:'join', id:c.id, nick:me.nick});
+    if(this.onStage()) go(); else walkTo(STAGE.x+.6, STAGE.z-.4, go); },
+  vote(side){ const c=this.cur; if(!c || c.phase!=='live') return; this.emit({op:'vote', id:c.id, s:side}); toast(`${side==='a'?c.aNick:c.bNick}님을 응원했어요`); },
+  isBattler(){ const c=this.cur; return c && (c.a===this.my() || c.b===this.my()); },
+  onEvent(m){
+    const d=m.data||{}, my=this.my(), from=m.sameTab? my : m.peer; const id=String(d.id||'');
+    if(!/^[a-z0-9]{6}$/.test(id)) return;
+    const c=this.cur;
+    if(d.op==='open'){
+      if(this.active()) return;
+      this.cur={id, a:from, aNick:cleanNick(d.nick)||'누군가', phase:'open', t0:performance.now(), scores:{}, votes:{}};
+      if(this.inMain()){ toast(from===my ? '댄스 배틀을 열었어요! 15초 안에 도전자가 없으면 바텐더 BBG가 상대해요' : `${this.cur.aNick}님이 댄스 배틀 신청! 스테이지로 가서 도전하세요`); }
+      if(from===my){ this.place('a'); setTimeout(()=>{ const k=this.cur; if(k && k.id===id && k.phase==='open') this.emit({op:'start', id, b:'npc', bNick:'바텐더 BBG', at:this.srv()+3000, ns:Math.round(55+Math.random()*35)}); }, 15000); }
+      renderEmotes(); return;
+    }
+    if(!c || c.id!==id) return;
+    if(d.op==='join'){
+      if(c.phase!=='open' || c.a!==my || from===my || c.joinSent) return;
+      c.joinSent=true; this.emit({op:'start', id, b:from, bNick:cleanNick(d.nick)||'누군가', at:this.srv()+3500});
+    } else if(d.op==='start'){
+      if(from!==c.a || c.phase!=='open') return;
+      c.b=String(d.b||''); c.bNick=cleanNick(d.bNick)||'누군가'; c.at=Number(d.at)||this.srv()+3000; c.phase='live';
+      if(c.b==='npc'){ c.scores.npc=Math.max(0,Math.min(100,Number(d.ns)||60)); if(bartenders[1]) { setAnim(bartenders[1],'dance',DB_SLOTS*DB_BEAT+4000); say(bartenders[1],'제가 상대해 드리죠!'); } }
+      if(this.inMain() || this.isBattler()){
+        toast(`댄스 배틀! ${c.aNick} vs ${c.bNick}`); bgm();
+        if(this.isBattler()){ this.place(c.a===my?'a':'b'); this.play(); }
+        else toast('아래 응원 버튼으로 더 잘 춘 쪽에 한 표!');
+      }
+      const endAt=c.at-this.srv()+DB_SLOTS*DB_BEAT+3500;
+      if(c.a===my) setTimeout(()=>this.decide(id), endAt+2500);
+      setTimeout(()=>{ const k=this.cur; if(k && k.id===id && k.phase==='live'){ k.phase='done'; bgm(); renderEmotes(); } }, endAt+12000);
+      renderEmotes();
+    } else if(d.op==='score'){
+      if(from!==c.a && from!==c.b) return; c.scores[from]=Math.max(0,Math.min(100,Number(d.s)||0));
+    } else if(d.op==='vote'){
+      if(c.phase!=='live' || from===c.a || from===c.b || (d.s!=='a' && d.s!=='b')) return; c.votes[from]=d.s;
+    } else if(d.op==='result'){
+      if(from!==c.a) return; c.phase='done'; this.showResult(d); bgm(); renderEmotes();
+    }
+  },
+  decide(id){
+    const c=this.cur; if(!c || c.id!==id || c.phase!=='live') return;
+    let va=0, vb=0; for(const v of Object.values(c.votes)){ if(v==='a') va++; else vb++; }
+    const bonus=Theme.perk('dance')||0;
+    const ra=c.scores[c.a]||0, rb=c.scores[c.b]||0;
+    this.emit({op:'result', id, ra, rb, va, vb, fa:dbFinal(ra,va,bonus), fb:dbFinal(rb,vb,bonus)});
+  },
+  place(side){
+    if(me.seat>=0) standUp(); me.floorSit=false; me.target=null; me.onArrive=null;
+    me.x=STAGE.x+(side==='a'?-.6:.6); me.z=STAGE.z-.2; me.ry=Math.PI; setAnim(me,'dance',side==='a' && this.cur && this.cur.phase==='open' ? 16000 : DB_SLOTS*DB_BEAT+5000); pushPresence(true);
+  },
+  showResult(d){
+    const c=this.cur; if(!(this.inMain() || this.isBattler())) return;
+    const fa=Number(d.fa)||0, fb=Number(d.fb)||0, my=this.my();
+    const win = fa===fb ? null : (fa>fb ? 'a' : 'b');
+    const winNick = win ? (win==='a'?c.aNick:c.bNick) : null;
+    const ent = id => id===my ? me : ents.get(id);
+    if(win){ const w=ent(win==='a'?c.a:c.b), l=ent(win==='a'?c.b:c.a); if(w && !w.hidden) floatAt(w,'WIN!'); if(l && !l.hidden) floatAt(l,'원샷!'); }
+    const mySide = c.a===my ? 'a' : (c.b===my ? 'b' : null);
+    if(mySide && win && mySide!==win){ setAnim(me,'cheers',2200); pushPresence(true); }
+    if(c.b==='npc' && bartenders[1]) say(bartenders[1], win==='b' ? '제가 이겼네요! 원샷 부탁드려요~' : '졌습니다! 대단하세요!');
+    showModal(box=>{
+      const h=document.createElement('h3'); h.textContent = win ? `${winNick}님 승리!` : '무승부! 둘 다 원샷!';
+      const t=document.createElement('div'); t.className='dbres';
+      const col=(nick,r,v,f,w)=>{ const e=document.createElement('div'); if(w) e.className='w'; const n=document.createElement('b'); n.textContent=nick; const s=document.createElement('strong'); s.textContent=String(f); const sm=document.createElement('small'); sm.textContent=`리듬 ${r} · 응원 ${v}표`; e.append(n,s,sm); return e; };
+      t.append(col(c.aNick,d.ra|0,d.va|0,fa,win==='a'), col(c.bNick,d.rb|0,d.vb|0,fb,win==='b'));
+      const p=document.createElement('p'); p.textContent = win ? '진 사람은 원샷!' : '사이좋게 같이 원샷!';
+      const row=document.createElement('div'); row.className='row'; const b=document.createElement('button'); b.className='btn-brass'; b.type='button'; b.textContent='닫기'; b.onclick=hideModal; row.appendChild(b);
+      box.append(h,t,p,row);
+    }, 'dance');
+  },
+  /* the rhythm pad: tap when the shrinking ring meets the circle */
+  play(){
+    const c=this.cur; const notes=dbNotes(c.id);
+    const g={notes, judged:new Array(notes.length).fill(null), combo:0, best:0, startPerf:performance.now()+(c.at-this.srv()), done:false, last:''};
+    this.game=g; const bg=$('#danceBg'); bg.hidden=false; $('#danceOpp').textContent=`${c.aNick} vs ${c.bNick}`;
+    const pad=$('#dancePad'), cv=$('#danceCv'), ctx=cv.getContext('2d');
+    pad.onpointerdown=e=>{ e.preventDefault(); this.tapNote(); };
+    const loop=()=>{ if(this.game!==g || g.done) return; this.drawPad(ctx, cv, g); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+    setTimeout(()=>this.endPlay(g), Math.max(0,g.startPerf-performance.now())+DB_SLOTS*DB_BEAT+600);
+  },
+  tapNote(){
+    const g=this.game; if(!g || g.done) return; const t=performance.now()-g.startPerf;
+    let bi=-1, bd=1e9; g.notes.forEach((n,i)=>{ if(g.judged[i]!==null) return; const dd=Math.abs(t-n); if(dd<bd){ bd=dd; bi=i; } });
+    if(bi<0) return; const sc=dbJudge(t-g.notes[bi]);
+    if(sc<0){ if(bd<400){ g.last='빗나감'; g.combo=0; } return; }
+    g.judged[bi]=sc; g.combo++; g.best=Math.max(g.best,g.combo); g.last= sc===100?'PERFECT':sc===70?'GREAT':'GOOD'; g.lastT=performance.now();
+    if(navigator.vibrate) try{ navigator.vibrate(12); }catch(e){}
+  },
+  endPlay(g){
+    if(g.done) return; g.done=true;
+    const sum=g.judged.reduce((a,b)=>a+(b||0),0); const s=Math.round(sum/g.notes.length);
+    $('#danceBg').hidden=true; this.game=null;
+    toast(`내 리듬 점수 ${s}점 · 최대 콤보 ${g.best}`);
+    const c=this.cur; if(c) this.emit({op:'score', id:c.id, s});
+  },
+  drawPad(ctx, cv, g){
+    const W=cv.width, H=cv.height, cx=W/2, cy=H/2, R=W*.17; const t=performance.now()-g.startPerf;
+    ctx.clearRect(0,0,W,H);
+    // miss old notes
+    g.notes.forEach((n,i)=>{ if(g.judged[i]===null && t-n>200){ g.judged[i]=0; g.combo=0; g.last='MISS'; g.lastT=performance.now(); } });
+    ctx.lineWidth=W*.02; ctx.strokeStyle='rgba(255,111,176,.9)'; ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle='rgba(255,111,176,.12)'; ctx.fill();
+    for(let i=0;i<g.notes.length;i++){ if(g.judged[i]!==null) continue; const dt=g.notes[i]-t; if(dt>DB_LEAD) break; if(dt<-200) continue;
+      const rr=R*(1+Math.max(0,dt)/DB_LEAD*2.2); ctx.lineWidth=W*.012; ctx.strokeStyle=`rgba(255,224,138,${Math.min(1,1-dt/DB_LEAD+.2)})`; ctx.beginPath(); ctx.arc(cx,cy,rr,0,Math.PI*2); ctx.stroke(); }
+    ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    if(t<0){ ctx.font=`700 ${W*.18}px 'IBM Plex Sans KR', sans-serif`; ctx.fillText(String(Math.ceil(-t/1000)),cx,cy); }
+    else { ctx.font=`700 ${W*.07}px 'IBM Plex Sans KR', sans-serif`; ctx.fillText('TAP',cx,cy); }
+    if(g.last && performance.now()-(g.lastT||0)<450){ ctx.font=`800 ${W*.075}px 'IBM Plex Sans KR', sans-serif`; ctx.fillStyle= g.last==='MISS'||g.last==='빗나감' ? '#ff9fb4' : '#ffe08a'; ctx.fillText(g.last,cx,H*.12); }
+    ctx.font=`600 ${W*.05}px 'IBM Plex Sans KR', sans-serif`; ctx.fillStyle='#d8cdea'; ctx.fillText(`콤보 ${g.combo}`,cx,H*.9);
   }
 };
 
@@ -3278,7 +3531,7 @@ function step(){
   renderer.render(scene,camera);
   for(const e of [me, ...bartenders, versBt, ...npcs, ...ents.values()]) if(e) placeTag(e, now);
   for(const s of signs) placeSign(s);
-  const z = zoneName(me.x,me.z,roomOf(me)); if(z!==step.zone){ step.zone=z; $('#zoneChip').textContent=z; }
+  const z = zoneName(me.x,me.z,roomOf(me)); if(z!==step.zone){ step.zone=z; $('#zoneChip').textContent=z; renderEmotes(); }
 }
 function place(e, dt, t){
   const sy = e.seat>=0 ? seatY(e.seat) : null;
@@ -3329,7 +3582,9 @@ function enter(){
     camera.position.set(me.x, 7, me.z+9.5); camLook.set(me.x,1,me.z-2);
     setupPointer(renderer.domElement); renderEmotes();
     addEventListener('resize', resize); resize();
-    step(); connectRoom();
+    step(); connectRoom(); Theme.tick(); setInterval(()=>Theme.tick(), 20000);
+    $('#themeChip').addEventListener('click', ()=>Theme.open());
+    setTimeout(()=>{ const t=Theme.get(); toast(`오늘은 ${t.name}! ${t.rule}`); }, 2500);
   } else {
     me.nick=nick; me.nameEl.textContent=nick; rebuildLook(me, look, false); lastPresKey=''; pushPresence(true);
   }
