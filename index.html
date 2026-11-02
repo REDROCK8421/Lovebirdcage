@@ -130,6 +130,39 @@ button:disabled{opacity:.45;cursor:not-allowed}
 #ladderCanvas{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);display:block}
 .lres{display:flex;flex-direction:column;gap:4px;font-size:14px;font-variant-numeric:tabular-nums}
 .lres .hit{color:#ffb3c4;font-weight:600}
+#kara{position:fixed;top:calc(env(safe-area-inset-top,0px) + 58px);right:max(16px,env(safe-area-inset-right,0px));width:min(360px,calc(100vw - 32px));max-height:calc(100vh - 230px);overflow-y:auto;background:rgba(15,12,36,.95);border:1px solid #5b4bff;border-radius:16px;box-shadow:0 14px 40px rgba(0,0,0,.5);display:flex;flex-direction:column}
+#kara header{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(120,110,255,.3);position:sticky;top:0;background:rgba(15,12,36,.98);z-index:1}
+#kara header b{font-family:var(--display);color:#c9c2ff;letter-spacing:.06em;flex:none}
+#kara .now{flex:1;min-width:0;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#kara .kbody{padding:10px 12px;display:flex;flex-direction:column;gap:10px}
+#kara.min .kbody > :not(#karaScreen){display:none}
+#kara.min{max-height:none}
+#kara.min .screen{width:220px;max-width:100%;align-self:flex-end}
+.screen{position:relative;aspect-ratio:16/9;background:#05040c;border-radius:10px;overflow:hidden;max-width:100%}
+.screen iframe,#ytPlayer{position:absolute;inset:0;width:100%;height:100%;border:0}
+.screen .idleMsg{display:none;position:absolute;inset:0;place-items:center;text-align:center;color:var(--muted);font-size:13px;padding:16px}
+.screen.idle .idleMsg{display:grid}
+.screen.idle iframe{visibility:hidden}
+.screen .tap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2}
+.live{font-size:12px;color:#9fe7c0}
+.krow{display:flex;flex-wrap:wrap;gap:6px}
+.krow button{font-size:12.5px;padding:7px 10px}
+.qhead{font-size:11.5px;color:#c9c2ff;letter-spacing:.08em;font-weight:600}
+.queue{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:13px}
+.queue li{overflow-wrap:anywhere}
+.queue li.empty{list-style:none;margin-left:-20px;color:var(--muted)}
+.queue .x{background:none;border:0;color:#ffb3c4;font-size:12px;margin-left:6px;padding:0}
+#karaForm summary{cursor:pointer;color:#c9c2ff;font-weight:600;font-size:13px}
+.kform{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.kform input{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:9px 10px;outline:none;font-size:14px;min-width:0}
+.kform input:focus{border-color:#7c6cff}
+.kform a{color:#a9c6ff;font-size:13px}
+.kform label{font-size:11.5px;color:var(--brass);letter-spacing:.08em;font-weight:600}
+.kform .hint{text-align:left;margin:0}
+.msg{font-size:12.5px;color:#ffb3c4}
+.msg:empty{display:none}
+body.in-vers .brand{color:#c9c2ff;text-shadow:0 0 18px rgba(120,100,255,.6)}
+@media (max-width:760px){ #kara{top:calc(env(safe-area-inset-top,0px) + 52px);max-height:calc(100vh - 260px)} }
 .btn-open{background:#2b3d66;border:1px solid #6aa0ff;color:#dce8ff;border-radius:12px;padding:12px 18px;font-weight:600;letter-spacing:.12em}
 
 #oneshot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 16px);width:min(340px,calc(100vw - 32px));height:min(440px,58vh);background:var(--panel);border:1px solid var(--wine);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.55)}
@@ -214,7 +247,7 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
       <input id="chatInput" maxlength="140" autocomplete="off" placeholder="라운지에 한마디…" aria-label="채팅">
       <button class="btn-brass" type="submit">보내기</button>
     </form>
-    <div class="hint" id="moveHint">바닥을 탭해 이동 · 드래그로 360° 회전 · 의자·바텐더·다트판·사다리·문을 탭해 보세요</div>
+    <div class="hint" id="moveHint">바닥을 탭해 이동 · 드래그로 360° 회전 · 의자·바텐더·다트판·사다리·VERS 문을 탭해 보세요</div>
   </div>
 </div>
 
@@ -232,6 +265,27 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
   <div class="msgs" id="osMsgs"></div>
   <form id="osForm"><input id="osInput" maxlength="300" autocomplete="off" placeholder="둘만의 대화…" aria-label="원샷 룸 메시지"><button class="btn-brass" type="submit">보내기</button></form>
 </div>
+
+<section id="kara" hidden aria-label="VERS 노래방 리모컨">
+  <header><b>VERS 노래방</b><span id="karaNow" class="now">지금은 노래하는 사람이 없어요</span><button class="ibtn" id="karaMin" type="button">접기</button></header>
+  <div class="kbody">
+    <div id="karaScreen" class="screen idle"><div id="ytPlayer"></div><div class="idleMsg">노래를 예약하면 여기서 반주 영상이 나와요</div><button id="karaTap" class="btn-brass tap" type="button" hidden>▶ 반주 듣기</button></div>
+    <div id="karaLive" class="live" hidden></div>
+    <div id="karaMsg" class="msg"></div>
+    <div class="krow"><button id="karaMic" class="btn-brass" type="button" hidden>마이크 켜기</button><button id="karaEnd" class="btn-ghost" type="button" hidden>곡 끝내기</button><button id="karaSkip" class="btn-ghost" type="button" hidden>건너뛰기</button><button id="karaSmoke" class="btn-ghost" type="button">스모그</button><button id="karaCheer" class="btn-ghost" type="button">환호</button></div>
+    <div class="qhead">예약 목록</div>
+    <ol id="karaQueue" class="queue"></ol>
+    <details id="karaForm"><summary>노래 예약하기</summary>
+      <div class="kform">
+        <label for="karaTitle">노래 제목</label><input id="karaTitle" maxlength="40" placeholder="예: 가수 - 노래 제목" autocomplete="off">
+        <a id="karaSearch" href="https://www.youtube.com/results?search_query=%EB%85%B8%EB%9E%98%EB%B0%A9" target="_blank" rel="noopener">유튜브에서 노래방 영상 찾기 ↗</a>
+        <label for="karaLink">유튜브 링크</label><input id="karaLink" placeholder="https://youtu.be/... 붙여넣기" autocomplete="off">
+        <button id="karaAdd" class="btn-brass" type="button">예약하기</button>
+        <p class="hint">찾은 영상에서 공유 → 링크 복사 후 붙여 넣으세요. 'TJ노래방', '금영' 같은 반주 영상이 좋아요.</p>
+      </div>
+    </details>
+  </div>
+</section>
 
 <div class="modal-bg" id="modal" hidden><div class="modal" id="modalBox"></div></div>
 <div class="modal-bg" id="ladder" hidden><div class="modal ladder" id="ladderBox"></div></div>
@@ -575,6 +629,7 @@ function animChar(ent, dt, t){
   else if(a==='caress'||a==='undress'){ ax=[0,-1.9+Math.sin(t*3)*.18]; az=[0,-.3]; lean=.06; }
   else if(a==='caressed'){ tilt=.22+Math.sin(t*2)*.05; lean=.04; }
   else if(a==='hand'){ ax=[-.15,-.15]; az=[.2,-.2]; }
+  else if(a==='sing'){ const s=Math.sin(t*2.2); ax=[-1.25,-1.4]; az=[.42,-.42]; sway=s*.3; bob=Math.abs(Math.sin(t*4.4))*.02; tilt=s*.1; }
   else { bob=Math.sin(t*2+(ent.seed||0))*.012; }
   const holding = !!ent.hold;
   if(holding && a==='sit') ax[1] = -1.0;
@@ -719,7 +774,18 @@ const Music = (()=>{
     nextT += half; step++;
   }
 
-  function sched(){ if(!mode||!gain) return; const dest=gain; while(nextT < ctx.currentTime + .6){ if(mode==='jazz') jazzBeat(dest); else darkStep(dest); } }
+  /* ---- VERS house groove between songs ---- */
+  const cb=60/118/2, CL=[[57,60,64],[53,57,60],[55,59,62],[52,55,59]];
+  function clubStep(dest){
+    const s8=step%8, bar=Math.floor(step/8), ch=CL[bar%4], t=nextT;
+    if(s8%2===0){ const o=ctx.createOscillator(); o.type='sine'; o.frequency.setValueAtTime(140,t); o.frequency.exponentialRampToValueAtTime(42,t+.12); const g=ctx.createGain(); g.gain.setValueAtTime(.45,t); g.gain.exponentialRampToValueAtTime(.0001,t+.3); o.connect(g); g.connect(dest); o.start(t); o.stop(t+.32); }
+    if(s8%2===1) hit(t,{freq:8000,len:.07,vol:.045,dest});
+    if(s8===2||s8===6) hit(t,{type:'bandpass',freq:1500,q:.8,len:.16,vol:.08,dest});
+    if(s8%2===1) tone(ch[0]-24,t,cb*.9,{type:'sawtooth',vol:.06,attack:.005,dest,filter:420});
+    if(s8===0||s8===3||s8===6) for(const n of ch) tone(n,t,cb*.8,{type:'square',vol:.011,attack:.004,dest,filter:1800});
+    nextT+=cb; step++;
+  }
+  function sched(){ if(!mode||!gain) return; const dest=gain; while(nextT < ctx.currentTime + .6){ if(mode==='jazz') jazzBeat(dest); else if(mode==='club') clubStep(dest); else darkStep(dest); } }
   function fadeOut(g){ if(!g) return; const n=ctx.currentTime; g.gain.cancelScheduledValues(n); g.gain.setValueAtTime(g.gain.value,n); g.gain.linearRampToValueAtTime(0,n+1.2); setTimeout(()=>{ try{ g.disconnect(); }catch(e){} },1500); }
   return {
     unlock(){ ensure(); },
@@ -728,7 +794,7 @@ const Music = (()=>{
       if(gain) fadeOut(gain);
       mode=m; step=0; nextT=ctx.currentTime+.15;
       gain=ctx.createGain(); gain.gain.value=0; gain.connect(out);
-      const lvl = m==='jazz' ? .55 : .9; gain.userLevel=lvl;
+      const lvl = m==='jazz' ? .55 : (m==='club' ? .45 : .9); gain.userLevel=lvl;
       gain.gain.linearRampToValueAtTime(muted?0:lvl, ctx.currentTime+2.2);
       clearInterval(timer); timer=setInterval(sched,120); sched();
     },
@@ -737,7 +803,7 @@ const Music = (()=>{
     get muted(){ return muted; }
   };
 })();
-document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Music.stop(); else if(me && !$('#world').hidden) Music.play(me.dk?'dark':'jazz'); });
+document.addEventListener('visibilitychange', ()=>{ if(document.hidden) Music.stop(); else bgm(); });
 
 /* ================= World ================= */
 let renderer, scene, camera, raycaster = new THREE.Raycaster(), clock = new THREE.Clock();
@@ -759,9 +825,15 @@ let lights = {};
 
 function addObs(x1,z1,x2,z2,list=OBS){ list.push({x1,z1,x2,z2}); }
 function seatY(i){ return i>=0 && SEATS[i] ? SEATS[i].y : null; }
-function groundY(x,z){ return Math.hypot(x-STAGE.x,z-STAGE.z)<STAGE.r ? .22 : 0; }
-function blocked(x,z,inDark){
-  if(inDark){
+function groundY(x,z){ if(x>10.4) return (x>11.2 && x<17.8 && z>-3.3 && z<-0.8) ? .3 : 0; return Math.hypot(x-STAGE.x,z-STAGE.z)<STAGE.r ? .22 : 0; }
+function blocked(x,z,rm){
+  if(rm===true) rm='dark'; if(!rm) rm='main';
+  if(rm==='vers'){
+    if(x<VERS.x1||x>VERS.x2||z<VERS.z1||z>VERS.z2) return true;
+    for(const b of VOBS) if(x>b.x1-R&&x<b.x2+R&&z>b.z1-R&&z<b.z2+R) return true;
+    return false;
+  }
+  if(rm==='dark'){
     if(x<DARK.x1||x>DARK.x2||z<DARK.z1||z>DARK.z2) return true;
     for(const b of DOBS) if(x>b.x1-R&&x<b.x2+R&&z>b.z1-R&&z<b.z2+R) return true;
     return false;
@@ -770,8 +842,9 @@ function blocked(x,z,inDark){
   for(const b of OBS) if(x>b.x1-R&&x<b.x2+R&&z>b.z1-R&&z<b.z2+R) return true;
   return false;
 }
-function zoneName(x,z,inDark){
-  if(inDark) return '다크룸';
+function zoneName(x,z,rm){
+  if(rm==='dark' || rm===true) return '다크룸';
+  if(rm==='vers'){ if(inVersStage(x,z)) return 'VERS 무대'; if(x>17.4) return 'VERS 바'; return 'VERS'; }
   if(z<-5.3 && x>3.5) return '원샷 부스';
   if(z<-3.9 && x<1.8) return '바 카운터';
   if(Math.hypot(x-STAGE.x,z-STAGE.z)<2.4) return '스테이지';
@@ -1115,6 +1188,7 @@ function buildWorld(){
   buildDarkRoom(wallM, brassM, mat('#5a1f33',.95), mat('#4a1a2b',.95));
   buildDarts(brassM, wood);
   buildVers(brassM);
+  buildVersRoom();
 
   const bdefs = [
     {nick:'바텐더 SM', home:-5.8, look:{body:'muscle',skin:'#cf9a6e',hair:'buzz',hairColor:'#1d1715',beard:'full',outfit:'suit',top:'#1f1f24',bottom:'#24242b',acc:['bowtie']}},
@@ -1173,7 +1247,7 @@ function buildVers(brassM){
   const sg = new THREE.Mesh(new THREE.PlaneGeometry(1.5,.5), new THREE.MeshBasicMaterial({map:neon('VERS','#6aa0ff',1024,340,"700 220px 'IBM Plex Sans KR', sans-serif"),transparent:true,depthWrite:false}));
   sg.rotation.y=-Math.PI/2; sg.position.set(9.86,2.75,5.5); scene.add(sg);
   const vl = new THREE.PointLight(0x6aa0ff,.6,3.5,1.8); vl.position.set(9.2,2.2,5.5); scene.add(vl);
-  signs.push(makeSign('VERS', 9.5, 2.45, 5.5, '', 'versSign'));
+  signs.push(makeSign('VERS 가라오케', 9.5, 2.45, 5.5, '', 'versSign'));
 }
 function buildDarts(brassM, wood){
   const tex = canvasTex(1024,1024,(g,S)=>drawBoard(g,S));
@@ -1257,6 +1331,7 @@ const EMOTES = [['wave','손 흔들기','님이 손을 흔들었어요'],['cheer
 function renderEmotes(){
   const box=$('#emotes'); box.textContent='';
   const add=(label,fn,ctx)=>{ const b=document.createElement('button'); b.type='button'; b.textContent=label; if(ctx) b.className='ctx'; b.addEventListener('click',fn); box.appendChild(b); };
+  if(me && me.vr){ add('VERS 나가기',()=>Vers.leave(), true); if($('#kara').classList.contains('min')) add('리모컨 펼치기',()=>$('#karaMin').click(), true); }
   if(me && me.dk){ add('다크룸 나가기',()=>Dark.leave(), true); add('스킨십 ♥',()=>openDarkCard(), true); add(me.topless?'상의 입기':'상의 벗기',()=>setTopless(!me.topless), true); }
   for(const [k,label] of EMOTES){ if(k==='sit' && me && me.seat>=0) continue; if(me && me.dk && (k==='bow'||k==='cheers')) continue; add(label,()=>doEmote(k)); }
   if(me && me.seat>=0) add('일어서기',()=>{ standUp(); renderEmotes(); }, true);
@@ -1287,7 +1362,7 @@ function standUp(){
 }
 function sitNearest(){
   let best=-1, bd=3.4;
-  SEATS.forEach((s,i)=>{ if(!!s.dark!==!!me.dk || seatTaken(i)) return; const d=Math.hypot(s.x-me.x,s.z-me.z); if(d<bd){ bd=d; best=i; } });
+  SEATS.forEach((s,i)=>{ if(seatRoom(s)!==roomOf(me) || seatTaken(i)) return; const d=Math.hypot(s.x-me.x,s.z-me.z); if(d<bd){ bd=d; best=i; } });
   if(best<0){ setAnim(me,'sit',Infinity); me.floorSit=true; pushPresence(true); renderEmotes(); toast('근처에 빈 의자가 없어서 바닥에 앉았어요'); return; }
   walkTo(SEATS[best].ax, SEATS[best].az, ()=>sitAt(best));
 }
@@ -1323,6 +1398,12 @@ function drinkGrid(onPick){
   return grid;
 }
 function openCard(ent){
+  if(ent===versBt){
+    const card = cardShell(ent.nick, '주문하면 바로 손에 잔을 쥐여 드려요. 노래하면서 마시세요.', 'bar');
+    card.appendChild(drinkGrid(k=>versOrder(k)));
+    const row=document.createElement('div'); row.className='row'; const lb=document.createElement('button'); lb.className='btn-ghost'; lb.type='button'; lb.textContent='술값 사다리 타기'; lb.onclick=()=>{ closeCard(); Ladder.open(); }; row.appendChild(lb); card.appendChild(row);
+    return;
+  }
   if(ent.npc){
     const card = cardShell(ent.nick, me.cd ? '카운터에 잔이 이미 있어요. 새로 시키면 바꿔 드려요.' : '주문하면 카운터 위, 당신 앞자리에 잔을 놓아 드려요.', 'bar');
     card.appendChild(drinkGrid(k=>orderDrink(k, ent)));
@@ -1347,10 +1428,10 @@ $('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') hideModal()
 function openVers(){
   showModal(box=>{
     const h=document.createElement('h3'); h.textContent='VERS';
-    const p=document.createElement('p'); p.textContent='이어지는 방이에요. 문을 열어 볼까요?';
+    const p=document.createElement('p'); p.textContent='노래하고 한잔하는 가라오케로 이어지는 문이에요. 열고 들어갈까요?';
     const btn=document.createElement('button'); btn.className='btn-open'; btn.type='button'; btn.textContent='TRUE OPEN';
     const close=document.createElement('button'); close.className='btn-ghost'; close.type='button'; close.textContent='닫기'; close.onclick=hideModal;
-    btn.onclick=()=>{ p.textContent='준비 중이에요. 곧 열릴 예정이니 조금만 기다려 주세요.'; btn.disabled=true; btn.textContent='준비 중'; };
+    btn.onclick=()=>{ hideModal(); Vers.enter(); };
     const row=document.createElement('div'); row.className='row'; row.append(close);
     box.append(h,p,btn,row);
   }, 'vers');
@@ -1360,7 +1441,7 @@ function openVers(){
 function nickOf(peer){ if(room && peer===room.uid) return me.nick; const e=ents.get(peer); return e? e.nick : '누군가'; }
 let lastSent=0, lastPresKey='';
 function presenceObj(){
-  return {nick:me.nick, look:me.look, x:+me.x.toFixed(2), z:+me.z.toFixed(2), ry:+me.ry.toFixed(2), anim:me.anim, h:me.hold||'', s:me.seat, cd:me.cd||null, dk:!!me.dk, tl:!!me.topless};
+  return {nick:me.nick, look:me.look, x:+me.x.toFixed(2), z:+me.z.toFixed(2), ry:+me.ry.toFixed(2), anim:me.anim, h:me.hold||'', s:me.seat, cd:me.cd||null, dk:!!me.dk, vr:!!me.vr, tl:!!me.topless};
 }
 function pushPresence(force){
   if(!room || !me) return; const now=performance.now();
@@ -1368,7 +1449,7 @@ function pushPresence(force){
   const p = presenceObj(); const key = JSON.stringify(p); if(key===lastPresKey) return; lastPresKey=key; lastSent=now;
   room.presence(p).catch(()=>{});
 }
-function applyVisibility(e){ const vis = !!e.dk === !!(me && me.dk); e.root.visible = vis; e.hidden = !vis; if(e.cdMesh) e.cdMesh.visible = true; }
+function applyVisibility(e){ const vis = roomOf(e) === roomOf(me); e.root.visible = vis; e.hidden = !vis; if(e.cdMesh) e.cdMesh.visible = true; }
 function upsertPeer(p){
   if(p.sameTab || p.kind!=='viewer') return;
   const pr = p.presence||{}; const nick = cleanNick(pr.nick);
@@ -1376,11 +1457,11 @@ function upsertPeer(p){
   let e = ents.get(p.peer);
   if(!e){ e = makeEntity({nick, look:pr.look, peer:p.peer}); e.x=e.tx=+pr.x||0; e.z=e.tz=+pr.z||0; ents.set(p.peer,e); if(!pr.dk) toast(`${nick}님이 들어왔어요`); }
   else { rebuildLook(e, pr.look, !!pr.tl && !!pr.dk); if(e.nick!==nick){ e.nick=nick; e.nameEl.textContent=nick; } }
-  const inDark = !!pr.dk;
-  if(inDark!==e.dk && !e.first){ /* teleport across rooms */ e.x=+pr.x||0; e.z=+pr.z||0; }
-  e.dk = inDark; e.first=false; e.topless = !!pr.tl && inDark;
-  e.tx=clamp(Number(pr.x)||0,-17,11); e.tz=clamp(Number(pr.z)||0,-9,9); e.tr=Number(pr.ry)||0;
-  const okAnim = EMOTES.some(x=>x[0]===pr.anim) || ['walk','throw','sit','hug','backhug','kiss','caress','caressed','hand','undress'].includes(pr.anim);
+  const inDark = !!pr.dk, newRoom = inDark ? 'dark' : (pr.vr ? 'vers' : 'main');
+  if(newRoom!==roomOf(e) && !e.first){ /* teleport across rooms */ e.x=+pr.x||0; e.z=+pr.z||0; }
+  e.dk = inDark; e.vr = !!pr.vr && !inDark; e.first=false; e.topless = !!pr.tl && inDark;
+  e.tx=clamp(Number(pr.x)||0,-17,22); e.tz=clamp(Number(pr.z)||0,-9,9); e.tr=Number(pr.ry)||0;
+  const okAnim = EMOTES.some(x=>x[0]===pr.anim) || ['walk','throw','sit','sing','hug','backhug','kiss','caress','caressed','hand','undress'].includes(pr.anim);
   e.anim = okAnim? pr.anim : 'idle';
   e.hold = DRINKS.some(d=>d[0]===pr.h) ? pr.h : null;
   const s = Number.isInteger(pr.s) ? pr.s : -1; e.seat = (s>=0 && s<SEATS.length) ? s : -1;
@@ -1394,7 +1475,7 @@ function updateCount(){
   $('#connDot').classList.toggle('on', connected);
 }
 async function connectRoom(){
-  try{ room = await window.makeFirebaseRoom(); }catch(e){ room=null; updateCount(); toast(e && e.message==='no-config' ? 'Firebase 설정이 아직 없어서 혼자 둘러보는 모드예요' : '서버에 연결하지 못했어요. 혼자 둘러보는 모드예요'); console.error(e); Darts.attach(); return; }
+  try{ room = await window.makeFirebaseRoom(); }catch(e){ room=null; updateCount(); toast(e && e.message==='no-config' ? 'Firebase 설정이 아직 없어서 혼자 둘러보는 모드예요' : '서버에 연결하지 못했어요. 혼자 둘러보는 모드예요'); console.error(e); Darts.attach(); Karaoke.attach(); return; }
   myPeer = room.uid;
   const fail = ()=>{ connected=false; updateCount(); };
   room.onConnection(c=>{ connected=c; updateCount(); if(c){ lastPresKey=''; pushPresence(true); } }, fail);
@@ -1427,8 +1508,10 @@ async function connectRoom(){
   room.on('accept', m=>{ const d=m.data||{}; if(d.to!==myPeer || !pendingInvite || d.code!==pendingInvite.code) return; const p=pendingInvite; pendingInvite=null; hideModal(); enterOneShot(p.code, m.peer, 0); });
   room.on('decline', m=>{ const d=m.data||{}; if(d.to!==myPeer || !pendingInvite || d.code!==pendingInvite.code) return; pendingInvite=null; hideModal(); toast(`${nickOf(m.peer)}님이 지금은 어렵대요`); });
   room.on('ladder', m=>{ if(me.dk && !m.sameTab) return; Ladder.run(m.data||{}, m.sameTab? me.nick : nickOf(m.peer)); });
+  room.on('vfx', m=>{ const d=m.data||{}; if(!['smoke','cheer'].includes(d.k)) return; const ent = m.sameTab? me : ents.get(m.peer); if(!m.sameTab && !(ent && ent.vr)) return; onVfx(d, ent, m.sameTab? me.nick : nickOf(m.peer)); });
   Dark.watch();
   Darts.attach();
+  Karaoke.attach();
 }
 function invite(ent){
   if(!room||!connected||os) return;
@@ -1440,7 +1523,7 @@ function invite(ent){
 }
 function addPm(kind, text){ const d=document.createElement('div'); d.className='pm '+kind; d.textContent=text; const box=$('#osMsgs'); box.appendChild(d); box.scrollTop=box.scrollHeight; }
 async function enterOneShot(code, partner, seat){
-  if(os) return;
+  if(os) return; if(me.vr) Vers.leave();
   let nr; try{ nr = await room.join(code); }catch(e){ toast('원샷 룸을 열지 못했어요. 잠시 후 다시 시도해 주세요.'); return; }
   const partnerNick = nickOf(partner);
   os = {nr, code, partner, partnerNick, unsubs:[], warned:false};
@@ -1499,7 +1582,7 @@ const Dark = {
       me.dk=true; if(me.seat>=0){ me.seat=-1; } me.anim='idle';
       me.x=DARK.x2-.6; me.z=(DARK.doorZ1+DARK.doorZ2)/2; me.ry=-Math.PI/2; me.target=null; camYaw=0;
       this.lastPartner=this.partnerUid(); this.auto={};
-      setAmbience(true); Music.play('dark');
+      setAmbience('dark'); Music.play('dark');
       document.body.classList.add('in-dark'); $('#chatForm').classList.add('dark'); $('#chatInput').placeholder='다크룸 대화 (둘만 보여요)…';
       for(const e of ents.values()) applyVisibility(e);
       pushPresence(true); renderEmotes(); this.render();
@@ -1517,7 +1600,7 @@ const Dark = {
     this.slotKey=null; this.sess=null;
     me.dk=false; if(me.seat>=0) me.seat=-1; me.anim='idle';
     me.x=-9.0; me.z=(DARK.doorZ1+DARK.doorZ2)/2; me.ry=Math.PI/2; me.target=null; this.cool=performance.now()+1500;
-    setAmbience(false); Music.play('jazz');
+    setAmbience('main'); Music.play('jazz');
     document.body.classList.remove('in-dark'); $('#chatForm').classList.remove('dark'); $('#chatInput').placeholder='라운지에 한마디…';
     for(const e of ents.values()) applyVisibility(e);
     pushPresence(true); renderEmotes(); this.render();
@@ -1527,7 +1610,10 @@ const Dark = {
     else { say(me,text,true); addLog(me.nick+' (다크룸)', text, true); }
   }
 };
-function setAmbience(dark){
+function setAmbience(mode){
+  const dark = mode===true || mode==='dark';
+  document.body.classList.toggle('in-vers', mode==='vers');
+  if(mode==='vers'){ scene.fog.color.set('#07061a'); scene.fog.near=14; scene.fog.far=30; scene.background.set('#07061a'); lights.hemi.intensity=.3; lights.dir.intensity=.12; lights.dark.intensity=1.3; if(lights.darkFill) lights.darkFill.intensity=0; camDist=9; return; }
   if(dark){ scene.fog.color.set('#120609'); scene.fog.near=6; scene.fog.far=17; scene.background.set('#120609'); lights.hemi.intensity=.32; lights.dir.intensity=.14; lights.dark.intensity=2.6; lights.dark.distance=8; if(lights.darkFill) lights.darkFill.intensity=.9; camDist=7; }
   else { scene.fog.color.set('#111013'); scene.fog.near=16; scene.fog.far=34; scene.background.set('#111013'); lights.hemi.intensity=.5; lights.dir.intensity=.3; lights.dark.intensity=1.3; lights.dark.distance=5.5; if(lights.darkFill) lights.darkFill.intensity=0; camDist=9.5; }
 }
@@ -1718,6 +1804,464 @@ const Ladder = {
   }
 };
 
+/* ================= VERS karaoke room ================= */
+const VERS = {x1:10.8, x2:21.2, z1:-2.95, z2:7.7, doorZ1:4.95, doorZ2:6.05,
+  stage:{x1:11.2, x2:17.8, z1:-3.3, z2:-0.8, h:.3}, mic:{x:14.5, z:-1.45}};
+const VOBS = [];
+let versBt = null, versFx = null;
+function roomOf(e){ return !e ? 'main' : (e.dk ? 'dark' : (e.vr ? 'vers' : 'main')); }
+function seatRoom(s){ return s.dark ? 'dark' : (s.room || 'main'); }
+function inVersStage(x,z){ return x>VERS.stage.x1 && x<VERS.stage.x2 && z>VERS.stage.z1 && z<VERS.stage.z2; }
+
+function blackMarbleM(){
+  return new THREE.MeshStandardMaterial({roughness:.18, metalness:.1, map:canvasTex(512,512,(g,w,h)=>{
+    g.fillStyle='#161618'; g.fillRect(0,0,w,h);
+    for(let k=0;k<45;k++){ g.strokeStyle=`rgba(235,235,240,${.08+Math.random()*.35})`; g.lineWidth=.5+Math.random()*1.6; g.beginPath(); let x=Math.random()*w, y=Math.random()*h; g.moveTo(x,y); for(let s=0;s<7;s++){ x+=(Math.random()-.5)*60; y+=(Math.random()-.5)*60; g.lineTo(x,y); } g.stroke(); }
+  })});
+}
+function shellChair(x,z,ry){
+  const g=new THREE.Group(); g.position.set(x,0,z); g.rotation.y=ry;
+  const fab=mat('#8d8c92',1), metal=mat('#1a1a1c',.35,.7);
+  for(const [lx,lz] of [[-.18,-.16],[.18,-.16],[-.18,.16],[.18,.16]]){ const leg=M(G.cyl(.012,.012,.46,6),metal,lx,.23,lz); leg.rotation.x=lz*.25; leg.rotation.z=-lx*.25; g.add(leg); }
+  const seat=M(G.cyl(.26,.24,.07,24),fab,0,.47,0); g.add(seat);
+  const back=new THREE.Mesh(new THREE.CylinderGeometry(.28,.25,.3,24,1,true,Math.PI*.42,Math.PI*1.16), new THREE.MeshStandardMaterial({color:0x86858b,roughness:1,side:THREE.DoubleSide}));
+  back.position.set(0,.66,-.02); g.add(back);
+  scene.add(g);
+}
+function makeVersScreen(){
+  const c=document.createElement('canvas'); c.width=1024; c.height=576; const g=c.getContext('2d');
+  const tex=new THREE.CanvasTexture(c); let last=-1;
+  function draw(t, info){
+    if(t-last<1/20) return; last=t;
+    const gr=g.createLinearGradient(0,0,1024,576); gr.addColorStop(0,'#0d0a5c'); gr.addColorStop(.5,'#2a1bb8'); gr.addColorStop(1,'#120a6e'); g.fillStyle=gr; g.fillRect(0,0,1024,576);
+    for(let k=0;k<5;k++){ const x=512+Math.sin(t*.3+k*1.7)*420, y=288+Math.cos(t*.23+k*2.1)*200; const rg=g.createRadialGradient(x,y,0,x,y,260); rg.addColorStop(0,`hsla(${250+k*18},90%,62%,.32)`); rg.addColorStop(1,'hsla(250,90%,50%,0)'); g.fillStyle=rg; g.fillRect(0,0,1024,576); }
+    g.globalAlpha=.1; g.strokeStyle='#d8d2ff'; g.lineWidth=2;
+    for(let k=0;k<15;k++){ g.beginPath(); const y=k*40+(t*18%40); g.moveTo(0,y); for(let x=0;x<=1024;x+=64) g.lineTo(x, y+Math.sin(x*.012+t*1.3+k)*9); g.stroke(); }
+    g.globalAlpha=1;
+    const p=.5+.5*Math.sin(t*2.2);
+    g.save(); g.shadowColor='#ff4fd8'; g.shadowBlur=26; g.strokeStyle=`rgba(255,120,225,${.7+p*.3})`; g.lineWidth=6;
+    for(const s of [236,200,164]) g.strokeRect(596-s/2,252-s/2,s,s);
+    g.beginPath(); g.moveTo(520,380); g.lineTo(672,380); g.lineTo(596,470); g.closePath(); g.stroke(); g.restore();
+    g.save(); g.shadowColor='#ffffff'; g.shadowBlur=34; g.fillStyle='#f6f4ff'; g.font="800 236px 'IBM Plex Sans KR', sans-serif"; g.textAlign='center'; g.textBaseline='middle'; g.fillText('VERS',512,262); g.restore();
+    g.fillStyle='rgba(5,4,24,.62)'; g.fillRect(0,502,1024,74);
+    g.fillStyle='#f1d08a'; g.font="600 32px 'IBM Plex Sans KR', sans-serif"; g.textBaseline='middle'; g.textAlign='left';
+    const w=g.measureText(info).width+140; g.fillText(info, 1024-((t*95)%(w+1024)), 540);
+    tex.needsUpdate=true;
+  }
+  return {tex, draw};
+}
+const Smoke = {
+  parts:[], level:.2, burst:0, acc:0,
+  init(){
+    const tex=canvasTex(128,128,(g,w,h)=>{ const gr=g.createRadialGradient(64,64,0,64,64,64); gr.addColorStop(0,'rgba(255,255,255,.6)'); gr.addColorStop(.5,'rgba(255,255,255,.2)'); gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(0,0,w,h); });
+    for(let i=0;i<80;i++){ const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,color:0xc4bcff,transparent:true,opacity:0,depthWrite:false})); s.visible=false; s.userData={life:0,max:1}; scene.add(s); this.parts.push(s); }
+  },
+  spawn(){
+    const p=this.parts.find(s=>!s.visible); if(!p) return;
+    const S=VERS.stage; p.position.set(S.x1+.4+Math.random()*(S.x2-S.x1-.8), .4, S.z1+.4+Math.random()*1.8);
+    p.userData={life:0, max:6+Math.random()*4, vx:(Math.random()-.5)*.18, vy:.05+Math.random()*.08, vz:.12+Math.random()*.22, s0:.9+Math.random()*.7};
+    p.scale.setScalar(p.userData.s0); p.visible=true;
+  },
+  update(dt, on){
+    if(!on){ for(const p of this.parts) p.visible=false; return; }
+    this.acc += (this.level*3 + (this.burst>0 ? 20 : 0))*dt; this.burst=Math.max(0,this.burst-dt);
+    while(this.acc>1){ this.acc--; this.spawn(); }
+    for(const p of this.parts){ if(!p.visible) continue; const u=p.userData; u.life+=dt; if(u.life>u.max){ p.visible=false; continue; }
+      p.position.x+=u.vx*dt; p.position.y+=u.vy*dt; p.position.z+=u.vz*dt; const k=u.life/u.max; p.scale.setScalar(u.s0*(1+k*2.4)); p.material.opacity=Math.sin(Math.PI*k)*.32; }
+  }
+};
+
+function buildVersRoom(){
+  const W=mat('#121116',.85), dark=mat('#0c0b10',.6), brass=mat('#c9a052',.28,.9);
+  // floor: large light-grey tiles
+  const ft=canvasTex(512,512,(g)=>{ for(let i=0;i<2;i++) for(let j=0;j<2;j++){ const v=92+((i+j)%2)*6; g.fillStyle=`rgb(${v},${v},${v+6})`; g.fillRect(i*256,j*256,256,256); for(let k=0;k<60;k++){ g.fillStyle=`rgba(255,255,255,${Math.random()*.04})`; g.fillRect(i*256+Math.random()*256,j*256+Math.random()*256,3,2); } } g.strokeStyle='rgba(30,30,40,.7)'; g.lineWidth=3; for(let i=0;i<=2;i++){ g.beginPath(); g.moveTo(i*256,0); g.lineTo(i*256,512); g.stroke(); g.beginPath(); g.moveTo(0,i*256); g.lineTo(512,i*256); g.stroke(); } });
+  ft.wrapS=ft.wrapT=THREE.RepeatWrapping; ft.repeat.set(6,6);
+  const fl=M(new THREE.PlaneGeometry(11.6,11.5), new THREE.MeshStandardMaterial({map:ft,roughness:.3,metalness:.05}), 16.0,.001,2.3); fl.rotation.x=-Math.PI/2; scene.add(fl); floors.push(fl);
+  // walls
+  scene.add(M(new THREE.BoxGeometry(11.9,4.6,.3), W, 16.0,2.3,-3.45));
+  scene.add(M(new THREE.BoxGeometry(.3,4.6,11.8), W, 21.65,2.3,2.3));
+  scene.add(M(new THREE.BoxGeometry(11.9,4.6,.3), W, 16.0,2.3,8.05));
+  scene.add(M(new THREE.BoxGeometry(.04,4.6,11.4), mat('#1a1820',.8), 10.22,2.3,2.3));
+  // inside of the entrance door
+  const din=M(new THREE.BoxGeometry(.08,2.2,1.1), mat('#1d2a44',.5,.2), 10.28,1.1,5.5); din.userData.door='versOut'; scene.add(din);
+  for(const z of [4.92,6.08]) scene.add(M(new THREE.BoxGeometry(.1,2.35,.08), brass, 10.3,1.17,z));
+  scene.add(M(new THREE.BoxGeometry(.1,.08,1.24), brass, 10.3,2.3,5.5));
+  const ex=canvasTex(256,96,(g,w,h)=>{ g.fillStyle='#0b3d22'; g.fillRect(0,0,w,h); g.fillStyle='#7dffb0'; g.font="700 56px 'IBM Plex Sans KR', sans-serif"; g.textAlign='center'; g.textBaseline='middle'; g.fillText('EXIT',w/2,h/2+3); });
+  const e1=M(new THREE.PlaneGeometry(.5,.18), new THREE.MeshBasicMaterial({map:ex}), 10.26,2.62,5.5); e1.rotation.y=Math.PI/2; scene.add(e1);
+  const e2=M(new THREE.PlaneGeometry(.5,.18), new THREE.MeshBasicMaterial({map:ex}), 18.6,3.75,-3.29); scene.add(e2);
+  // left-wall neon reflection logo
+  const ln=M(new THREE.PlaneGeometry(2.6,.8), new THREE.MeshBasicMaterial({map:neon('VERS','#a99bff',1024,320,"800 210px 'IBM Plex Sans KR', sans-serif"),transparent:true,depthWrite:false}), 10.26,2.7,.6); ln.rotation.y=Math.PI/2; scene.add(ln);
+
+  // stage with chamfered front corners and a warm LED underglow
+  const S=VERS.stage, cx=(S.x1+S.x2)/2, cz=(S.z1+S.z2)/2, hw=(S.x2-S.x1)/2, hd=(S.z2-S.z1)/2;
+  const sh=new THREE.Shape(); sh.moveTo(-hw,hd); sh.lineTo(hw,hd); sh.lineTo(hw,-hd+.6); sh.lineTo(hw-.6,-hd); sh.lineTo(-hw+.6,-hd); sh.lineTo(-hw,-hd+.6); sh.closePath();
+  const sg=new THREE.ExtrudeGeometry(sh,{depth:S.h-.04,bevelEnabled:false});
+  const st=new THREE.Mesh(sg, mat('#2c2b33',.35,.25)); st.rotation.x=-Math.PI/2; st.position.set(cx,.04,cz); scene.add(st);
+  const glow=new THREE.Mesh(new THREE.ShapeGeometry(sh), new THREE.MeshBasicMaterial({color:0xffe2b0})); glow.rotation.x=-Math.PI/2; glow.scale.set(1.012,1.03,1); glow.position.set(cx,.03,cz); scene.add(glow);
+  const halo=new THREE.Mesh(new THREE.ShapeGeometry(sh), new THREE.MeshBasicMaterial({color:0xffd9a0,transparent:true,opacity:.18,depthWrite:false,blending:THREE.AdditiveBlending})); halo.rotation.x=-Math.PI/2; halo.scale.set(1.08,1.3,1); halo.position.set(cx,.012,cz); scene.add(halo);
+  // giant VERS LED screen
+  versFx = {screen:makeVersScreen()};
+  scene.add(M(new THREE.BoxGeometry(6.3,3.6,.12), dark, cx,2.05,-3.33));
+  const scr=M(new THREE.PlaneGeometry(6.1,3.43), new THREE.MeshBasicMaterial({map:versFx.screen.tex}), cx,2.05,-3.26); scene.add(scr);
+  // standing mic
+  const mic=new THREE.Group(); mic.position.set(VERS.mic.x,S.h,VERS.mic.z);
+  mic.add(M(G.cyl(.16,.18,.03,20), mat('#111',.3,.8), 0,.015,0));
+  mic.add(M(G.cyl(.012,.012,1.36,8), mat('#c9ccd2',.15,1), 0,.7,0));
+  const head=M(G.sph(.055,14,10), mat('#2a2a2e',.3,.8), 0,1.42,.02); mic.add(head);
+  mic.add(M(G.cyl(.02,.028,.16,10), mat('#1a1a1c',.3,.7), 0,1.32,.01).rotateX(-.25));
+  scene.add(mic);
+  // speakers, console, extinguisher
+  for(const x of [11.55,17.45]){ scene.add(M(new THREE.BoxGeometry(.5,.8,.45), mat('#121216',.6), x,S.h+1.05,-3.0)); scene.add(M(G.cyl(.02,.02,.65,6), mat('#222',.5), x,S.h+.33,-3.0)); scene.add(M(G.cyl(.15,.15,.02,18), mat('#2a2a30',.4), x,S.h+1.05,-2.77).rotateX(Math.PI/2)); }
+  const con=new THREE.Group(); con.position.set(18.35,0,-2.55);
+  con.add(M(new THREE.BoxGeometry(.8,1.0,.6), mat('#1a1a1f',.5,.3), 0,.5,0));
+  con.add(M(new THREE.PlaneGeometry(.6,.22), new THREE.MeshBasicMaterial({color:0x7fb8ff}), 0,.86,.301));
+  for(let i=0;i<6;i++) con.add(M(G.cyl(.018,.018,.02,8), new THREE.MeshBasicMaterial({color:[0xff6f8e,0x7fcf9e,0xf1d08a][i%3]}), -.25+i*.1,.62,.31).rotateX(Math.PI/2));
+  scene.add(con); VOBS.push({x1:17.95,z1:-2.85,x2:18.75,z2:-2.25});
+  scene.add(M(G.cyl(.08,.08,.45,12), mat('#c41e1e',.4,.3), 19.05,.225,-3.15));
+
+  // truss with two pin spots
+  scene.add(M(new THREE.BoxGeometry(7.4,.1,.1), mat('#15151a',.4,.6), cx,4.45,1.0));
+  const mkSpot=(x)=>{ const sp=new THREE.SpotLight(0xfff1dc,0,13,.2,.45,1.1); sp.position.set(x,4.3,1.0); const tg=new THREE.Object3D(); tg.position.set(VERS.mic.x,0,VERS.mic.z); scene.add(tg); sp.target=tg; scene.add(sp);
+    scene.add(M(G.cyl(.11,.14,.3,12), mat('#0f0f12',.4,.5), x,4.28,1.0));
+    const beam=new THREE.Mesh(new THREE.CylinderGeometry(.06,.55,1,24,1,true), new THREE.MeshBasicMaterial({color:0xfff2e0,transparent:true,opacity:.07,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending})); scene.add(beam);
+    const pool=new THREE.Mesh(new THREE.CircleGeometry(.6,28), new THREE.MeshBasicMaterial({color:0xfff2e0,transparent:true,opacity:.2,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; scene.add(pool);
+    return {sp, tg, beam, pool, from:new THREE.Vector3(x,4.3,1.0)}; };
+  versFx.spots=[mkSpot(cx-1.7), mkSpot(cx+1.7)];
+  versFx.screenLight=new THREE.PointLight(0x5a4bff,2.2,10,1.4); versFx.screenLight.position.set(cx,2.2,-2.0); scene.add(versFx.screenLight);
+  const amb=new THREE.PointLight(0x7a56ff,1.0,12,1.3); amb.position.set(15,4,3); scene.add(amb);
+
+  // bar on the right: wood stools, black-stone counter, warm backlit bottle wall
+  const counterZ1=-1.6, counterZ2=5.4, czm=(counterZ1+counterZ2)/2, clen=counterZ2-counterZ1;
+  scene.add(M(new THREE.BoxGeometry(.8,1.05,clen), mat('#1b1a1f',.45,.2), 19.3,.525,czm));
+  for(let z=counterZ1+.1;z<counterZ2;z+=.18) scene.add(M(new THREE.BoxGeometry(.02,.9,.05), mat('#26252b',.5), 18.89,.5,z));
+  scene.add(M(new THREE.BoxGeometry(1.0,.07,clen+.15), blackMarbleM(), 19.3,1.09,czm));
+  scene.add(M(new THREE.BoxGeometry(.025,.025,clen), new THREE.MeshBasicMaterial({color:0xeef2ff}), 18.79,1.035,czm));
+  const under=M(new THREE.PlaneGeometry(.7,clen), new THREE.MeshBasicMaterial({color:0xdfe8ff,transparent:true,opacity:.1,depthWrite:false}), 18.5,.006,czm); under.rotation.x=-Math.PI/2; scene.add(under);
+  scene.add(M(new THREE.BoxGeometry(1.4,.42,clen+1), mat('#16151a',.7), 20.55,.21,czm));
+  scene.add(M(new THREE.BoxGeometry(.3,3.3,8.4), mat('#141316',.6), 21.42,2.35,czm));
+  scene.add(M(new THREE.PlaneGeometry(8.0,2.6), new THREE.MeshBasicMaterial({color:0x6b4520}), 21.26,2.3,czm).rotateY(-Math.PI/2));
+  for(let s=0;s<4;s++){ const y=1.15+s*.6;
+    scene.add(M(new THREE.BoxGeometry(.34,.035,8.0), mat('#2a2826',.4,.3), 21.1,y,czm));
+    scene.add(M(new THREE.BoxGeometry(.02,.012,8.0), new THREE.MeshBasicMaterial({color:0xffe8c4}), 20.93,y-.025,czm));
+    for(let i=0;i<36;i++){ const pal=['#b5651d','#c98a2b','#8a3b12','#d9a441','#6e2a10','#e3c27a','#2f5a3c','#d8d2c4']; const hue=pal[(i*5+s*3)%pal.length]; const h=.3+((i*13+s)%4)*.05;
+      scene.add(M(G.cyl(.055,.062,h,10), new THREE.MeshStandardMaterial({color:hue,emissive:hue,emissiveIntensity:.45,roughness:.15,transparent:true,opacity:.9}), 21.12,y+.02+h/2,counterZ1-.6+i*.22)); } }
+  const barL=new THREE.PointLight(0xffc890,1.2,6,1.5); barL.position.set(20.4,2.7,2.0); scene.add(barL);
+  VOBS.push({x1:18.9,z1:counterZ1,x2:19.7,z2:counterZ2}, {x1:19.7,z1:-3.5,x2:21.8,z2:8.1});
+  for(const z of [-.9,.5,1.9,3.3,4.7]){
+    const sg2=new THREE.Group(); sg2.position.set(18.45,0,z);
+    sg2.add(M(G.cyl(.025,.025,.7,8), mat('#1a1a1c',.3,.7), 0,.35,0)); sg2.add(M(G.cyl(.2,.22,.02,18), mat('#1a1a1c',.3,.7), 0,.01,0));
+    sg2.add(M(G.cyl(.22,.2,.07,20), mat('#8a5a36',.6), 0,.74,0));
+    const bk=new THREE.Mesh(new THREE.CylinderGeometry(.22,.22,.2,20,1,true,Math.PI*1.1,Math.PI*.8), new THREE.MeshStandardMaterial({color:0x8a5a36,roughness:.6,side:THREE.DoubleSide})); bk.position.y=.9; sg2.add(bk);
+    scene.add(sg2);
+    addSeat({x:18.45, z, ry:Math.PI/2, top:.78, y:.66, ax:17.75, az:z, label:'VERS 바', room:'vers'});
+  }
+  // black-marble tables with grey shell chairs
+  const tm=blackMarbleM();
+  for(const [x,z] of [[12.9,1.5],[15.6,1.5],[12.9,4.3],[15.6,4.3]]){
+    scene.add(M(new THREE.BoxGeometry(.9,.05,.9), tm, x,.74,z));
+    scene.add(M(G.cyl(.05,.05,.7,10), mat('#111',.3,.6), x,.37,z)); scene.add(M(new THREE.BoxGeometry(.5,.02,.5), mat('#111',.3,.6), x,.01,z));
+    VOBS.push({x1:x-.45,z1:z-.45,x2:x+.45,z2:z+.45});
+    for(const s of [-1,1]){ const pz=z+s*.66, ry= s<0 ? 0 : Math.PI; shellChair(x,pz,ry);
+      addSeat({x, z:pz, ry, top:.5, y:.4, ax:x+.75, az:pz, label:'VERS 테이블', room:'vers'}); }
+  }
+  // bartender V
+  versBt = makeEntity({nick:'바텐더 V', look:{body:'normal',skin:'#eac09a',hair:'side',hairColor:'#1d1715',beard:'stubble',outfit:'shirt',top:'#1f1f24',bottom:'#24242b',acc:['chain']}, npc:true});
+  versBt.room='vers'; versBt.x=20.45; versBt.z=versBt.tz=2.0; versBt.ry=-Math.PI/2; versBt.baseY=.42; versBt.tag.classList.add('npc'); versBt.nextIdle=performance.now()+5000;
+  Smoke.init();
+  const sgn=makeSign('VERS 무대', cx, 4.05, -3.1, '', null); sgn.room='vers'; signs.push(sgn);
+}
+function updateVersFx(dt, t){
+  const on = !!(me && me.vr);
+  Smoke.update(dt, on);
+  if(!versFx) return;
+  for(const s of versFx.spots){ s.beam.visible=on; s.pool.visible=on; s.sp.intensity = on ? (Karaoke.now ? 3.2 : 1.4) : 0; }
+  if(!on) return;
+  const n=Karaoke.now; let tx=VERS.mic.x+Math.sin(t*.5)*2.4, tz=VERS.mic.z-.2+Math.sin(t*.37)*.4;
+  if(n){ const singer = n.uid===Karaoke.myId() ? me : ents.get(n.uid); if(singer && singer.vr && !singer.hidden){ tx=singer.x; tz=singer.z; } else { tx=VERS.mic.x; tz=VERS.mic.z-.4; } }
+  const hue = n ? 0.09 : (0.72+Math.sin(t*.4)*.12);
+  versFx.spots.forEach((s,i)=>{
+    const ox = n ? 0 : Math.sin(t*.8+i*2)*.5;
+    const y=groundY(tx,tz); s.tg.position.set(tx+ox, y+.9, tz); s.sp.color.setHSL(hue, n? .25 : .8, .75);
+    s.beam.material.color.setHSL(hue, n? .2 : .8, .8);
+    const to=new THREE.Vector3(tx+ox, y, tz), dir=s.from.clone().sub(to), len=dir.length(); dir.normalize();
+    s.beam.position.copy(to).add(s.from).multiplyScalar(.5); s.beam.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), dir); s.beam.scale.set(1,len,1);
+    s.pool.position.set(tx+ox, y+.015, tz); s.pool.material.color.setHSL(hue, n? .2 : .8, .7);
+  });
+  const info = n ? `NOW SINGING  ·  ${n.nick}  —  ${n.title}` : 'VERS KARAOKE  ·  오른쪽 위 리모컨에서 노래를 예약하세요';
+  versFx.screen.draw(t, info);
+  versFx.screenLight.intensity = 2.0 + Math.sin(t*2.2)*.3;
+}
+
+/* ---- entering / leaving VERS ---- */
+function bgm(){ if(!me || $('#world').hidden) return; if(me.dk) Music.play('dark'); else if(me.vr){ if(Karaoke.now) Music.stop(); else Music.play('club'); } else Music.play('jazz'); }
+const Vers = {
+  cool:0,
+  enter(){
+    if(me.vr || me.dk) return;
+    if(os) leaveOneShot();
+    me.seat=-1; me.floorSit=false; me.vr=true;
+    me.x=11.3; me.z=(VERS.doorZ1+VERS.doorZ2)/2; me.ry=Math.PI; me.target=null; me.onArrive=null; me.anim='idle'; me.animUntil=0;
+    camYaw=0; me.camJump=true; this.cool=performance.now()+1500;
+    setAmbience('vers'); for(const e of ents.values()) applyVisibility(e);
+    $('#kara').hidden=false; Karaoke.onEnter(); bgm(); pushPresence(true); renderEmotes();
+    toast('VERS에 들어왔어요. 오른쪽 위 리모컨에서 노래를 예약해 보세요');
+    setTimeout(()=>say(versBt,'VERS에 오신 걸 환영해요! 한 곡 뽑으시죠.'),700);
+  },
+  leave(){
+    if(!me.vr) return;
+    Karaoke.onLeave();
+    me.vr=false; me.seat=-1; me.floorSit=false; me.anim='idle'; me.animUntil=0;
+    me.x=9.15; me.z=(VERS.doorZ1+VERS.doorZ2)/2; me.ry=-Math.PI/2; me.target=null; me.onArrive=null;
+    camYaw=0; me.camJump=true; this.cool=performance.now()+1500;
+    setAmbience('main'); for(const e of ents.values()) applyVisibility(e);
+    $('#kara').hidden=true; bgm(); pushPresence(true); renderEmotes();
+  }
+};
+function versOrder(k){
+  closeCard(); const b=versBt;
+  b.tz=clamp(me.z,-1.2,5.0); b.nextIdle=performance.now()+12000;
+  b.after=()=>{ setAnim(b,'mix',1500); setTimeout(()=>{ me.hold=k; setAnim(me,'cheers',1500); say(b, `${drinkName(k)} 나왔습니다. 신나게 부르세요!`); pushPresence(true); renderEmotes(); },1500); };
+  say(b, `${drinkName(k)} 한 잔이요. 바로 만들어 드릴게요.`);
+}
+function updateVersBartender(dt, t, now){
+  const b=versBt; if(!b) return; const d=b.tz-b.z;
+  if(Math.abs(d)>.04){ b.z+=Math.sign(d)*Math.min(Math.abs(d),2.4*dt); b.ry=lerpAngle(b.ry, d>0?0:Math.PI, Math.min(1,dt*10)); if(b.anim!=='mix') b.anim='walk'; }
+  else { b.ry=lerpAngle(b.ry,-Math.PI/2,Math.min(1,dt*6)); if(b.anim==='walk') b.anim='idle';
+    if(b.after){ const f=b.after; b.after=null; f(); }
+    else if(now>b.nextIdle){ b.nextIdle=now+7000+Math.random()*9000; if(Math.random()<.5) b.tz=clamp(1.9+(Math.random()-.5)*5,-1.2,5.0); else setAnim(b,'mix',1600); } }
+  if(b.animUntil && now>b.animUntil){ b.anim='idle'; b.animUntil=0; }
+  place(b, dt, t);
+}
+
+/* ================= Karaoke: queue, synced YouTube playback, mic ================= */
+function parseYouTube(s){
+  s=String(s||'').trim(); if(/^[\w-]{11}$/.test(s)) return s;
+  const m=s.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/); return m ? m[1] : null;
+}
+const Karaoke = {
+  now:null, queue:[], db:null, attached:false, player:null, playerP:null, ytP:null, loadedId:null, missingSince:0, busy:false,
+  srv(){ return room && room.fb ? room.fb.now() : Date.now(); },
+  myId(){ return room ? room.uid : 'me'; },
+  clean(n){ if(!n || typeof n!=='object' || !/^[\w-]{11}$/.test(n.vid||'')) return null;
+    return {id:String(n.id||''), uid:String(n.uid||''), nick:cleanNick(n.nick)||'누군가', vid:n.vid, title:String(n.title||'').replace(/[\u0000-\u001f]/g,'').slice(0,60)||'노래', startAt:Number(n.startAt)||0, mic:!!n.mic}; },
+  attach(){
+    if(this.attached) return; this.attached=true;
+    if(room && room.fb){ this.db=room.fb.db;
+      this.db.ref('vers/now').on('value', s=>{ this.now=this.clean(s.val()); this.onNow(); });
+      this.db.ref('vers/queue').orderByChild('t').on('value', s=>{ const q=[]; s.forEach(c=>{ const v=c.val(); if(v && /^[\w-]{11}$/.test(v.vid||'')) q.push({key:c.key, uid:String(v.uid||''), nick:cleanNick(v.nick)||'누군가', vid:v.vid, title:String(v.title||'').slice(0,60)||'노래'}); }); this.queue=q; this.render(); });
+    }
+    setInterval(()=>this.tick(), 2000);
+    this.render();
+  },
+  tick(){
+    if(!me || !me.vr) return; const n=this.now;
+    if(!n){ this.missingSince=0; if(this.queue.length) this.advance(); return; }
+    const present = n.uid===this.myId() || (ents.has(n.uid));
+    if(!present){ if(!this.missingSince) this.missingSince=performance.now(); else if(performance.now()-this.missingSince>8000){ this.missingSince=0; this.finish(n.id); } }
+    else this.missingSince=0;
+    if(this.srv()-n.startAt > 15*60*1000) this.finish(n.id);
+    const p=this.player;
+    if(p && p.getPlayerState && this.loadedId===n.id){ try{ const exp=(this.srv()-n.startAt)/1000; if(p.getPlayerState()===1 && exp>1 && Math.abs(p.getCurrentTime()-exp)>2.5) p.seekTo(exp,true); }catch(e){} }
+    this.render();
+  },
+  advance(){
+    if(this.busy) return; const item=this.queue[0]; if(!item) return;
+    if(item.uid!==this.myId() && !ents.has(item.uid)){ this.remove(item.key); return; }
+    this.busy=true;
+    const data={id:item.key, uid:item.uid, nick:item.nick, vid:item.vid, title:item.title, startAt:this.srv()+4000, mic:false};
+    if(!this.db){ this.queue.shift(); this.now=this.clean(data); this.busy=false; this.onNow(); return; }
+    this.db.ref('vers/now').transaction(cur=> cur ? undefined : data)
+      .then(r=>{ if(r.committed) this.db.ref('vers/queue/'+item.key).remove().catch(()=>{}); })
+      .catch(()=>{}).finally(()=>{ this.busy=false; });
+  },
+  finish(id){
+    if(!this.db){ if(this.now && this.now.id===id){ this.now=null; this.onNow(); } return; }
+    this.db.ref('vers/now').transaction(cur=> cur && cur.id===id ? null : undefined).catch(()=>{});
+  },
+  remove(key){ if(!this.db){ this.queue=this.queue.filter(q=>q.key!==key); this.render(); return; } this.db.ref('vers/queue/'+key).remove().catch(()=>{}); },
+  reserve(){
+    const link=$('#karaLink').value, vid=parseYouTube(link);
+    if(!vid){ toast('유튜브 영상 링크를 붙여 넣어 주세요'); $('#karaLink').focus(); return; }
+    if(this.queue.filter(q=>q.uid===this.myId()).length>=2){ toast('예약은 한 사람당 2곡까지 할 수 있어요'); return; }
+    const title=$('#karaTitle').value.replace(/[\u0000-\u001f\u200b-\u200f\u202a-\u202e]/g,'').trim().slice(0,40) || '유튜브 노래';
+    const item={uid:this.myId(), nick:me.nick, vid, title};
+    if(this.db){ this.db.ref('vers/queue').push(Object.assign({t:room.fb.SV}, item)).then(()=>toast(`${title} 예약했어요`)).catch(()=>toast('예약하지 못했어요. 보안 규칙을 새로 붙여 넣었는지 확인해 주세요')); }
+    else { this.queue.push(Object.assign({key:rid(8)}, item)); toast(`${title} 예약했어요`); this.render(); }
+    $('#karaLink').value=''; $('#karaTitle').value=''; $('#karaForm').open=false;
+    setTimeout(()=>this.tick(), 600);
+  },
+  onNow(){
+    const n=this.now, my=this.myId();
+    if(Rtc.stream && (!n || n.uid!==my || n.id!==Rtc.sid)) Rtc.micOff();
+    if(n && n.uid===my && me && me.vr && this.lastSung!==n.id){
+      this.lastSung=n.id; me.seat=-1; me.floorSit=false; me.x=VERS.mic.x; me.z=VERS.mic.z-.42; me.ry=0; me.target=null; me.onArrive=null; me.anim='sing'; me.animUntil=Infinity; pushPresence(true); renderEmotes();
+      toast('내 차례예요! 무대에 올랐어요. 마이크 켜기를 누르면 목소리가 전달돼요');
+    }
+    if(me && me.anim==='sing' && (!n || n.uid!==my)){ me.anim='idle'; me.animUntil=0; pushPresence(true); }
+    if(me && me.vr){ if(n && n.mic && n.uid!==my) Rtc.listen(n); else Rtc.stopListen(); }
+    if(n && n.id!==this.annId){ this.annId=n.id; $('#karaMsg').textContent=''; if(me && me.vr){ toast(`♪ ${n.nick}님 차례 · ${n.title}`); if(versBt) say(versBt, `다음 무대는 ${n.nick}님입니다! 박수!`); Smoke.burst=4; } }
+    Smoke.level = n ? 1 : .2;
+    this.syncPlay(); bgm(); this.render();
+  },
+  onEnter(){ this.render(); this.syncPlay(); const n=this.now; if(n && n.mic && n.uid!==this.myId()) Rtc.listen(n); if(!n && this.queue.length) setTimeout(()=>this.tick(),800); },
+  onLeave(){
+    clearTimeout(this.startTimer); this.loadedId=null;
+    try{ if(this.player && this.player.stopVideo) this.player.stopVideo(); }catch(e){}
+    Rtc.stopListen();
+    if(this.now && this.now.uid===this.myId()) this.finish(this.now.id);
+    Rtc.micOff(); if(me.anim==='sing'){ me.anim='idle'; me.animUntil=0; }
+  },
+  loadYT(){
+    if(this.ytP) return this.ytP;
+    this.ytP=new Promise(res=>{ if(window.YT && YT.Player){ res(); return; }
+      const prev=window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady=()=>{ if(prev) try{prev();}catch(e){} res(); };
+      const s=document.createElement('script'); s.src='https://www.youtube.com/iframe_api'; s.onerror=()=>{ this.ytP=null; res(); }; document.head.appendChild(s);
+      setTimeout(res,12000); });
+    return this.ytP;
+  },
+  ensurePlayer(){
+    if(this.playerP) return this.playerP;
+    this.playerP=this.loadYT().then(()=>new Promise(res=>{
+      if(!window.YT || !YT.Player){ this.playerP=null; res(null); return; }
+      let done=false; const fin=v=>{ if(!done){ done=true; if(!v) this.playerP=null; res(v); } };
+      this.player=new YT.Player('ytPlayer',{width:'100%',height:'100%',playerVars:{playsinline:1,rel:0,modestbranding:1,fs:0},
+        events:{onReady:()=>fin(this.player), onStateChange:e=>this.onState(e), onError:e=>this.onErr(e)}});
+      setTimeout(()=>fin(null),15000);
+    }));
+    return this.playerP;
+  },
+  syncPlay(){
+    if(!me || !me.vr) return;
+    const n=this.now; clearTimeout(this.startTimer);
+    $('#karaScreen').classList.toggle('idle', !n);
+    if(!n){ this.loadedId=null; try{ if(this.player && this.player.stopVideo) this.player.stopVideo(); }catch(e){} return; }
+    this.ensurePlayer().then(p=>{
+      if(!p){ $('#karaMsg').textContent='유튜브 플레이어를 불러오지 못했어요. 새로고침해 주세요'; return; }
+      const cur=this.now; if(!cur || cur.id!==n.id || !me.vr || this.loadedId===n.id) return;
+      this.loadedId=n.id;
+      const wait=n.startAt-this.srv();
+      if(wait>300){ p.cueVideoById({videoId:n.vid, startSeconds:0}); this.startTimer=setTimeout(()=>{ if(this.now && this.now.id===n.id){ p.playVideo(); this.checkAuto(); } }, wait); }
+      else { p.loadVideoById({videoId:n.vid, startSeconds:Math.max(0,-wait/1000)}); this.checkAuto(); }
+    });
+  },
+  checkAuto(){ clearTimeout(this.autoT); this.autoT=setTimeout(()=>{ const p=this.player; if(!p || !p.getPlayerState || !this.now) return; const st=p.getPlayerState(); if(st!==1 && st!==3) $('#karaTap').hidden=false; }, 2600); },
+  tapPlay(){
+    $('#karaTap').hidden=true; const p=this.player;
+    if(p && this.now){ try{ const exp=Math.max(0,(this.srv()-this.now.startAt)/1000); p.seekTo(exp,true); p.playVideo(); }catch(e){} }
+    if(Rtc.audio) Rtc.audio.play().catch(()=>{});
+  },
+  onState(e){
+    if(e.data===1) $('#karaTap').hidden=true;
+    if(e.data===0 && this.now){ const id=this.now.id; if(this.now.uid===this.myId()) this.finish(id); else setTimeout(()=>{ if(this.now && this.now.id===id) this.finish(id); }, 9000); }
+  },
+  onErr(e){
+    const n=this.now; if(!n) return;
+    const msg=(e.data===101||e.data===150) ? '이 영상은 다른 사이트에서 재생이 막혀 있어요' : '이 영상을 재생할 수 없어요';
+    $('#karaMsg').textContent=msg+'. 다른 노래방 영상으로 예약해 주세요';
+    if(n.uid===this.myId()){ toast(msg); setTimeout(()=>this.finish(n.id),2500); }
+  },
+  vfx(k){
+    if(room && connected) room.emit('vfx',{k}).catch(()=>{});
+    else onVfx({k}, me, me.nick);
+  },
+  render(){
+    const box=$('#kara'); if(!box) return;
+    const n=this.now, my=this.myId();
+    $('#karaNow').textContent = n ? `♪ ${n.nick} — ${n.title}` : '지금은 노래하는 사람이 없어요';
+    const mic=$('#karaMic'), end=$('#karaEnd'), skip=$('#karaSkip'), live=$('#karaLive');
+    mic.hidden = !(n && n.uid===my); mic.textContent = Rtc.stream ? '마이크 끄기' : '마이크 켜기';
+    end.hidden = !(n && n.uid===my);
+    skip.hidden = !(n && n.uid!==my && this.missingSince);
+    live.hidden = !(n && n.mic); live.textContent = n && n.uid===my ? '마이크 ON · 내 목소리 전달 중' : (Rtc.connected ? '가수 목소리 연결됨' : '가수 목소리 연결 중…');
+    const ol=$('#karaQueue'); ol.textContent='';
+    if(!this.queue.length){ const li=document.createElement('li'); li.className='empty'; li.textContent='예약된 노래가 없어요'; ol.appendChild(li); }
+    for(const q of this.queue.slice(0,8)){
+      const li=document.createElement('li'); const sp=document.createElement('span'); sp.textContent=`${q.nick} — ${q.title}`; li.appendChild(sp);
+      if(q.uid===my){ const x=document.createElement('button'); x.type='button'; x.className='x'; x.textContent='취소'; x.onclick=()=>this.remove(q.key); li.appendChild(x); }
+      ol.appendChild(li);
+    }
+  }
+};
+function onVfx(d, ent, nick){
+  if(!me || !me.vr) return;
+  if(d.k==='smoke'){ Smoke.burst=6; toast(`${nick}님이 스모그를 뿜었어요`); }
+  else if(d.k==='cheer'){ toast(`${nick}님이 환호해요! 앵콜!`); if(ent) floatAt(ent,'앵콜!'); const n=Karaoke.now; const singer=n ? (n.uid===Karaoke.myId() ? me : ents.get(n.uid)) : null; if(singer && !singer.hidden) setTimeout(()=>floatAt(singer,'♥'),300); }
+}
+
+const Rtc = {
+  ice:[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}],
+  stream:null, sid:null, pcs:new Map(), offRef:null, listenPc:null, listenBase:null, listenKey:null, audio:null, connected:false,
+  async micOn(){
+    const n=Karaoke.now; if(!n || n.uid!==Karaoke.myId()) return;
+    if(!(room && room.fb)){ toast('마이크는 서버에 연결됐을 때만 쓸 수 있어요'); return; }
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.RTCPeerConnection){ toast('이 브라우저는 마이크 전달을 지원하지 않아요. 크롬이나 삼성 인터넷에서 열어 주세요'); return; }
+    try{ this.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}}); }
+    catch(e){ toast('마이크 권한이 필요해요. 주소창의 자물쇠 아이콘에서 마이크를 허용해 주세요'); return; }
+    const db=room.fb.db, myId=room.uid; this.sid=n.id;
+    this.offRef=db.ref('vers/rtc/'+myId);
+    await this.offRef.remove().catch(()=>{});
+    this.offRef.onDisconnect().remove();
+    const h=s=>this.answer(s.key, s.val());
+    this.offRef.on('child_added', h); this.offRef.on('child_changed', h);
+    await db.ref('vers/now').transaction(cur=> cur && cur.id===n.id ? Object.assign({}, cur, {mic:true}) : undefined).catch(()=>{});
+    Karaoke.render(); toast('마이크가 켜졌어요. VERS에 있는 사람들에게 목소리가 전달돼요');
+  },
+  async answer(lid, v){
+    if(!v || !v.offer || v.sid!==this.sid || this.pcs.has(lid) || !this.stream) return;
+    const base=room.fb.db.ref('vers/rtc/'+room.uid+'/'+lid);
+    const pc=new RTCPeerConnection({iceServers:this.ice}); this.pcs.set(lid,pc);
+    this.stream.getTracks().forEach(t=>pc.addTrack(t,this.stream));
+    pc.onicecandidate=e=>{ if(e.candidate) base.child('ac').push(JSON.stringify(e.candidate.toJSON())).catch(()=>{}); };
+    pc.onconnectionstatechange=()=>{ if(['failed','closed'].includes(pc.connectionState)){ try{pc.close();}catch(e){} this.pcs.delete(lid); } };
+    try{
+      await pc.setRemoteDescription(v.offer);
+      const ans=await pc.createAnswer(); await pc.setLocalDescription(ans);
+      await base.child('answer').set({type:ans.type, sdp:ans.sdp});
+      base.child('oc').on('child_added', s=>{ try{ pc.addIceCandidate(JSON.parse(s.val())).catch(()=>{}); }catch(e){} });
+    }catch(e){ console.error(e); }
+  },
+  micOff(){
+    if(this.stream){ this.stream.getTracks().forEach(t=>t.stop()); this.stream=null; }
+    for(const pc of this.pcs.values()){ try{pc.close();}catch(e){} } this.pcs.clear();
+    if(this.offRef){ this.offRef.off(); this.offRef.onDisconnect().cancel(); this.offRef.remove().catch(()=>{}); this.offRef=null; }
+    this.sid=null; Karaoke.render();
+  },
+  async listen(n){
+    const key=n.id+'|'+n.uid; if(this.listenKey===key) return;
+    this.stopListen(); this.listenKey=key;
+    if(!(room && room.fb) || !window.RTCPeerConnection) return;
+    const base=room.fb.db.ref('vers/rtc/'+n.uid+'/'+room.uid);
+    const pc=new RTCPeerConnection({iceServers:this.ice}); this.listenPc=pc; this.listenBase=base;
+    const pending=[]; let haveRemote=false;
+    pc.addTransceiver('audio',{direction:'recvonly'});
+    pc.ontrack=e=>{ if(!this.audio){ this.audio=new Audio(); this.audio.autoplay=true; this.audio.setAttribute('playsinline',''); }
+      this.audio.srcObject=e.streams[0] || new MediaStream([e.track]); this.audio.play().catch(()=>{ $('#karaTap').hidden=false; }); };
+    pc.onconnectionstatechange=()=>{ this.connected = pc.connectionState==='connected'; Karaoke.render(); };
+    pc.onicecandidate=e=>{ if(e.candidate) base.child('oc').push(JSON.stringify(e.candidate.toJSON())).catch(()=>{}); };
+    base.onDisconnect().remove();
+    try{
+      const off=await pc.createOffer(); await pc.setLocalDescription(off);
+      await base.update({offer:{type:off.type, sdp:off.sdp}, sid:n.id});
+    }catch(e){ console.error(e); return; }
+    base.child('answer').on('value', s=>{ const a=s.val(); if(a && !haveRemote && this.listenPc===pc){ haveRemote=true; pc.setRemoteDescription(a).then(()=>{ while(pending.length) pc.addIceCandidate(pending.shift()).catch(()=>{}); }).catch(()=>{}); } });
+    base.child('ac').on('child_added', s=>{ let c; try{ c=JSON.parse(s.val()); }catch(e){ return; } if(haveRemote && pc.remoteDescription) pc.addIceCandidate(c).catch(()=>{}); else pending.push(c); });
+  },
+  stopListen(){
+    if(this.listenPc){ try{this.listenPc.close();}catch(e){} this.listenPc=null; }
+    if(this.listenBase){ this.listenBase.child('answer').off(); this.listenBase.child('ac').off(); this.listenBase.onDisconnect().cancel(); this.listenBase.remove().catch(()=>{}); this.listenBase=null; }
+    this.listenKey=null; this.connected=false; if(this.audio) this.audio.srcObject=null;
+  }
+};
+$('#karaMin').addEventListener('click', ()=>{ const k=$('#kara'); k.classList.toggle('min'); $('#karaMin').textContent = k.classList.contains('min') ? '펼치기' : '접기'; });
+$('#karaTitle').addEventListener('input', ()=>{ const q=($('#karaTitle').value.trim()||'노래')+' 노래방'; $('#karaSearch').href='https://www.youtube.com/results?search_query='+encodeURIComponent(q); });
+$('#karaAdd').addEventListener('click', ()=>Karaoke.reserve());
+$('#karaMic').addEventListener('click', ()=>{ if(Rtc.stream) Rtc.micOff(); else Rtc.micOn(); });
+$('#karaEnd').addEventListener('click', ()=>{ if(Karaoke.now) Karaoke.finish(Karaoke.now.id); });
+$('#karaSkip').addEventListener('click', ()=>{ if(Karaoke.now) Karaoke.finish(Karaoke.now.id); });
+$('#karaTap').addEventListener('click', ()=>Karaoke.tapPlay());
+$('#karaSmoke').addEventListener('click', ()=>Karaoke.vfx('smoke'));
+$('#karaCheer').addEventListener('click', ()=>Karaoke.vfx('cheer'));
+
 /* ================= Darts ================= */
 const Darts = {
   state:null, local:false, lastThrows:0, lastStatus:null, lastTurnKey:'',
@@ -1843,7 +2387,7 @@ const Darts = {
     card.appendChild(row);
   }
 };
-function goToLine(){ if(me.dk) return; if(me.seat>=0) standUp(); const order = Darts.state && Darts.state.order ? Darts.state.order : []; const i=Math.max(0,order.indexOf(Darts.id())); me.x=6.75; me.z=BOARD.z-.5+i*.5; me.ry=Math.PI/2; me.target=null; pushPresence(true); }
+function goToLine(){ if(me.dk||me.vr) return; if(me.seat>=0) standUp(); const order = Darts.state && Darts.state.order ? Darts.state.order : []; const i=Math.max(0,order.indexOf(Darts.id())); me.x=6.75; me.z=BOARD.z-.5+i*.5; me.ry=Math.PI/2; me.target=null; pushPresence(true); }
 
 /* Aim overlay */
 const Aim = {
@@ -1901,19 +2445,21 @@ function tap(cx,cy){
   const ndc = new THREE.Vector2(cx/innerWidth*2-1, -(cy/innerHeight)*2+1);
   raycaster.setFromCamera(ndc, camera);
   const visEnts = [...ents.values()].filter(e=>!e.hidden).map(e=>e.root);
-  const objs = [...bartenders.map(b=>b.root), ...visEnts, ...seatPickers, boardMesh, doorDark, doorVers, ladderBoard]; if(me.cdMesh) objs.push(me.cdMesh);
+  const objs = [...bartenders.map(b=>b.root), versBt.root, ...visEnts, ...seatPickers, boardMesh, doorDark, doorVers, ladderBoard]; if(me.cdMesh) objs.push(me.cdMesh);
+  scene.traverse(o=>{ if(o.userData && o.userData.door==='versOut') objs.push(o); });
   const hits = raycaster.intersectObjects(objs, true);
-  const eh = hits.find(h=>{ const en=h.object.userData.ent; return en && en!==me && !(en.npc && me.dk); });
+  const eh = hits.find(h=>{ const en=h.object.userData.ent; return en && en!==me && !(en.npc && (en.room||'main')!==roomOf(me)); });
   if(eh){ openCard(eh.object.userData.ent); return; }
   for(const h of hits){
     const o=h.object, u=o.userData;
-    if(u.ent && u.ent!==me){ if(u.ent.npc && me.dk) continue; openCard(u.ent); return; }
+    if(u.ent && u.ent!==me){ if(u.ent.npc && (u.ent.room||'main')!==roomOf(me)) continue; openCard(u.ent); return; }
     if(u.myDrink){ closeCard(); pickCounterDrink(); return; }
-    if(u.darts){ if(me.dk) continue; Darts.open(); return; }
-    if(u.ladder){ if(me.dk) continue; closeCard(); Ladder.open(); return; }
-    if(u.door==='vers'){ if(me.dk) continue; walkTo(9.0,5.5, openVers); return; }
+    if(u.darts){ if(me.dk||me.vr) continue; Darts.open(); return; }
+    if(u.ladder){ if(me.dk||me.vr) continue; closeCard(); Ladder.open(); return; }
+    if(u.door==='vers'){ if(me.dk||me.vr) continue; walkTo(9.3,5.5, openVers); return; }
+    if(u.door==='versOut'){ if(!me.vr) continue; closeCard(); walkTo(10.85,5.5); return; }
     if(u.door==='dark'){ if(me.dk){ walkTo(DARK.x2-.2,(DARK.doorZ1+DARK.doorZ2)/2); } else walkTo(-9.6,(DARK.doorZ1+DARK.doorZ2)/2); closeCard(); return; }
-    if(u.seat!==undefined){ const s=SEATS[u.seat]; if(!!s.dark!==!!me.dk) continue; closeCard(); if(seatTaken(u.seat)){ toast('이미 누가 앉아 있어요'); return; } if(me.seat===u.seat) return; walkTo(s.ax, s.az, ()=>sitAt(u.seat)); return; }
+    if(u.seat!==undefined){ const s=SEATS[u.seat]; if(seatRoom(s)!==roomOf(me)) continue; closeCard(); if(seatTaken(u.seat)){ toast('이미 누가 앉아 있어요'); return; } if(me.seat===u.seat) return; walkTo(s.ax, s.az, ()=>sitAt(u.seat)); return; }
   }
   closeCard();
   if(os && me.seat>=0) return;
@@ -1943,6 +2489,8 @@ function step(){
   }
   // door triggers
   const dz0=DARK.doorZ1+.15, dz1=DARK.doorZ2-.15;
+  if(!me.dk && !me.vr && me.x>9.45 && me.z>VERS.doorZ1+.05 && me.z<VERS.doorZ2-.05 && now>Vers.cool && $('#modal').hidden){ me.x=9.1; me.target=null; me.onArrive=null; Vers.cool=now+1500; openVers(); }
+  else if(me.vr && me.x<10.95 && me.z>VERS.doorZ1 && me.z<VERS.doorZ2 && now>Vers.cool) Vers.leave();
   if(!me.dk && me.x < -9.38 && me.z>dz0 && me.z<dz1) Dark.enter();
   else if(me.dk && me.x > DARK.x2-.12 && me.z>dz0 && me.z<dz1 && now>Dark.cool) Dark.leave();
   if(moving){ if(me.anim!=='walk'){ me.anim='walk'; me.animUntil=0; } }
@@ -1968,18 +2516,23 @@ function step(){
   const ahead = me.dk ? .6 : (camera.aspect < .8 ? 2.4 : .9);
   const fx = me.x - Math.sin(camYaw)*ahead, fz = me.z - Math.cos(camYaw)*ahead;
   const camTarget = tmpV.set(fx + Math.sin(camYaw)*camDist, gy + camDist*hf, fz + Math.cos(camYaw)*camDist);
-  if(!me.dk){ camTarget.x=clamp(camTarget.x,-9.6,9.6); camTarget.z=clamp(camTarget.z,-7.6,7.6); }
-  camera.position.lerp(camTarget, Math.min(1,dt*(me.camSnap? 30 : 5))); me.camSnap=false;
+  if(me.vr){ camTarget.x=clamp(camTarget.x,10.5,21.4); camTarget.z=clamp(camTarget.z,-3.1,7.8); }
+  else if(!me.dk){ camTarget.x=clamp(camTarget.x,-9.6,9.6); camTarget.z=clamp(camTarget.z,-7.6,7.6); }
+  if(me.camJump){ camera.position.copy(camTarget); camLook.set(fx, gy+.9, fz); me.camJump=false; }
+  else camera.position.lerp(camTarget, Math.min(1,dt*(me.camSnap? 30 : 5)));
+  me.camSnap=false;
   camLook.lerp(new THREE.Vector3(fx, gy+.9, fz), Math.min(1,dt*6));
   camera.lookAt(camLook);
   if(scene.userData.disco) scene.userData.disco.rotation.y += dt*.8;
-  if(mv && !me.dk) mv.update(t);
+  if(mv && !me.dk && !me.vr) mv.update(t);
+  updateVersBartender(dt, t, now);
+  updateVersFx(dt, t);
   if(lights.dark) lights.dark.intensity = (me.dk?2.6:1.3) + Math.sin(t*1.3)*.25;
   if(marker.visible){ marker.userData.t+=dt; marker.scale.setScalar(1+marker.userData.t*1.5); marker.material.opacity=Math.max(0,.8-marker.userData.t*1.2); if(marker.userData.t>.7) marker.visible=false; }
   renderer.render(scene,camera);
-  for(const e of [me, ...bartenders, ...ents.values()]) placeTag(e, now);
+  for(const e of [me, ...bartenders, versBt, ...ents.values()]) if(e) placeTag(e, now);
   for(const s of signs) placeSign(s);
-  const z = zoneName(me.x,me.z,me.dk); if(z!==step.zone){ step.zone=z; $('#zoneChip').textContent=z; }
+  const z = zoneName(me.x,me.z,roomOf(me)); if(z!==step.zone){ step.zone=z; $('#zoneChip').textContent=z; }
 }
 function place(e, dt, t){
   const sy = e.seat>=0 ? seatY(e.seat) : null;
@@ -1989,21 +2542,21 @@ function place(e, dt, t){
 }
 function placeTag(e, now){
   if(e.bubbleT && now>e.bubbleT){ e.bubble.hidden=true; e.bubbleT=0; }
-  if(e.hidden || (e.npc && me.dk)){ e.tag.style.display='none'; return; }
+  if(e.hidden || (e.npc && (e.room||'main')!==roomOf(me))){ e.tag.style.display='none'; return; }
   const base = (e.seat>=0 ? seatY(e.seat) + 1.55 : 1.78+groundY(e.x,e.z)+(e.anim==='sit'?-.2:0)) + (e.baseY||0);
   const v = tmpV.set(e.x, base, e.z).project(camera);
   if(v.z>1){ e.tag.style.display='none'; return; }
   e.tag.style.display=''; e.tag.style.transform = `translate(-50%,-100%) translate(${((v.x+1)/2*innerWidth).toFixed(1)}px,${((1-v.y)/2*innerHeight).toFixed(1)}px)`;
 }
 function placeSign(s){
-  if(me.dk){ s.tag.style.display='none'; return; }
+  if((s.room||'main')!==roomOf(me)){ s.tag.style.display='none'; return; }
   const v = tmpV.set(s.x, s.y, s.z).project(camera);
   if(v.z>1 || Math.hypot(s.x-me.x, s.z-me.z)>11){ s.tag.style.display='none'; return; }
   s.tag.style.display=''; s.tag.style.transform = `translate(-50%,-100%) translate(${((v.x+1)/2*innerWidth).toFixed(1)}px,${((1-v.y)/2*innerHeight).toFixed(1)}px)`;
 }
 function tryMove(e,nx,nz){
-  const dk = !!e.dk;
-  if(!dk && nx < -9.5 && nz>DARK.doorZ1+.15 && nz<DARK.doorZ2-.15 && nx > -9.6){ e.x=nx; e.z=nz; return true; }
+  const dk = roomOf(e);
+  if(dk==='main' && nx < -9.5 && nz>DARK.doorZ1+.15 && nz<DARK.doorZ2-.15 && nx > -9.6){ e.x=nx; e.z=nz; return true; }
   if(!blocked(nx,nz,dk)){ e.x=nx; e.z=nz; return true; }
   if(!blocked(nx,e.z,dk)){ e.x=nx; return true; }
   if(!blocked(e.x,nz,dk)){ e.z=nz; return true; }
@@ -2034,7 +2587,7 @@ function enter(){
   } else {
     me.nick=nick; me.nameEl.textContent=nick; rebuildLook(me, look, false); lastPresKey=''; pushPresence(true);
   }
-  Music.play(me.dk ? 'dark' : 'jazz');
+  bgm();
   setTimeout(()=>say(bartenders[0], `어서 오세요, ${nick}님. 버드케이지입니다.`), 700);
   setTimeout(()=>say(bartenders[1], '저희 둘 중 아무나 탭하면 한 잔 만들어 드려요.'), 3200);
   updateCount();
@@ -2042,7 +2595,7 @@ function enter(){
 $('#enterBtn').addEventListener('click', enter);
 nickInput.addEventListener('keydown', e=>{ if(e.key==='Enter') enter(); });
 $('#dressBtn').addEventListener('click', ()=>{
-  if(os) leaveOneShot(); if(me && me.dk) Dark.leave();
+  if(os) leaveOneShot(); if(me && me.dk) Dark.leave(); if(me && me.vr) Vers.leave();
   Music.stop(); closeCard(); Aim.close(); $('#hud').hidden=true; $('#tags').hidden=true; $('#world').hidden=true; $('#entrance').hidden=false;
   if(pv && !pv.run){ pv.run=true; previewLoop(); }
   setPreviewChar(); validEntry();
