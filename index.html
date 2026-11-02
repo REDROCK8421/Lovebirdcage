@@ -359,7 +359,7 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
       <input id="chatInput" maxlength="140" autocomplete="off" placeholder="라운지에 한마디…" aria-label="채팅">
       <button class="btn-brass" type="submit">보내기</button>
     </form>
-    <div class="hint" id="moveHint">바닥을 탭해 이동 · 드래그로 360° 회전 · 의자·바텐더·타로·블랙잭·다트판·VERS 문을 탭해 보세요</div>
+    <div class="hint" id="moveHint">바닥을 탭해 이동 · 드래그로 360° 회전 · 의자·바텐더·타로·블랙잭·스테이지·다트판·VERS 문을 탭해 보세요</div>
   </div>
 </div>
 
@@ -1375,7 +1375,7 @@ function buildWorld(){
   const shelfL = new THREE.PointLight(0xffb060,.8,5,1.8); shelfL.position.set(-3.6,2.4,-6.8); scene.add(shelfL);
 
   // stage
-  scene.add(M(G.cyl(STAGE.r,STAGE.r+.05,.22,48), mat('#1d1c21',.35,.3), STAGE.x,.11,STAGE.z));
+  const stageDisc=M(G.cyl(STAGE.r,STAGE.r+.05,.22,48), mat('#1d1c21',.35,.3), STAGE.x,.11,STAGE.z); stageDisc.userData.stage=true; scene.add(stageDisc);
   scene.add(M(new THREE.TorusGeometry(STAGE.r,.025,6,60), brassM, STAGE.x,.22,STAGE.z).rotateX(Math.PI/2));
   scene.add(M(new THREE.BoxGeometry(1.6,1,.6), mat('#151417',.4,.3), STAGE.x,.5,STAGE.z+2.6)); addObs(STAGE.x-.8,STAGE.z+2.3,STAGE.x+.8,STAGE.z+2.9);
   scene.add(M(new THREE.BoxGeometry(1.5,.04,.5), new THREE.MeshBasicMaterial({color:0xb86a9a}), STAGE.x,1.02,STAGE.z+2.6));
@@ -1486,6 +1486,7 @@ function buildLadderBoard(){
   g.traverse(o=>{ o.userData.ladder=true; }); ladderBoard=g;
   addObs(1.7,-3.6,2.2,-3.1);
   signs.push(makeSign('술값 사다리', 1.95, 1.75, -3.35, '', null));
+  signs.push(makeSign('댄스 배틀 · 탭해서 시작', STAGE.x, 2.5, STAGE.z, '', 'danceSign'));
 }
 
 function buildDarkRoom(wallM, brassM, velvet, velvet2){
@@ -1615,7 +1616,7 @@ function renderEmotes(){
   }
   if(me && DB.inMain()){
     const c=DB.active() ? DB.cur : null, my=DB.my();
-    if(DB.canHost()) add('댄스 배틀 신청',()=>DB.host(), true);
+    if(!DB.active()) add(DB.onStage() ? '댄스 배틀 신청' : '댄스 배틀',()=>DB.goHost(), true);
     if(c && c.phase==='open' && c.a!==my) add('배틀 도전!',()=>DB.challenge(), true);
     if(c && c.phase==='live' && !DB.isBattler()){ add(c.aNick+' 응원',()=>DB.vote('a'), true); add(c.bNick+' 응원',()=>DB.vote('b'), true); }
   }
@@ -3119,8 +3120,22 @@ const DB = {
   onStage(){ return this.inMain() && Math.hypot(me.x-STAGE.x, me.z-STAGE.z)<2.4; },
   active(){ const c=this.cur; if(!c) return false; if(performance.now()-c.t0>70000){ this.cur=null; return false; } return c.phase!=='done'; },
   live(){ return this.active() && this.cur.phase==='live'; },
-  canHost(){ return this.onStage() && !this.active() && me.seat<0; },
-  host(){ this.emit({op:'open', id:rid(6), nick:me.nick}); },
+  canHost(){ return !this.active(); },
+  host(){ if(this.active()){ toast('이미 댄스 배틀이 열려 있어요'); return; } this.emit({op:'open', id:rid(6), nick:me.nick}); },
+  goHost(){ if(this.onStage() && me.seat<0) this.host(); else { toast('스테이지로 올라가는 중…'); walkTo(STAGE.x-.6, STAGE.z-.2, ()=>this.host()); } },
+  offer(){
+    const c=this.active() ? this.cur : null;
+    if(c && c.phase==='open' && c.a!==this.my()){ this.challenge(); return; }
+    if(c){ toast('지금 댄스 배틀이 진행 중이에요. 아래 응원 버튼을 눌러 보세요'); return; }
+    showModal(box=>{
+      const h=document.createElement('h3'); h.textContent='댄스 배틀';
+      const p=document.createElement('p'); p.textContent='스테이지에서 리듬 게임으로 춤 대결! 15초 안에 도전자가 없으면 바텐더 BBG가 상대해요. 진 사람은 원샷!';
+      const row=document.createElement('div'); row.className='row';
+      const no=document.createElement('button'); no.className='btn-ghost'; no.type='button'; no.textContent='닫기'; no.onclick=hideModal;
+      const go=document.createElement('button'); go.className='btn-brass'; go.type='button'; go.textContent='배틀 열기'; go.onclick=()=>{ hideModal(); this.goHost(); };
+      row.append(no,go); box.append(h,p,row);
+    }, 'dance');
+  },
   challenge(){ const c=this.cur; if(!c || c.phase!=='open') return;
     const go=()=>this.emit({op:'join', id:c.id, nick:me.nick});
     if(this.onStage()) go(); else walkTo(STAGE.x+.6, STAGE.z-.4, go); },
@@ -3440,7 +3455,7 @@ function tap(cx,cy){
   raycaster.setFromCamera(ndc, camera);
   const visEnts = [...ents.values()].filter(e=>!e.hidden).map(e=>e.root);
   const objs = [...bartenders.map(b=>b.root), versBt.root, ...npcs.map(n=>n.root), ...visEnts, ...seatPickers, boardMesh, doorDark, doorVers, ladderBoard]; if(me.cdMesh) objs.push(me.cdMesh);
-  scene.traverse(o=>{ if(o.userData && o.userData.door==='versOut') objs.push(o); });
+  scene.traverse(o=>{ if(o.userData && (o.userData.door==='versOut' || o.userData.stage)) objs.push(o); });
   const hits = raycaster.intersectObjects(objs, true);
   const eh = hits.find(h=>{ const en=h.object.userData.ent; return en && en!==me && !(en.npc && (en.room||'main')!==roomOf(me)); });
   if(eh){ openCard(eh.object.userData.ent); return; }
@@ -3448,6 +3463,7 @@ function tap(cx,cy){
     const o=h.object, u=o.userData;
     if(u.ent && u.ent!==me){ if(u.ent.npc && (u.ent.room||'main')!==roomOf(me)) continue; openCard(u.ent); return; }
     if(u.myDrink){ closeCard(); pickCounterDrink(); return; }
+    if(u.stage){ if(me.dk||me.vr) continue; closeCard(); DB.offer(); return; }
     if(u.darts){ if(me.dk||me.vr) continue; Darts.open(); return; }
     if(u.ladder){ if(me.dk||me.vr) continue; closeCard(); Ladder.open(); return; }
     if(u.door==='vers'){ if(me.dk||me.vr) continue; closeCard(); walkTo(9.55,5.5, ()=>Vers.enter()); return; }
