@@ -186,6 +186,67 @@ body.in-vers .brand{color:#c9c2ff;text-shadow:0 0 18px rgba(120,100,255,.6)}
 .modal.match{border-color:#ff8fa8}
 .modal.match h3{color:#ffb3c4}
 @media (prefers-reduced-motion:reduce){.tcard{animation:none}}
+.ovl{position:fixed;inset:0;background:rgba(10,7,12,.6);display:grid;place-items:center;padding:16px;z-index:46}
+.kscore{width:min(330px,100%);background:linear-gradient(180deg,#1d1640,#120e22);border:1px solid #7c6cff;border-radius:20px;padding:20px 18px 16px;display:flex;flex-direction:column;gap:6px;text-align:center;box-shadow:0 0 40px rgba(124,108,255,.35);animation:cardIn .35s cubic-bezier(.2,1.4,.4,1)}
+.kshead{font-size:11.5px;letter-spacing:.16em;color:#c9c2ff;font-weight:700}
+.kswho{font-family:var(--display);font-size:19px;color:#fff}
+.kstitle{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.ksnum{font-family:var(--display);font-size:64px;line-height:1.05;color:#ffe08a;text-shadow:0 0 24px rgba(255,200,90,.55);font-variant-numeric:tabular-nums}
+.ksnum small{font-size:20px;margin-left:2px}
+.kscm{font-size:14px;color:#f3e9ff}
+.ksaud{font-size:12.5px;color:#c9c2ff;margin-top:4px}
+.ksstars{display:flex;justify-content:center;gap:4px}
+.ksstars button{background:none;border:0;font-size:30px;color:#ffd166;padding:2px 4px;line-height:1}
+.kshint{font-size:12.5px;color:var(--muted)}
+.tarot,.bj{width:min(420px,100%);max-height:calc(100vh - 32px);overflow-y:auto;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.tarot{background:radial-gradient(ellipse at 50% 0%,#3d2457,#170f22 70%);border:1px solid #a98bd6}
+.thead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.thead b{font-family:var(--display);font-size:18px;color:#e6d6ff;letter-spacing:.04em}
+.tsub{margin:0;font-size:13.5px;color:#d8cdea;line-height:1.5}
+.tsub.small{font-size:12px;color:var(--muted)}
+.ttopics{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ttopics button{border:1px solid #a98bd6;background:rgba(255,255,255,.04);color:#f1e8ff;border-radius:12px;padding:12px 8px;font-size:14.5px;font-weight:600;overflow-wrap:anywhere}
+.ttopics .tmatch{grid-column:1/-1;border-color:#ff8fa8;color:#ffd0dc}
+.tlab{font-size:11.5px;color:#c9b3ef;letter-spacing:.08em;font-weight:600}
+.tarot input{background:rgba(0,0,0,.25);border:1px solid #6b5390;border-radius:10px;padding:9px 10px;color:inherit;font-size:14px;outline:none;min-width:0}
+.tcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tslot{display:flex;flex-direction:column;gap:4px;align-items:stretch;min-width:0}
+.tpos{font-size:11.5px;color:#c9b3ef;text-align:center;font-weight:600}
+.tc{aspect-ratio:2/3.2;perspective:600px;background:none;border:0;padding:0;width:100%}
+.tci{position:relative;width:100%;height:100%;transition:transform .55s ease;transform-style:preserve-3d}
+.tc.open .tci{transform:rotateY(180deg)}
+.tcb,.tcf{position:absolute;inset:0;border-radius:10px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.tcb{background:repeating-linear-gradient(45deg,#2a1838 0 6px,#331d45 6px 12px);border:2px solid #c9a052;color:#e8c977;font-size:26px}
+.tcf{transform:rotateY(180deg);background:#f6eedb;border:2px solid #c9a052;color:#2a1838;padding:6px}
+.tcf i{font-style:normal;font-family:var(--display);font-size:22px;color:#6d4a8a}
+.tcf b{font-size:13.5px;line-height:1.25;word-break:keep-all;text-align:center}
+.tcf small{font-size:10.5px;color:#8a6a4a}
+.tc.rev .tcf i{transform:rotate(180deg)}
+.tread{display:flex;flex-direction:column;gap:8px}
+.tread p{margin:0;display:flex;flex-direction:column;gap:2px;font-size:13.5px;line-height:1.5;color:#eee3ff}
+.tread b{color:#e8c977;font-size:12.5px}
+.tadv{border:1px solid #c9a052;border-radius:12px;padding:10px;text-align:center;color:#ffe9b0;font-size:14px}
+.tnote{margin:0;font-size:11.5px;color:var(--muted);text-align:center;line-height:1.5}
+.tarot .row,.bj .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.bj{background:radial-gradient(ellipse at 50% 20%,#24694a,#0f2b1e 75%);border:2px solid #c9a052}
+.bj .thead b{color:#ffe9b0}
+.bjchips{align-self:center;font-size:13px;font-weight:700;color:#1b130a;background:#e8c977;border-radius:999px;padding:4px 12px;font-variant-numeric:tabular-nums}
+.bjbets{display:flex;gap:8px;justify-content:center}
+.bjbets button{width:64px;height:64px;border-radius:50%;border:4px dashed rgba(255,255,255,.7);background:#c2453a;color:#fff;font-weight:700;font-size:13px}
+.bjbets button:nth-child(2){background:#3b5fa8}.bjbets button:nth-child(3){background:#1d1d22}
+.bjbets button.on{outline:3px solid #ffe08a;outline-offset:2px}
+.bjzone{display:flex;flex-direction:column;gap:6px}
+.bjlab{font-size:12.5px;color:#d9f0e2;font-weight:600}
+.bjhand{display:flex;gap:6px;flex-wrap:wrap;min-height:72px}
+.bjc{width:48px;height:70px;border-radius:7px;background:#fbf8f1;color:#1d1d22;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--display);box-shadow:0 3px 8px rgba(0,0,0,.35);animation:cardIn .3s ease}
+.bjc b{font-size:19px;line-height:1}.bjc span{font-size:17px}
+.bjc.red{color:#c2453a}
+.bjc.back{background:repeating-linear-gradient(45deg,#7a1f2e 0 5px,#8e2f47 5px 10px);border:2px solid #fbf8f1}
+.bjmsg{text-align:center;font-weight:700;font-size:16px;color:#ffe9b0}
+.bjmsg.r-lose{color:#ffb3c4}
+.bj .btn-ghost{color:#f3efe6;border-color:#d9f0e2}
+.kform select{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:14px;color:inherit;min-width:0}
+@media (prefers-reduced-motion:reduce){.kscore,.bjc{animation:none}.tci{transition:none}}
 .btn-open{background:#2b3d66;border:1px solid #6aa0ff;color:#dce8ff;border-radius:12px;padding:12px 18px;font-weight:600;letter-spacing:.12em}
 
 #oneshot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 16px);width:min(340px,calc(100vw - 32px));height:min(440px,58vh);background:var(--panel);border:1px solid var(--wine);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.55)}
@@ -273,7 +334,7 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
       <input id="chatInput" maxlength="140" autocomplete="off" placeholder="라운지에 한마디…" aria-label="채팅">
       <button class="btn-brass" type="submit">보내기</button>
     </form>
-    <div class="hint" id="moveHint">바닥을 탭해 이동 · 드래그로 360° 회전 · 의자·바텐더·다트판·사다리·VERS 문을 탭해 보세요</div>
+    <div class="hint" id="moveHint">바닥을 탭해 이동 · 드래그로 360° 회전 · 의자·바텐더·타로·블랙잭·다트판·VERS 문을 탭해 보세요</div>
   </div>
 </div>
 
@@ -307,6 +368,7 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
   <div class="kform">
     <label for="karaTitle">노래 제목</label><input id="karaTitle" maxlength="40" placeholder="예: 가수 - 노래 제목" autocomplete="off">
     <a id="karaSearch" href="https://www.youtube.com/results?search_query=%EB%85%B8%EB%9E%98%EB%B0%A9" target="_blank" rel="noopener">유튜브에서 노래방 영상 찾기 ↗</a>
+    <label for="karaDuet">듀엣 상대 (선택)</label><select id="karaDuet"><option value="">혼자 부를게요</option></select>
     <label for="karaLink">유튜브 링크</label><input id="karaLink" placeholder="https://youtu.be/... 붙여넣기" autocomplete="off">
     <button id="karaAdd" class="btn-brass" type="button">예약하기</button>
     <p class="hint">찾은 영상에서 공유 → 링크 복사 후 붙여 넣으세요. 'TJ노래방', '금영' 같은 반주 영상이 좋아요.</p>
@@ -314,6 +376,9 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
 </div></div>
 
 <div id="cardBg" hidden><div class="tcard" id="cardBox" role="dialog" aria-label="술게임 카드"></div></div>
+<div id="kscoreBg" class="ovl" hidden><div class="kscore" id="kscoreBox" role="dialog" aria-label="노래 점수"></div></div>
+<div id="tarotBg" class="ovl" hidden><div class="tarot" id="tarotBox" role="dialog" aria-label="타로"></div></div>
+<div id="bjBg" class="ovl" hidden><div class="bj" id="bjBox" role="dialog" aria-label="블랙잭"></div></div>
 <div class="modal-bg" id="modal" hidden><div class="modal" id="modalBox"></div></div>
 <div class="modal-bg" id="ladder" hidden><div class="modal ladder" id="ladderBox"></div></div>
 
@@ -1308,6 +1373,8 @@ function buildWorld(){
   }
   for(const [x,z] of [[9.2,7.2],[-9.2,-4.4],[9.2,-4.6]]){ scene.add(M(G.cyl(.26,.2,.5,14), mat('#d9d3c8',.6), x,.25,z)); for(let i=0;i<7;i++){ const l=M(G.sph(.22,8,6), mat(i%2?'#2f5a3c':'#3e6b4f',.9), x+Math.cos(i)*.18,.7+i*.08,z+Math.sin(i*2)*.18); l.scale.y=1.6; scene.add(l);} addObs(x-.3,z-.3,x+.3,z+.3); }
 
+  buildTarotCorner();
+  buildBlackjack(brassM);
   buildFront(wallM, brassM);
   buildCeilings();
   buildLadderBoard();
@@ -1321,6 +1388,62 @@ function buildWorld(){
     {nick:'바텐더 BBG', home:-1.4, look:{body:'big',skin:'#eac09a',hair:'short',hairColor:'#4a2e1e',beard:'goatee',outfit:'shirt',top:'#f2ede4',bottom:'#24242b',acc:['glasses','bowtie']}}
   ];
   bartenders = bdefs.map(d=>{ const b=makeEntity({nick:d.nick, look:d.look, npc:true}); b.home=d.home; b.x=b.tx=d.home; b.z=-6.75; b.ry=0; b.baseY=.42; b.tag.classList.add('npc'); b.nextIdle=performance.now()+4000+Math.random()*6000; return b; });
+  buildGameNpcs();
+}
+/* tarot corner: purple cloth, crystal ball, candle and a deck on the marble table at (-3.6, 2.2) */
+const BJT = {x:-1.9, z:4.6, r:1.15};
+let npcs = [];
+function buildTarotCorner(){
+  const x=-3.6, z=2.2;
+  const cloth=M(new THREE.BoxGeometry(1.36,.012,.76), mat('#3d2457',1), x,.772,z); scene.add(cloth);
+  for(const s of [-1,1]){ const fr=M(new THREE.BoxGeometry(1.36,.18,.012), mat('#3d2457',1), x,.69,z+s*.38); scene.add(fr); scene.add(M(new THREE.BoxGeometry(1.36,.012,.014), mat('#c9a052',.5,.6), x,.6,z+s*.385)); }
+  scene.add(M(G.cyl(.06,.08,.05,14), mat('#c9a052',.35,.8), x-.05,.8,z));
+  const ball=M(G.sph(.1,24,18), new THREE.MeshStandardMaterial({color:0xb9a6ff, emissive:0x6a4cff, emissiveIntensity:.7, transparent:true, opacity:.75, roughness:.05, metalness:.1}), x-.05,.92,z); scene.add(ball);
+  const gl=new THREE.PointLight(0x9a7cff,.7,2.6,1.6); gl.position.set(x-.05,1.0,z); scene.add(gl);
+  scene.add(M(G.cyl(.025,.025,.12,10), mat('#f1e6cf',.9), x+.2,.84,z+.2));
+  scene.add(M(G.sph(.018,8,6), new THREE.MeshBasicMaterial({color:0xffc066}), x+.2,.915,z+.2));
+  const deck=M(new THREE.BoxGeometry(.09,.04,.14), mat('#2a1838',.6), x+.12,.8,z-.2); scene.add(deck);
+  for(let k=0;k<3;k++){ const c=M(new THREE.BoxGeometry(.09,.004,.14), mat('#e8d9b0',.8), x-.35+k*.13,.781,z-.16); c.rotation.y=(k-1)*.12; scene.add(c); }
+  addObs(-4.8,1.95,-4.3,2.45);
+  const sg=makeSign('타로', x, 2.15, z, '', null); signs.push(sg);
+}
+/* blackjack: half-moon green felt table, three stools on the curved side, dealer behind the flat edge */
+function buildBlackjack(brassM){
+  const {x:cx, z:cz, r}=BJT;
+  const felt=M(new THREE.CylinderGeometry(r,r,.06,40,1,false,Math.PI/2,Math.PI), mat('#1f5a3a',1), cx,.76,cz); scene.add(felt);
+  const rail=M(new THREE.TorusGeometry(r,.055,8,40,Math.PI), mat('#3a2418',.5), cx,.8,cz); rail.rotation.x=-Math.PI/2; scene.add(rail);
+  scene.add(M(new THREE.BoxGeometry(2*r,.06,.12), mat('#3a2418',.5), cx,.79,cz+.04));
+  const arc=M(new THREE.TorusGeometry(r*.62,.008,4,40,Math.PI), mat('#e9d9a6',.6), cx,.795,cz); arc.rotation.x=-Math.PI/2; scene.add(arc);
+  scene.add(M(new THREE.BoxGeometry(1.5,.72,.5), mat('#151417',.5,.3), cx,.36,cz-.3));
+  // chip tray and a few chip stacks
+  scene.add(M(new THREE.BoxGeometry(.6,.03,.16), mat('#111',.4,.4), cx,.8,cz-.14));
+  [['#c2453a',-.2],['#3b5fa8',0],['#e8e2d4',.2]].forEach(([c,o])=>{ for(let k=0;k<4;k++) scene.add(M(G.cyl(.035,.035,.012,14), mat(c,.5), cx+o,.82+k*.013,cz-.14)); });
+  scene.add(M(new THREE.BoxGeometry(.14,.1,.2), mat('#5b1f2a',.5), cx+.62,.84,cz-.12));   // card shoe
+  addObs(cx-r,cz-r,cx+r,cz+.75);
+  [-.75,0,.75].forEach(a=>{
+    const sx=cx+Math.sin(a)*1.55, sz=cz-Math.cos(a)*1.55, ry=-a;
+    scene.add(M(G.cyl(.03,.03,.55,8), mat('#c9ccd2',.15,1), sx,.28,sz));
+    scene.add(M(G.cyl(.22,.2,.08,18), mat('#1f5a3a',.7), sx,.58,sz));
+    scene.add(M(G.cyl(.2,.22,.02,18), mat('#c9ccd2',.15,1), sx,.01,sz));
+    addSeat({x:sx, z:sz, ry, top:.62, y:.5, ax:cx+Math.sin(a)*2.15, az:cz-Math.cos(a)*2.15, label:'블랙잭', tb:'bj'});
+  });
+  const sg=makeSign('블랙잭', cx, 2.25, cz+.45, '', null); signs.push(sg);
+  const lt=new THREE.PointLight(0xffe6b0,.8,4,1.6); lt.position.set(cx,2.4,cz-.3); scene.add(lt);
+}
+function buildGameNpcs(){
+  const tarot=makeEntity({nick:'타로 마스터', look:{body:'normal',face:'oval',skin:'#eac09a',hair:'bun',hairColor:'#1d1715',beard:'full',outfit:'knit',top:'#6d4a8a',bottom:'#24242b',acc:['earring','scarf']}, npc:true});
+  tarot.x=-4.55; tarot.z=2.2; tarot.ry=Math.PI/2; tarot.tag.classList.add('npc'); tarot.home={x:-4.55,z:2.2,ry:Math.PI/2}; tarot.nextIdle=performance.now()+8000;
+  const dealer=makeEntity({nick:'딜러 에이스', look:{body:'muscle',face:'wide',skin:'#cf9a6e',hair:'side',hairColor:'#1d1715',beard:'mustache',outfit:'shirt',top:'#f2ede4',bottom:'#24242b',acc:['bowtie','metalglasses']}, npc:true});
+  dealer.x=BJT.x; dealer.z=BJT.z+.45; dealer.ry=Math.PI; dealer.tag.classList.add('npc'); dealer.home={x:BJT.x,z:BJT.z+.45,ry:Math.PI}; dealer.nextIdle=performance.now()+6000;
+  npcs=[tarot, dealer]; Tarot.npc=tarot; BJ.dealer=dealer;
+}
+function updateGameNpcs(dt, t, now){
+  for(const n of npcs){
+    n.ry=lerpAngle(n.ry, n.home.ry, Math.min(1,dt*6));
+    if(n.animUntil && now>n.animUntil){ n.anim='idle'; n.animUntil=0; }
+    if(now>n.nextIdle){ n.nextIdle=now+8000+Math.random()*10000; if(n===BJ.dealer) setAnim(n,'mix',1400); else if(Math.random()<.4) setAnim(n,'wave',1600); }
+    place(n, dt, t);
+  }
 }
 function buildLadderBoard(){
   const g=new THREE.Group(); const wood=mat('#3a2d24',.7);
@@ -1465,7 +1588,7 @@ function renderEmotes(){
   }
   if(me && me.dk){ add('다크룸 나가기',()=>Dark.leave(), true); add('스킨십 ♥',()=>openDarkCard(), true); add(me.topless?'상의 입기':'상의 벗기',()=>setTopless(!me.topless), true); }
   for(const [k,label] of EMOTES){ if(k==='sit' && me && me.seat>=0) continue; if(me && me.dk && (k==='bow'||k==='cheers')) continue; add(label,()=>doEmote(k)); }
-  if(me && me.seat>=0 && Cards.myTable()) add('술게임 카드',()=>Cards.draw(), true);
+  if(me && me.seat>=0 && Cards.myTable()){ const tb=Cards.myTable(); if(tb==='bj') add('블랙잭',()=>BJ.open(), true); else add('술게임 카드',()=>Cards.draw(), true); if(tb===TAROT_TB) add('타로 보기',()=>Tarot.open(), true); }
   if(me && me.seat>=0) add('일어서기',()=>{ standUp(); renderEmotes(); }, true);
   if(me && me.hold) add(drinkName(me.hold)+' 비우기',()=>{ me.hold=null; pushPresence(true); renderEmotes(); toast('잔을 비웠어요'); }, true);
   if(me && me.cd) add('카운터 잔 집기',()=>pickCounterDrink(), true);
@@ -1488,6 +1611,13 @@ function sitAt(i){
   if(seatTaken(i)){ toast('이미 누가 앉아 있어요'); return; }
   me.seat=i; me.x=s.x; me.z=s.z; me.ry=s.ry; me.target=null; me.anim='sit'; me.animUntil=Infinity;
   pushPresence(true); renderEmotes();
+  if(s.tb==='bj') setTimeout(()=>BJ.open(), 250);
+}
+function bjApproach(){
+  if(Cards.myTable()==='bj'){ BJ.open(); return; }
+  let best=-1, bd=1e9; SEATS.forEach((s,i)=>{ if(s.tb!=='bj' || seatTaken(i)) return; const d=Math.hypot(s.ax-me.x,s.az-me.z); if(d<bd){ bd=d; best=i; } });
+  if(best<0){ toast('자리가 꽉 찼어요. 서서 한 판 할게요'); BJ.open(); return; }
+  walkTo(SEATS[best].ax, SEATS[best].az, ()=>sitAt(best));
 }
 function standUp(){
   if(me.seat<0) return; const s=SEATS[me.seat]; me.seat=-1; me.x=s.ax; me.z=s.az; me.anim='idle'; me.animUntil=0; pushPresence(true);
@@ -1530,6 +1660,8 @@ function drinkGrid(onPick){
   return grid;
 }
 function openCard(ent){
+  if(ent===Tarot.npc){ closeCard(); Tarot.open(); return; }
+  if(ent===BJ.dealer){ closeCard(); bjApproach(); return; }
   if(ent===versBt){
     const card = cardShell(ent.nick, '주문하면 바로 손에 잔을 쥐여 드려요. 노래하면서 마시세요.', 'bar');
     card.appendChild(drinkGrid(k=>versOrder(k)));
@@ -1549,7 +1681,7 @@ function openCard(ent){
   const inv=document.createElement('button'); inv.className='btn-brass'; inv.type='button'; inv.textContent='원샷 룸 초대';
   if(!room||!connected){ send.disabled=inv.disabled=true; }
   if(os || me.dk) inv.disabled=true;
-  send.onclick=()=>{ const c=cardShell(ent.nick+'님에게 한 잔', '받는 사람 손에 바로 잔이 들려요.', 'peer'); c.appendChild(drinkGrid(k=>{ closeCard(); room.emit('drink',{to:ent.peer,d:k}).catch(()=>toast('보내지 못했어요. 잠시 후 다시 해 주세요.')); })); };
+  send.onclick=()=>{ const c=cardShell(ent.nick+'님에게 한 잔', '받는 사람 손에 바로 잔이 들려요.', 'peer'); c.appendChild(drinkGrid(k=>{ closeCard(); const paid=BJ.spend(20); room.emit('drink',{to:ent.peer,d:k,c:paid?1:0}).then(()=>{ if(paid) toast(`블랙잭 칩 20개로 샀어요 · 남은 칩 ${BJ.chips()}개`); }).catch(()=>{ if(paid) BJ.setChips(BJ.chips()+20); toast('보내지 못했어요. 잠시 후 다시 해 주세요.'); }); })); };
   inv.onclick=()=>{ closeCard(); invite(ent); };
   row.append(send,inv); card.appendChild(row);
   const hrow=document.createElement('div'); hrow.className='row';
@@ -1634,7 +1766,7 @@ async function connectRoom(){
     if(!m.sameTab && k==='heart' && ent) floatAt(ent,'♥'); });
   room.on('drink', m=>{ const d=m.data||{}; if(!DRINKS.some(x=>x[0]===d.d)) return;
     const from = m.sameTab? me.nick : nickOf(m.peer);
-    if(d.to===myPeer && !m.sameTab){ toast(`${from}님이 ${drinkName(d.d)} 한 잔을 보냈어요`); me.hold=d.d; setAnim(me,'cheers',2400); pushPresence(true); renderEmotes(); const ent=ents.get(m.peer); if(ent && !ent.hidden) floatAt(ent,'♥'); }
+    if(d.to===myPeer && !m.sameTab){ toast(`${from}님이 ${d.c?'칩으로 산 ':''}${drinkName(d.d)} 한 잔을 보냈어요`); me.hold=d.d; setAnim(me,'cheers',2400); pushPresence(true); renderEmotes(); const ent=ents.get(m.peer); if(ent && !ent.hidden) floatAt(ent,'♥'); }
     else toast(`${from}님이 ${nickOf(d.to)}님에게 ${drinkName(d.d)}을 보냈어요`); });
   room.on('invite', m=>{ const d=m.data||{}; if(m.sameTab || d.to!==myPeer) return; const code=String(d.code||''); if(!/^os-[a-z0-9]{8}$/.test(code)) return;
     if(os || pendingInvite || me.dk){ room.emit('decline',{to:m.peer,code}).catch(()=>{}); return; }
@@ -1648,6 +1780,7 @@ async function connectRoom(){
   room.on('accept', m=>{ const d=m.data||{}; if(d.to!==myPeer || !pendingInvite || d.code!==pendingInvite.code) return; const p=pendingInvite; pendingInvite=null; hideModal(); enterOneShot(p.code, m.peer, 0); });
   room.on('decline', m=>{ const d=m.data||{}; if(d.to!==myPeer || !pendingInvite || d.code!==pendingInvite.code) return; pendingInvite=null; hideModal(); toast(`${nickOf(m.peer)}님이 지금은 어렵대요`); });
   room.on('ladder', m=>{ if(me.dk && !m.sameTab) return; Ladder.run(m.data||{}, m.sameTab? me.nick : nickOf(m.peer)); });
+  room.on('kvote', m=>KScore.onVote(m)); room.on('tarot', m=>Tarot.onShare(m)); room.on('bj', m=>BJ.onResult(m));
   room.on('card', m=>Cards.onCard(m)); room.on('cardv', m=>Cards.onVote(m)); room.on('cardd', m=>Cards.onDrink(m));
   room.on('vfx', m=>{ const d=m.data||{}; if(!['smoke','cheer'].includes(d.k)) return; const ent = m.sameTab? me : ents.get(m.peer); if(!m.sameTab && !(ent && ent.vr)) return; onVfx(d, ent, m.sameTab? me.nick : nickOf(m.peer)); });
   Dark.watch();
@@ -2119,7 +2252,8 @@ function updateVersFx(dt, t){
   for(const s of versFx.spots){ s.beam.visible=on; s.pool.visible=on; s.sp.intensity = on ? (Karaoke.now ? 3.2 : 1.4) : 0; }
   if(!on) return;
   const n=Karaoke.now; let tx=VERS.mic.x+Math.sin(t*.5)*2.4, tz=VERS.mic.z-.2+Math.sin(t*.37)*.4;
-  if(n){ const singer = n.uid===Karaoke.myId() ? me : ents.get(n.uid); if(singer && singer.vr && !singer.hidden){ tx=singer.x; tz=singer.z; } else { tx=VERS.mic.x; tz=VERS.mic.z-.4; } }
+  if(n){ const singer = n.uid===Karaoke.myId() ? me : ents.get(n.uid); if(singer && singer.vr && !singer.hidden){ tx=singer.x; tz=singer.z; } else { tx=VERS.mic.x; tz=VERS.mic.z-.4; }
+    if(n.duid){ const du = n.duid===Karaoke.myId() ? me : ents.get(n.duid); if(du && du.vr && !du.hidden){ tx=(tx+du.x)/2; tz=(tz+du.z)/2; } } }
   const hue = n ? 0.09 : (0.72+Math.sin(t*.4)*.12);
   versFx.spots.forEach((s,i)=>{
     const ox = n ? 0 : Math.sin(t*.8+i*2)*.5;
@@ -2129,7 +2263,7 @@ function updateVersFx(dt, t){
     s.beam.position.copy(to).add(s.from).multiplyScalar(.5); s.beam.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), dir); s.beam.scale.set(1,len,1);
     s.pool.position.set(tx+ox, y+.015, tz); s.pool.material.color.setHSL(hue, n? .2 : .8, .7);
   });
-  const info = n ? `NOW SINGING  ·  ${n.nick}  —  ${n.title}` : 'VERS KARAOKE  ·  오른쪽 위 리모컨에서 노래를 예약하세요';
+  const info = n ? `NOW SINGING  ·  ${KScore.who(n)}  —  ${n.title}` : 'VERS KARAOKE  ·  오른쪽 위 리모컨에서 노래를 예약하세요';
   versFx.screen.draw(t, info);
   versFx.screenLight.intensity = 2.0 + Math.sin(t*2.2)*.3;
 }
@@ -2186,12 +2320,12 @@ const Karaoke = {
   srv(){ return room && room.fb ? room.fb.now() : Date.now(); },
   myId(){ return room ? room.uid : 'me'; },
   clean(n){ if(!n || typeof n!=='object' || !/^[\w-]{11}$/.test(n.vid||'')) return null;
-    return {id:String(n.id||''), uid:String(n.uid||''), nick:cleanNick(n.nick)||'누군가', vid:n.vid, title:String(n.title||'').replace(/[\u0000-\u001f]/g,'').slice(0,60)||'노래', startAt:Number(n.startAt)||0, playAt:Number(n.playAt)||0, mic:!!n.mic}; },
+    return {id:String(n.id||''), uid:String(n.uid||''), nick:cleanNick(n.nick)||'누군가', vid:n.vid, title:String(n.title||'').replace(/[\u0000-\u001f]/g,'').slice(0,60)||'노래', startAt:Number(n.startAt)||0, playAt:Number(n.playAt)||0, mic:!!n.mic, duid:String(n.duid||''), dnick:n.duid ? (cleanNick(n.dnick)||'누군가') : ''}; },
   attach(){
     if(this.attached) return; this.attached=true;
     if(room && room.fb){ this.db=room.fb.db;
       this.db.ref('vers/now').on('value', s=>{ this.now=this.clean(s.val()); this.onNow(); });
-      this.db.ref('vers/queue').orderByChild('t').on('value', s=>{ const q=[]; s.forEach(c=>{ const v=c.val(); if(v && /^[\w-]{11}$/.test(v.vid||'')) q.push({key:c.key, uid:String(v.uid||''), nick:cleanNick(v.nick)||'누군가', vid:v.vid, title:String(v.title||'').slice(0,60)||'노래'}); }); this.queue=q; this.render(); });
+      this.db.ref('vers/queue').orderByChild('t').on('value', s=>{ const q=[]; s.forEach(c=>{ const v=c.val(); if(v && /^[\w-]{11}$/.test(v.vid||'')) q.push({key:c.key, uid:String(v.uid||''), nick:cleanNick(v.nick)||'누군가', vid:v.vid, title:String(v.title||'').slice(0,60)||'노래', duid:String(v.duid||''), dnick:v.duid ? (cleanNick(v.dnick)||'누군가') : ''}); }); this.queue=q; this.render(); });
     }
     setInterval(()=>this.tick(), 2000);
     setInterval(()=>this.syncStep(), 1000);
@@ -2210,7 +2344,7 @@ const Karaoke = {
     if(this.busy) return; const item=this.queue[0]; if(!item) return;
     if(item.uid!==this.myId() && !ents.has(item.uid)){ this.remove(item.key); return; }
     this.busy=true;
-    const data={id:item.key, uid:item.uid, nick:item.nick, vid:item.vid, title:item.title, startAt:this.srv(), mic:false};
+    const data={id:item.key, uid:item.uid, nick:item.nick, vid:item.vid, title:item.title, startAt:this.srv(), mic:false}; if(item.duid){ data.duid=item.duid; data.dnick=item.dnick; }
     if(!this.db){ this.queue.shift(); this.now=this.clean(data); this.busy=false; this.onNow(); return; }
     this.db.ref('vers/now').transaction(cur=> cur ? undefined : data)
       .then(r=>{ if(r.committed) this.db.ref('vers/queue/'+item.key).remove().catch(()=>{}); })
@@ -2226,7 +2360,7 @@ const Karaoke = {
     if(!vid){ toast('유튜브 영상 링크를 붙여 넣어 주세요'); $('#karaLink').focus(); return; }
     if(this.queue.filter(q=>q.uid===this.myId()).length>=2){ toast('예약은 한 사람당 2곡까지 할 수 있어요'); return; }
     const title=$('#karaTitle').value.replace(/[\u0000-\u001f\u200b-\u200f\u202a-\u202e]/g,'').trim().slice(0,40) || '유튜브 노래';
-    const item={uid:this.myId(), nick:me.nick, vid, title};
+    const item={uid:this.myId(), nick:me.nick, vid, title}; const du=$('#karaDuet').value, de=du && ents.get(du); if(de && de.vr){ item.duid=du; item.dnick=de.nick; }
     if(this.db){ this.db.ref('vers/queue').push(Object.assign({t:room.fb.SV}, item)).then(()=>toast(`${title} 예약했어요`)).catch(()=>toast('예약하지 못했어요. 보안 규칙을 새로 붙여 넣었는지 확인해 주세요')); }
     else { this.queue.push(Object.assign({key:rid(8)}, item)); toast(`${title} 예약했어요`); this.render(); }
     $('#karaLink').value=''; $('#karaTitle').value=''; $('#karaSheetBg').hidden=true;
@@ -2234,18 +2368,25 @@ const Karaoke = {
   },
   onNow(){
     const n=this.now, my=this.myId();
+    const prev=this.prevNow; this.prevNow=n;
+    if(prev && (!n || n.id!==prev.id) && me && me.vr && this.heardId===prev.id) KScore.show(prev);
+    if(n && me && me.vr) this.heardId=n.id;
+    if(n && n.duid===my && me && me.vr && this.lastDuet!==n.id){
+      this.lastDuet=n.id; me.seat=-1; me.floorSit=false; me.x=VERS.mic.x+.75; me.z=VERS.mic.z-.42; me.ry=0; me.target=null; me.onArrive=null; me.anim='sing'; me.animUntil=Infinity; pushPresence(true); renderEmotes();
+      toast(`${n.nick}님과 듀엣 차례예요! 무대에 올랐어요`);
+    }
     if(Rtc.stream && (!n || n.uid!==my || n.id!==Rtc.sid)) Rtc.micOff();
     if(n && n.uid===my && me && me.vr && this.lastSung!==n.id){
       this.lastSung=n.id; me.seat=-1; me.floorSit=false; me.x=VERS.mic.x; me.z=VERS.mic.z-.42; me.ry=0; me.target=null; me.onArrive=null; me.anim='sing'; me.animUntil=Infinity; pushPresence(true); renderEmotes();
       toast('내 차례예요! 무대에 올랐어요. 마이크 켜기를 누르면 목소리가 전달돼요');
     }
-    if(me && me.anim==='sing' && (!n || n.uid!==my)){ me.anim='idle'; me.animUntil=0; pushPresence(true); }
+    if(me && me.anim==='sing' && (!n || (n.uid!==my && n.duid!==my))){ me.anim='idle'; me.animUntil=0; pushPresence(true); }
     if(me && me.vr){ if(n && n.mic && n.uid!==my) Rtc.listen(n); else Rtc.stopListen(); }
-    if(n && n.id!==this.annId){ this.annId=n.id; delete $('#karaMsg').dataset.err; $('#karaMsg').textContent=''; if(me && me.vr){ toast(`♪ ${n.nick}님 차례 · ${n.title}`); if(versBt) say(versBt, `다음 무대는 ${n.nick}님입니다! 박수!`); Smoke.burst=4; } }
+    if(n && n.id!==this.annId){ this.annId=n.id; delete $('#karaMsg').dataset.err; $('#karaMsg').textContent=''; if(me && me.vr){ toast(`♪ ${KScore.who(n)}님 차례 · ${n.title}`); if(versBt) say(versBt, `다음 무대는 ${KScore.who(n)}님입니다! 박수!`); Smoke.burst=4; } }
     Smoke.level = n ? 1 : .2;
     this.syncPlay(); bgm(); this.render(); renderEmotes();
   },
-  onEnter(){ this.render(); this.syncPlay(); const n=this.now; if(n && n.mic && n.uid!==this.myId()) Rtc.listen(n); if(!n && this.queue.length) setTimeout(()=>this.tick(),800); },
+  onEnter(){ this.render(); this.syncPlay(); const n=this.now; if(n) this.heardId=n.id; if(n && n.mic && n.uid!==this.myId()) Rtc.listen(n); if(!n && this.queue.length) setTimeout(()=>this.tick(),800); },
   onLeave(){
     clearTimeout(this.startTimer); this.loadedId=null;
     try{ if(this.player && this.player.stopVideo) this.player.stopVideo(); }catch(e){}
@@ -2336,7 +2477,7 @@ const Karaoke = {
   render(){
     const box=$('#kara'); if(!box) return;
     const n=this.now, my=this.myId();
-    $('#karaNow').textContent = n ? `♪ ${n.nick} — ${n.title}` : '지금은 노래하는 사람이 없어요';
+    $('#karaNow').textContent = n ? `♪ ${KScore.who(n)} — ${n.title}` : '지금은 노래하는 사람이 없어요';
     const skip=$('#karaSkip'), live=$('#karaLive');
     $('#karaCount').textContent = this.queue.length ? String(this.queue.length) : '';
     skip.hidden = !(n && n.uid!==my && this.missingSince);
@@ -2344,7 +2485,7 @@ const Karaoke = {
     const ol=$('#karaQueue'); ol.textContent='';
     if(!this.queue.length){ const li=document.createElement('li'); li.className='empty'; li.textContent='예약된 노래가 없어요'; ol.appendChild(li); }
     for(const q of this.queue.slice(0,8)){
-      const li=document.createElement('li'); const sp=document.createElement('span'); sp.textContent=`${q.nick} — ${q.title}`; li.appendChild(sp);
+      const li=document.createElement('li'); const sp=document.createElement('span'); sp.textContent=`${KScore.who(q)} — ${q.title}`; li.appendChild(sp);
       if(q.uid===my){ const x=document.createElement('button'); x.type='button'; x.className='x'; x.textContent='취소'; x.onclick=()=>this.remove(q.key); li.appendChild(x); }
       ol.appendChild(li);
     }
@@ -2420,7 +2561,10 @@ const Rtc = {
     this.listenKey=null; this.connected=false; if(this.audio) this.audio.srcObject=null;
   }
 };
-$('#karaOpen').addEventListener('click', ()=>{ $('#karaSheetBg').hidden=false; Karaoke.render(); });
+$('#karaOpen').addEventListener('click', ()=>{ $('#karaSheetBg').hidden=false; Karaoke.render(); fillDuet(); });
+function fillDuet(){ const sel=$('#karaDuet'), keep=sel.value; sel.textContent=''; const o=document.createElement('option'); o.value=''; o.textContent='혼자 부를게요'; sel.appendChild(o);
+  for(const [id,e] of ents){ if(!e.vr || e.hidden) continue; const op=document.createElement('option'); op.value=id; op.textContent=e.nick+'님과 듀엣'; sel.appendChild(op); }
+  sel.value=[...sel.options].some(x=>x.value===keep) ? keep : ''; }
 $('#karaClose').addEventListener('click', ()=>{ $('#karaSheetBg').hidden=true; });
 $('#karaSheetBg').addEventListener('click', e=>{ if(e.target.id==='karaSheetBg') $('#karaSheetBg').hidden=true; });
 $('#karaBig').addEventListener('click', ()=>{ const k=$('#kara'); k.classList.toggle('big'); $('#karaBig').textContent = k.classList.contains('big') ? '작게' : '크게'; });
@@ -2552,6 +2696,297 @@ const Cards = {
   }
 };
 $('#cardBg').addEventListener('click', e=>{ if(e.target.id==='cardBg') Cards.close(); });
+
+/* ================= Karaoke score card + audience stars ================= */
+function hashStr(s){ let h=2166136261; for(const ch of String(s)){ h^=ch.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const KScore = {
+  cur:null, timer:0,
+  score(id){ return 70 + hashStr(id)%31; },
+  comment(sc){
+    if(sc>=98) return '전설의 무대! 버드케이지 명예의 전당감이에요';
+    if(sc>=93) return '원곡자가 듣고 울고 갔어요';
+    if(sc>=87) return '앵콜 각! 한 곡 더 가시죠';
+    if(sc>=80) return '분위기 제대로 살렸어요';
+    if(sc>=75) return '흥은 만점, 음정은 마음으로';
+    return '노래는 마음이에요. 원샷하고 한 곡 더!';
+  },
+  who(n){ return n.dnick ? `${n.nick} & ${n.dnick}` : n.nick; },
+  show(n){
+    const sc=this.score(n.id); const my=Karaoke.myId();
+    this.cur={id:n.id, who:this.who(n), title:n.title, sc, singer: n.uid===my || n.duid===my, votes:{}, myVote:0};
+    this.render(); $('#kscoreBg').hidden=false;
+    clearTimeout(this.timer); this.timer=setTimeout(()=>this.close(), 25000);
+    if(versBt) say(versBt, `${this.cur.who}님 ${sc}점! ${sc>=90?'대박이에요!':'수고하셨어요!'}`);
+  },
+  close(){ $('#kscoreBg').hidden=true; },
+  vote(v){
+    const c=this.cur; if(!c || c.singer) return; c.myVote=v;
+    if(room && connected) room.emit('kvote',{id:c.id, v}).catch(()=>{}); else { c.votes.me=v; this.render(); }
+    this.render();
+  },
+  onVote(m){
+    const d=m.data||{}; const c=this.cur; if(!c || String(d.id)!==c.id) return;
+    const v=Math.round(Number(d.v)); if(!(v>=1 && v<=5)) return;
+    c.votes[m.peer]=v; this.render();
+  },
+  render(){
+    const c=this.cur, box=$('#kscoreBox'); if(!c) return; box.textContent='';
+    const el=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!==undefined) e.textContent=txt; return e; };
+    const head=el('div','kshead','오늘의 무대 점수');
+    const who=el('div','kswho',c.who); const ti=el('div','kstitle',c.title);
+    const num=el('div','ksnum',String(c.sc)); num.appendChild(el('small','','점'));
+    const cm=el('div','kscm',this.comment(c.sc));
+    const vs=Object.values(c.votes); const avg = vs.length ? (vs.reduce((a,b)=>a+b,0)/vs.length) : 0;
+    const aud=el('div','ksaud', vs.length ? `관객 별점 ★ ${avg.toFixed(1)}  ·  ${vs.length}명 참여` : '관객 별점을 기다리는 중이에요');
+    box.append(head,who,ti,num,cm,aud);
+    if(!c.singer){
+      const row=el('div','ksstars'); row.setAttribute('role','group'); row.setAttribute('aria-label','별점 주기');
+      for(let i=1;i<=5;i++){ const b=el('button','', i<=c.myVote?'★':'☆'); b.type='button'; b.setAttribute('aria-label',i+'점'); b.onclick=()=>this.vote(i); row.appendChild(b); }
+      box.appendChild(row);
+    } else box.appendChild(el('div','kshint','관객들이 별점을 주고 있어요'));
+    const close=el('button','btn-ghost','닫기'); close.type='button'; close.onclick=()=>this.close(); box.appendChild(close);
+  }
+};
+
+/* ================= Tarot table ================= */
+const TAROT = [
+  // [이름, 키워드, 연애, 일·돈, 오늘, 역방향]
+  ['바보','새로운 시작','계산 없이 설레는 만남이 다가와요. 가볍게 먼저 말을 걸어 보세요.','해 본 적 없는 일에 도전할 타이밍이에요.','즉흥적인 선택이 웃음을 줘요.','준비 없이 뛰어들면 헛발질할 수 있어요.'],
+  ['마법사','능력과 주도권','당신의 매력이 가장 잘 먹히는 시기예요. 표현하면 통해요.','가진 재주를 꺼내 쓰면 바로 결과가 나요.','말 한마디로 분위기를 바꿀 수 있어요.','말만 앞서고 실행이 늦어질 수 있어요.'],
+  ['여사제','직감과 비밀','말하지 않은 마음이 있어요. 서두르지 말고 지켜보세요.','정보를 모으고 조용히 준비할 때예요.','직감을 믿으면 맞아요.','감춘 감정이 오해를 부를 수 있어요.'],
+  ['여황제','풍요와 다정함','따뜻하게 챙겨 주는 연애운이에요. 받는 만큼 주게 돼요.','노력한 만큼 수확이 커져요.','맛있는 것과 좋은 사람, 둘 다 생겨요.','지나친 배려가 부담이 될 수 있어요.'],
+  ['황제','안정과 책임','믿음직한 사람, 또는 믿음직한 당신이 주인공이에요.','체계를 세우면 일이 술술 풀려요.','계획대로 움직이면 편한 하루예요.','고집이 세지면 상대가 지쳐요.'],
+  ['교황','신뢰와 약속','진지한 관계로 발전할 수 있는 흐름이에요.','윗사람이나 선배의 조언이 도움이 돼요.','익숙한 단골집이 정답이에요.','형식에 얽매이면 재미가 사라져요.'],
+  ['연인','선택과 끌림','서로 끌리는 기운이 강해요. 마음이 가는 쪽을 고르세요.','좋은 파트너를 만나 일이 커져요.','오늘의 선택이 좋은 인연으로 이어져요.','두 마음 사이에서 흔들릴 수 있어요.'],
+  ['전차','돌파와 속도','밀어붙이면 진도가 확 나가요.','목표를 정하고 달리면 이겨요.','망설이지 말고 출발하세요.','속도만 내다 방향을 잃을 수 있어요.'],
+  ['힘','부드러운 용기','부드럽게 다가가는 쪽이 이겨요. 여유가 매력이에요.','끈기로 버티면 상황이 당신 편이 돼요.','참을성 있게 기다리면 보상이 와요.','자신감이 떨어져 기회를 놓칠 수 있어요.'],
+  ['은둔자','성찰과 혼자만의 시간','혼자서도 괜찮은 나를 먼저 챙길 때예요.','깊이 파고들면 남들이 못 본 답이 보여요.','조용한 자리에서 한 잔이 좋아요.','혼자 있으려다 외로워질 수 있어요.'],
+  ['운명의 수레바퀴','전환점','예상 못 한 타이밍에 인연이 굴러와요.','흐름이 바뀌어요. 기회를 잡으세요.','오늘은 운이 당신 편이에요.','타이밍이 엇갈릴 수 있어요. 조금 기다리세요.'],
+  ['정의','균형과 공정','주고받는 마음이 비슷해야 오래가요.','계약·숫자를 꼼꼼히 보면 손해가 없어요.','공평하게 나누면 모두 웃어요.','한쪽만 애쓰는 관계는 기울어요.'],
+  ['매달린 사람','관점 바꾸기','시선을 바꾸면 상대의 진짜 마음이 보여요.','잠시 멈추는 게 오히려 이득이에요.','서두르지 말고 흐름을 지켜보세요.','버티기만 하면 시간만 흘러가요.'],
+  ['죽음','끝과 새 출발','지난 인연을 정리하면 새 사람이 들어와요.','안 맞는 방식은 과감히 접으세요.','오래된 걸 비우면 가벼워져요.','끝내야 할 걸 붙잡고 있을 수 있어요.'],
+  ['절제','조화와 속도 조절','천천히 섞이는 관계가 진국이에요.','무리하지 않으면 꾸준히 올라가요.','술은 천천히, 대화는 깊게.','과하면 탈 나요. 오늘은 한 잔 덜.'],
+  ['악마','유혹과 끌림','거부하기 힘든 강한 끌림이 와요. 즐기되 선은 지켜요.','욕심을 내면 크게 벌지만 위험도 커요.','오늘 밤 유혹이 많아요.','집착이 생기면 스스로 묶여요.'],
+  ['탑','갑작스러운 변화','깜짝 놀랄 고백이나 반전이 있어요.','예상 밖 변수에 대비하세요.','계획이 틀어져도 오히려 재밌어져요.','미뤄 둔 문제가 터질 수 있어요.'],
+  ['별','희망과 치유','상처가 아물고 좋은 사람이 보이기 시작해요.','꿈꾸던 방향으로 길이 열려요.','작은 행운이 반짝여요.','기대가 너무 크면 실망도 커요.'],
+  ['달','설렘과 불확실','애매한 썸이에요. 확인하기 전까지 상상은 금물.','정보가 불분명해요. 한 번 더 확인하세요.','분위기에 취하기 좋은 밤이에요.','오해가 생기기 쉬워요. 솔직하게 물어보세요.'],
+  ['태양','기쁨과 성공','숨길 수 없을 만큼 밝은 연애운이에요. 공개해도 좋아요.','노력이 빛을 보고 인정받아요.','오늘의 주인공은 당신이에요.','들뜬 마음에 말실수를 조심하세요.'],
+  ['심판','부활과 재회','다시 연락 올 사람이 있어요. 마음을 정해 두세요.','다시 기회가 와요. 이번엔 잡아요.','반가운 소식이 와요.','과거에 발목 잡히지 마세요.'],
+  ['세계','완성과 축하','관계가 한 단계 완성돼요. 축하할 일이 생겨요.','프로젝트가 멋지게 마무리돼요.','모든 게 맞아떨어지는 날이에요.','마지막 한 걸음이 남았어요.']
+];
+const ROMAN = ['0','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI'];
+const TOPICS = {love:{t:'연애운',pos:['과거','현재','미래'],col:2}, work:{t:'일·금전운',pos:['과거','현재','미래'],col:3}, today:{t:'오늘의 운세',pos:['아침','저녁','오늘 밤'],col:4}, match:{t:'궁합',pos:['나','상대','우리 관계'],col:2}};
+function tarotDraw(rand=Math.random){
+  const idx=[...Array(22).keys()];
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(rand()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; }
+  return idx.slice(0,3).map(i=>[i, rand()<.3 ? 1 : 0]);
+}
+function tarotLine(topic, card){
+  const [i,r]=card, c=TAROT[i], col=TOPICS[topic].col;
+  return r ? `${c[5]} ${c[col]}`.trim() : c[col];
+}
+function tarotAdvice(topic, cards){
+  const ups=cards.filter(c=>!c[1]).length;
+  const last=TAROT[cards[2][0]];
+  if(topic==='match') return ups>=2 ? `궁합 점수 ${78+ups*6}점 · '${last[1]}'의 기운이 두 사람을 이어 줘요` : `궁합 점수 ${62+ups*7}점 · 서로 속도를 맞추면 좋아져요`;
+  return ups===3 ? `흐름이 아주 좋아요. 키워드는 '${last[1]}'` : ups===2 ? `대체로 순조로워요. '${last[1]}'에 집중해 보세요` : ups===1 ? `조금 꼬여도 풀려요. 서두르지 마세요` : `오늘은 숨 고르기. 원샷 한 잔으로 털어 버려요`;
+}
+const TAROT_TB = 'm-3.6,2.2';
+const Tarot = {
+  npc:null, st:null,
+  open(){ this.st={step:'topic'}; this.render(); $('#tarotBg').hidden=false; if(this.npc) say(this.npc,'어서 오세요. 무엇이 궁금하신가요?'); },
+  close(){ $('#tarotBg').hidden=true; },
+  start(topic, partner){
+    const cards=tarotDraw();
+    this.st={step:'read', topic, partner:partner||'', cards, open:[false,false,false]}; this.render();
+    if(this.npc){ setAnim(this.npc,'mix',1400); say(this.npc, topic==='match' ? `${me.nick}님과 ${partner||'그분'}… 카드를 섞어 볼게요.` : '마음속으로 질문을 떠올리고 카드를 한 장씩 뒤집어 보세요.'); }
+  },
+  flip(k){ const s=this.st; if(!s || s.step!=='read' || s.open[k]) return; s.open[k]=true; this.render();
+    if(s.open.every(Boolean)) this.done(); },
+  flipAll(){ const s=this.st; if(!s) return; const was=s.open.every(Boolean); s.open=[true,true,true]; this.render(); if(!was) this.done(); },
+  done(){
+    const s=this.st; const names=s.cards.map(c=>TAROT[c[0]][0]+(c[1]?'(역)':'')).join(' · ');
+    if(this.npc) say(this.npc, tarotAdvice(s.topic, s.cards));
+    const d={tb:TAROT_TB, topic:s.topic, cards:s.cards, p:String(s.partner||'').slice(0,20)};
+    if(room && connected && !me.dk && !me.vr) room.emit('tarot', d).catch(()=>{});
+    s.shared=names;
+  },
+  onShare(m){
+    if(m.sameTab || me.dk || me.vr) return;
+    const d=m.data||{}; if(!TOPICS[d.topic] || !Array.isArray(d.cards) || d.cards.length!==3) return;
+    const cards=d.cards.map(c=>[Math.floor(Number(c&&c[0])), c&&c[1]?1:0]); if(cards.some(c=>!(c[0]>=0 && c[0]<22))) return;
+    const near = Cards.myTable()===TAROT_TB || (this.npc && Math.hypot(me.x-this.npc.x, me.z-this.npc.z)<4);
+    if(!near) return;
+    const nick=nickOf(m.peer), t=TOPICS[d.topic].t;
+    toast(`${nick}님 ${t}: ${cards.map(c=>TAROT[c[0]][0]+(c[1]?'(역)':'')).join(' · ')}`);
+  },
+  peopleHere(){ const a=[]; for(const e of ents.values()) if(!e.hidden && !e.dk && !e.vr) a.push(e.nick); return a; },
+  render(){
+    const s=this.st, box=$('#tarotBox'); if(!s) return; box.textContent='';
+    const el=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!==undefined) e.textContent=txt; return e; };
+    const head=el('div','thead'); head.append(el('b','','타로 마스터'), (()=>{ const x=el('button','ibtn','닫기'); x.type='button'; x.onclick=()=>this.close(); return x; })());
+    box.appendChild(head);
+    if(s.step==='topic'){
+      box.appendChild(el('p','tsub','무엇이 궁금하세요? 카드 세 장으로 봐 드릴게요.'));
+      const grid=el('div','ttopics');
+      for(const k of ['love','work','today']){ const b=el('button','',TOPICS[k].t); b.type='button'; b.onclick=()=>this.start(k); grid.appendChild(b); }
+      const mb=el('button','tmatch','궁합 보기 ♥'); mb.type='button'; mb.onclick=()=>{ this.st={step:'match'}; this.render(); }; grid.appendChild(mb);
+      box.appendChild(grid);
+    } else if(s.step==='match'){
+      box.appendChild(el('p','tsub','누구와의 궁합을 볼까요? 상대에게는 알려지지 않아요.'));
+      const grid=el('div','ttopics');
+      const ppl=this.peopleHere();
+      for(const n of ppl.slice(0,8)){ const b=el('button','',n); b.type='button'; b.onclick=()=>this.start('match', n); grid.appendChild(b); }
+      const lab=el('label','tlab','직접 입력'); lab.htmlFor='tarotName';
+      const inp=el('input'); inp.id='tarotName'; inp.maxLength=12; inp.placeholder='마음속 그 사람 이름'; inp.autocomplete='off';
+      const go=el('button','btn-brass','이 사람으로 보기'); go.type='button'; go.onclick=()=>{ const v=cleanNick(inp.value)||'그 사람'; this.start('match', v); };
+      if(!ppl.length) box.appendChild(el('p','tsub small','지금 라운지에 다른 사람이 없어요. 이름을 직접 적어도 돼요.'));
+      box.append(grid, lab, inp, go);
+      const back=el('button','btn-ghost','뒤로'); back.type='button'; back.onclick=()=>{ this.st={step:'topic'}; this.render(); }; box.appendChild(back);
+    } else {
+      const T=TOPICS[s.topic];
+      box.appendChild(el('p','tsub', s.topic==='match' ? `${me.nick}님 ♥ ${s.partner} · 카드를 탭해 뒤집어요` : `${T.t} · 카드를 탭해 뒤집어요`));
+      const row=el('div','tcards');
+      s.cards.forEach((c,k)=>{
+        const b=el('button','tc'+(s.open[k]?' open':'')+(c[1]?' rev':'')); b.type='button';
+        b.setAttribute('aria-label', s.open[k] ? `${T.pos[k]}: ${TAROT[c[0]][0]}${c[1]?' 역방향':''}` : `${T.pos[k]} 카드 뒤집기`);
+        const inner=el('div','tci'); const back=el('div','tcb'); back.appendChild(el('span','','✦'));
+        const front=el('div','tcf'); front.append(el('i','',ROMAN[c[0]]), el('b','',TAROT[c[0]][0]), el('small','',c[1]?'역방향':'정방향'));
+        inner.append(back,front); b.appendChild(inner); b.onclick=()=>this.flip(k);
+        const wrap=el('div','tslot'); wrap.append(el('div','tpos',T.pos[k]), b); row.appendChild(wrap);
+      });
+      box.appendChild(row);
+      const list=el('div','tread');
+      s.cards.forEach((c,k)=>{ if(!s.open[k]) return; const p=el('p'); p.append(el('b','',`${T.pos[k]} · ${TAROT[c[0]][0]}${c[1]?'(역)':''} — ${TAROT[c[0]][1]}`), el('span','',tarotLine(s.topic,c))); list.appendChild(p); });
+      if(s.open.every(Boolean)) list.appendChild(el('div','tadv', tarotAdvice(s.topic, s.cards)));
+      box.appendChild(list);
+      const r2=el('div','row');
+      if(!s.open.every(Boolean)){ const a=el('button','btn-ghost','한 번에 펼치기'); a.type='button'; a.onclick=()=>this.flipAll(); r2.appendChild(a); }
+      const again=el('button','btn-brass','다른 질문 하기'); again.type='button'; again.onclick=()=>{ this.st={step:'topic'}; this.render(); }; r2.appendChild(again);
+      box.appendChild(r2);
+      box.appendChild(el('p','tnote','재미로 보는 타로예요. 결과는 같은 테이블 사람들에게만 살짝 공유돼요.'));
+    }
+  }
+};
+
+/* ================= Blackjack (free play chips only) ================= */
+const BJ_SUITS=['♠','♥','♦','♣'], BJ_RANKS=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+function bjValue(hand){
+  let t=0, aces=0;
+  for(const c of hand){ const r=c.r; if(r==='A'){ aces++; t+=11; } else if(r==='J'||r==='Q'||r==='K') t+=10; else t+=Number(r); }
+  while(t>21 && aces){ t-=10; aces--; }
+  return {t, soft: aces>0};
+}
+function bjIsBJ(hand){ return hand.length===2 && bjValue(hand).t===21; }
+function bjDealerShouldHit(hand){ const v=bjValue(hand); return v.t<17; }   // stands on all 17s, soft 17 included
+function bjSettle(player, dealer, bet, doubled){
+  // returns chips returned to the player (0 when lost); bet already taken
+  const b = doubled ? bet*2 : bet;
+  const pv=bjValue(player).t, dv=bjValue(dealer).t, pbj=bjIsBJ(player)&&!doubled, dbj=bjIsBJ(dealer);
+  if(pbj && dbj) return {r:'push', back:b};
+  if(pbj) return {r:'bj', back:b+Math.floor(b*1.5)};
+  if(dbj) return {r:'lose', back:0};
+  if(pv>21) return {r:'lose', back:0};
+  if(dv>21 || pv>dv) return {r:'win', back:b*2};
+  if(pv===dv) return {r:'push', back:b};
+  return {r:'lose', back:0};
+}
+function bjShoe(decks=6, rand=Math.random){
+  const s=[]; for(let d=0;d<decks;d++) for(const u of BJ_SUITS) for(const r of BJ_RANKS) s.push({r,u});
+  for(let i=s.length-1;i>0;i--){ const j=Math.floor(rand()*(i+1)); [s[i],s[j]]=[s[j],s[i]]; }
+  return s;
+}
+const BJ = {
+  dealer:null, shoe:[], st:null, bet:50,
+  today(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); },
+  chips(){ let c=store.get('bc-chips'); if(!c || typeof c!=='object' || !Number.isFinite(c.n)) c={n:1000,d:this.today()};
+    if(c.d!==this.today()){ if(c.n<1000) c.n=1000; c.d=this.today(); store.set('bc-chips',c); }
+    return Math.max(0,Math.floor(c.n)); },
+  setChips(n){ store.set('bc-chips',{n:Math.max(0,Math.floor(n)), d:this.today()}); },
+  spend(n){ const c=this.chips(); if(c<n) return false; this.setChips(c-n); return true; },
+  draw(){ if(this.shoe.length<52) this.shoe=bjShoe(); return this.shoe.pop(); },
+  open(){ if(!this.st) this.st={phase:'bet'}; this.render(); $('#bjBg').hidden=false; if(this.dealer && this.st.phase==='bet') say(this.dealer,'블랙잭 테이블입니다. 칩은 매일 1,000개 무료예요.'); },
+  close(){ if(this.st && this.st.phase==='play') { toast('이번 판을 마저 끝내 주세요'); return; } $('#bjBg').hidden=true; },
+  deal(){
+    const bet=this.bet; if(!this.spend(bet)){ toast('칩이 모자라요. 내일 다시 1,000개로 채워져요'); return; }
+    const p=[this.draw()], d=[this.draw()]; p.push(this.draw()); d.push(this.draw());
+    this.st={phase:'play', p, d, bet, doubled:false, msg:''};
+    if(this.dealer){ setAnim(this.dealer,'mix',900); }
+    if(bjIsBJ(p) || bjIsBJ(d)) this.finish(); else this.render();
+  },
+  hit(){ const s=this.st; if(!s || s.phase!=='play') return; s.p.push(this.draw());
+    const v=bjValue(s.p).t; if(v>21) this.finish(); else if(v===21) this.stand(); else this.render(); },
+  stand(){ const s=this.st; if(!s || s.phase!=='play') return; while(bjDealerShouldHit(s.d)) s.d.push(this.draw()); this.finish(); },
+  double(){ const s=this.st; if(!s || s.phase!=='play' || s.p.length!==2) return;
+    if(!this.spend(s.bet)){ toast('더블에 쓸 칩이 모자라요'); return; }
+    s.doubled=true; s.p.push(this.draw()); if(bjValue(s.p).t>21) this.finish(); else this.stand(); },
+  finish(){
+    const s=this.st; const res=bjSettle(s.p, s.d, s.bet, s.doubled);
+    this.setChips(this.chips()+res.back); s.phase='done'; s.res=res.r;
+    const stake = s.doubled ? s.bet*2 : s.bet; const net=res.back-stake; s.net=net;
+    const D=this.dealer;
+    if(res.r==='bj'){ s.msg=`블랙잭! +${net}칩`; if(D) say(D,'블랙잭! 축하드려요!'); floatAt(me,'BJ!'); setAnim(me,'cheers',1600); }
+    else if(res.r==='win'){ s.msg=`이겼어요! +${net}칩`; if(D) say(D,'손님 승리입니다.'); setAnim(me,'cheers',1400); }
+    else if(res.r==='push'){ s.msg='무승부, 칩은 그대로예요'; if(D) say(D,'푸시, 무승부예요.'); }
+    else { s.msg=`졌어요 ${net}칩 · 벌칙은 원샷!`; if(D) say(D,'딜러 승! 원샷 부탁드려요~'); setAnim(me,'cheers',2200); floatAt(me,'원샷!'); }
+    pushPresence(true);
+    if(room && connected && !me.dk && !me.vr) room.emit('bj',{r:res.r, a:Math.abs(net)}).catch(()=>{});
+    this.render();
+  },
+  onResult(m){
+    if(m.sameTab || me.dk || me.vr) return; const d=m.data||{}; const ent=ents.get(m.peer); if(!ent || ent.hidden) return;
+    const nick=nickOf(m.peer), a=Math.min(99999,Math.max(0,Math.floor(Number(d.a)||0)));
+    if(d.r==='bj'){ floatAt(ent,'BJ!'); toast(`${nick}님 블랙잭! +${a}칩`); }
+    else if(d.r==='lose'){ floatAt(ent,'원샷!'); if(Cards.myTable()==='bj') toast(`${nick}님 딜러에게 졌어요. 원샷!`); }
+    else if(d.r==='win' && Cards.myTable()==='bj') toast(`${nick}님 승리 +${a}칩`);
+  },
+  cardEl(c, hidden){
+    const e=document.createElement('div'); e.className='bjc'+(hidden?' back':'')+(!hidden&&(c.u==='♥'||c.u==='♦')?' red':'');
+    if(!hidden){ const r=document.createElement('b'); r.textContent=c.r; const u=document.createElement('span'); u.textContent=c.u; e.append(r,u); e.setAttribute('aria-label', c.u+c.r); }
+    else e.setAttribute('aria-label','뒷면 카드');
+    return e;
+  },
+  render(){
+    const s=this.st, box=$('#bjBox'); if(!s) return; box.textContent='';
+    const el=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!==undefined) e.textContent=txt; return e; };
+    const head=el('div','thead'); const x=el('button','ibtn','닫기'); x.type='button'; x.onclick=()=>this.close();
+    head.append(el('b','','블랙잭 · 딜러 에이스'), x); box.appendChild(head);
+    box.appendChild(el('div','bjchips',`내 칩 ${this.chips().toLocaleString()}개`));
+    if(s.phase==='bet'){
+      box.appendChild(el('p','tsub','베팅할 칩을 고르고 딜을 누르세요. 21에 가까우면 이겨요. 지면 원샷!'));
+      const row=el('div','bjbets');
+      for(const v of [10,50,100]){ const b=el('button', this.bet===v?'on':'', v+'칩'); b.type='button'; b.setAttribute('aria-pressed', this.bet===v); b.onclick=()=>{ this.bet=v; this.render(); }; row.appendChild(b); }
+      box.appendChild(row);
+      const go=el('button','btn-brass','딜'); go.type='button'; go.onclick=()=>this.deal(); box.appendChild(go);
+    } else {
+      const hide = s.phase==='play';
+      const dv=bjValue(s.d), pv=bjValue(s.p);
+      const dz=el('div','bjzone'); dz.appendChild(el('div','bjlab', hide ? `딜러 · ${bjValue([s.d[0]]).t} + ?` : `딜러 · ${dv.t}${dv.t>21?' 버스트':''}`));
+      const dh=el('div','bjhand'); s.d.forEach((c,i)=>dh.appendChild(this.cardEl(c, hide && i===1))); dz.appendChild(dh);
+      const pz=el('div','bjzone'); pz.appendChild(el('div','bjlab', `${me.nick} · ${pv.t}${pv.soft&&pv.t<21?' (소프트)':''}${pv.t>21?' 버스트':''} · 베팅 ${s.doubled?s.bet*2:s.bet}`));
+      const ph=el('div','bjhand'); s.p.forEach(c=>ph.appendChild(this.cardEl(c,false))); pz.appendChild(ph);
+      box.append(dz,pz);
+      if(s.msg) box.appendChild(el('div','bjmsg r-'+(s.res||''), s.msg));
+      const row=el('div','row');
+      const btn=(t,cls,fn,dis)=>{ const b=el('button',cls,t); b.type='button'; b.onclick=fn; if(dis) b.disabled=true; row.appendChild(b); };
+      if(s.phase==='play'){
+        btn('히트','btn-ghost',()=>this.hit()); btn('스탠드','btn-brass',()=>this.stand());
+        if(s.p.length===2) btn('더블','btn-ghost',()=>this.double(), this.chips()<s.bet);
+      } else {
+        if(s.res==='lose') btn('원샷하고 한 판 더','btn-brass',()=>{ setAnim(me,'cheers',1500); pushPresence(true); this.st={phase:'bet'}; this.render(); });
+        else btn('한 판 더','btn-brass',()=>{ this.st={phase:'bet'}; this.render(); });
+        btn('그만하기','btn-ghost',()=>{ this.st={phase:'bet'}; this.close(); });
+      }
+      box.appendChild(row);
+    }
+    box.appendChild(el('p','tnote','칩은 무료 게임용이에요. 살 수도, 돈으로 바꿀 수도 없어요. 칩 20개로 친구에게 한 잔 보낼 수 있어요.'));
+  }
+};
+
+$('#kscoreBg').addEventListener('click', e=>{ if(e.target.id==='kscoreBg') KScore.close(); });
+$('#tarotBg').addEventListener('click', e=>{ if(e.target.id==='tarotBg') Tarot.close(); });
+$('#bjBg').addEventListener('click', e=>{ if(e.target.id==='bjBg') BJ.close(); });
+
 
 /* ================= Darts ================= */
 const Darts = {
@@ -2751,7 +3186,7 @@ function tap(cx,cy){
   const ndc = new THREE.Vector2(cx/innerWidth*2-1, -(cy/innerHeight)*2+1);
   raycaster.setFromCamera(ndc, camera);
   const visEnts = [...ents.values()].filter(e=>!e.hidden).map(e=>e.root);
-  const objs = [...bartenders.map(b=>b.root), versBt.root, ...visEnts, ...seatPickers, boardMesh, doorDark, doorVers, ladderBoard]; if(me.cdMesh) objs.push(me.cdMesh);
+  const objs = [...bartenders.map(b=>b.root), versBt.root, ...npcs.map(n=>n.root), ...visEnts, ...seatPickers, boardMesh, doorDark, doorVers, ladderBoard]; if(me.cdMesh) objs.push(me.cdMesh);
   scene.traverse(o=>{ if(o.userData && o.userData.door==='versOut') objs.push(o); });
   const hits = raycaster.intersectObjects(objs, true);
   const eh = hits.find(h=>{ const en=h.object.userData.ent; return en && en!==me && !(en.npc && (en.room||'main')!==roomOf(me)); });
@@ -2836,11 +3271,12 @@ function step(){
   if(scene.userData.disco) scene.userData.disco.rotation.y += dt*.8;
   if(mv && !me.dk && !me.vr) mv.update(t);
   updateVersBartender(dt, t, now);
+  updateGameNpcs(dt, t, now);
   updateVersFx(dt, t);
   if(lights.dark) lights.dark.intensity = (me.dk?2.6:1.3) + Math.sin(t*1.3)*.25;
   if(marker.visible){ marker.userData.t+=dt; marker.scale.setScalar(1+marker.userData.t*1.5); marker.material.opacity=Math.max(0,.8-marker.userData.t*1.2); if(marker.userData.t>.7) marker.visible=false; }
   renderer.render(scene,camera);
-  for(const e of [me, ...bartenders, versBt, ...ents.values()]) if(e) placeTag(e, now);
+  for(const e of [me, ...bartenders, versBt, ...npcs, ...ents.values()]) if(e) placeTag(e, now);
   for(const s of signs) placeSign(s);
   const z = zoneName(me.x,me.z,roomOf(me)); if(z!==step.zone){ step.zone=z; $('#zoneChip').textContent=z; }
 }
