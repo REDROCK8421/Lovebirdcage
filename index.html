@@ -130,39 +130,43 @@ button:disabled{opacity:.45;cursor:not-allowed}
 #ladderCanvas{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);display:block}
 .lres{display:flex;flex-direction:column;gap:4px;font-size:14px;font-variant-numeric:tabular-nums}
 .lres .hit{color:#ffb3c4;font-weight:600}
-#kara{position:fixed;top:calc(env(safe-area-inset-top,0px) + 58px);right:max(16px,env(safe-area-inset-right,0px));width:min(360px,calc(100vw - 32px));max-height:calc(100vh - 230px);overflow-y:auto;background:rgba(15,12,36,.95);border:1px solid #5b4bff;border-radius:16px;box-shadow:0 14px 40px rgba(0,0,0,.5);display:flex;flex-direction:column}
-#kara header{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid rgba(120,110,255,.3);position:sticky;top:0;background:rgba(15,12,36,.98);z-index:1}
-#kara header b{font-family:var(--display);color:#c9c2ff;letter-spacing:.06em;flex:none}
-#kara .now{flex:1;min-width:0;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#kara .kbody{padding:10px 12px;display:flex;flex-direction:column;gap:10px}
-#kara.min .kbody > :not(#karaScreen){display:none}
-#kara.min{max-height:none}
-#kara.min .screen{width:220px;max-width:100%;align-self:flex-end}
-.screen{position:relative;aspect-ratio:16/9;background:#05040c;border-radius:10px;overflow:hidden;max-width:100%}
+#kara{position:fixed;top:calc(env(safe-area-inset-top,0px) + 58px);right:max(16px,env(safe-area-inset-right,0px));width:min(340px,calc(100vw - 32px));display:flex;flex-direction:column;align-items:flex-end;gap:6px;pointer-events:none}
+#kara > *{pointer-events:auto}
+.kbar{display:flex;align-items:center;gap:8px;max-width:100%;background:rgba(15,12,36,.92);border:1px solid #5b4bff;border-radius:999px;padding:4px 4px 4px 12px}
+.kdot{color:#c9c2ff;flex:none}
+#karaNow{min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kopen{flex:none;border:0;border-radius:999px;background:#5b4bff;color:#fff;font-size:12px;font-weight:600;padding:6px 11px}
+.kopen b{font-weight:600;opacity:.85}
+.screen{position:relative;width:224px;aspect-ratio:16/9;max-width:100%;background:#05040c;border:1px solid #5b4bff;border-radius:10px;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.45)}
+#kara.big .screen{width:100%}
+.screen.idle{visibility:hidden;height:0;border:0;box-shadow:none}
 .screen iframe,#ytPlayer{position:absolute;inset:0;width:100%;height:100%;border:0}
-.screen .idleMsg{display:none;position:absolute;inset:0;place-items:center;text-align:center;color:var(--muted);font-size:13px;padding:16px}
-.screen.idle .idleMsg{display:grid}
-.screen.idle iframe{visibility:hidden}
-.screen .tap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2}
-.live{font-size:12px;color:#9fe7c0}
+.screen .tap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;font-size:12px;padding:6px 10px}
+.kbig{position:absolute;top:4px;right:4px;z-index:2;border:0;border-radius:999px;background:rgba(10,8,25,.75);color:#fff;font-size:11px;padding:3px 8px}
+.live{font-size:11.5px;color:#9fe7c0;background:rgba(15,12,36,.85);border-radius:999px;padding:3px 9px}
+.msg{font-size:12px;color:#ffb3c4;background:rgba(15,12,36,.85);border-radius:10px;padding:5px 9px;max-width:100%}
+.msg:empty{display:none}
+#karaSheetBg{position:fixed;inset:0;background:rgba(10,7,12,.5);z-index:40}
+.sheet{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:min(480px,100%);max-height:72vh;overflow-y:auto;background:var(--panel);border:1px solid #5b4bff;border-bottom:0;border-radius:18px 18px 0 0;padding-block:14px calc(env(safe-area-inset-bottom,0px) + 16px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:10px}
+.shead{display:flex;align-items:center;justify-content:space-between}
+.shead b{font-family:var(--display);color:#c9c2ff;font-size:17px;letter-spacing:.04em}
 .krow{display:flex;flex-wrap:wrap;gap:6px}
-.krow button{font-size:12.5px;padding:7px 10px}
+.krow:not(:has(button:not([hidden]))){display:none}
 .qhead{font-size:11.5px;color:#c9c2ff;letter-spacing:.08em;font-weight:600}
-.queue{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:13px}
+.queue{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:13.5px}
 .queue li{overflow-wrap:anywhere}
 .queue li.empty{list-style:none;margin-left:-20px;color:var(--muted)}
 .queue .x{background:none;border:0;color:#ffb3c4;font-size:12px;margin-left:6px;padding:0}
-#karaForm summary{cursor:pointer;color:#c9c2ff;font-weight:600;font-size:13px}
-.kform{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.kform{display:flex;flex-direction:column;gap:6px}
 .kform input{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:9px 10px;outline:none;font-size:14px;min-width:0}
 .kform input:focus{border-color:#7c6cff}
 .kform a{color:#a9c6ff;font-size:13px}
 .kform label{font-size:11.5px;color:var(--brass);letter-spacing:.08em;font-weight:600}
 .kform .hint{text-align:left;margin:0}
-.msg{font-size:12.5px;color:#ffb3c4}
-.msg:empty{display:none}
 body.in-vers .brand{color:#c9c2ff;text-shadow:0 0 18px rgba(120,100,255,.6)}
-@media (max-width:760px){ #kara{top:calc(env(safe-area-inset-top,0px) + 52px);max-height:calc(100vh - 260px)} }
+@media (max-width:760px){ #kara{top:calc(env(safe-area-inset-top,0px) + 52px)} }
+#fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .28s ease;z-index:50}
+#fade.on{opacity:1;transition:none}
 .btn-open{background:#2b3d66;border:1px solid #6aa0ff;color:#dce8ff;border-radius:12px;padding:12px 18px;font-weight:600;letter-spacing:.12em}
 
 #oneshot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 16px);width:min(340px,calc(100vw - 32px));height:min(440px,58vh);background:var(--panel);border:1px solid var(--wine);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.55)}
@@ -228,6 +232,7 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
 <body>
 
 <div id="world" hidden></div>
+<div id="fade" aria-hidden="true"></div>
 <div id="tags" hidden></div>
 
 <div id="hud" hidden>
@@ -266,26 +271,26 @@ body.in-dark .brand{color:#ff9fb4;text-shadow:0 0 18px rgba(255,80,120,.5)}
   <form id="osForm"><input id="osInput" maxlength="300" autocomplete="off" placeholder="둘만의 대화…" aria-label="원샷 룸 메시지"><button class="btn-brass" type="submit">보내기</button></form>
 </div>
 
-<section id="kara" hidden aria-label="VERS 노래방 리모컨">
-  <header><b>VERS 노래방</b><span id="karaNow" class="now">지금은 노래하는 사람이 없어요</span><button class="ibtn" id="karaMin" type="button">접기</button></header>
-  <div class="kbody">
-    <div id="karaScreen" class="screen idle"><div id="ytPlayer"></div><div class="idleMsg">노래를 예약하면 여기서 반주 영상이 나와요</div><button id="karaTap" class="btn-brass tap" type="button" hidden>▶ 반주 듣기</button></div>
-    <div id="karaLive" class="live" hidden></div>
-    <div id="karaMsg" class="msg"></div>
-    <div class="krow"><button id="karaMic" class="btn-brass" type="button" hidden>마이크 켜기</button><button id="karaEnd" class="btn-ghost" type="button" hidden>곡 끝내기</button><button id="karaSkip" class="btn-ghost" type="button" hidden>건너뛰기</button><button id="karaSmoke" class="btn-ghost" type="button">스모그</button><button id="karaCheer" class="btn-ghost" type="button">환호</button></div>
-    <div class="qhead">예약 목록</div>
-    <ol id="karaQueue" class="queue"></ol>
-    <details id="karaForm"><summary>노래 예약하기</summary>
-      <div class="kform">
-        <label for="karaTitle">노래 제목</label><input id="karaTitle" maxlength="40" placeholder="예: 가수 - 노래 제목" autocomplete="off">
-        <a id="karaSearch" href="https://www.youtube.com/results?search_query=%EB%85%B8%EB%9E%98%EB%B0%A9" target="_blank" rel="noopener">유튜브에서 노래방 영상 찾기 ↗</a>
-        <label for="karaLink">유튜브 링크</label><input id="karaLink" placeholder="https://youtu.be/... 붙여넣기" autocomplete="off">
-        <button id="karaAdd" class="btn-brass" type="button">예약하기</button>
-        <p class="hint">찾은 영상에서 공유 → 링크 복사 후 붙여 넣으세요. 'TJ노래방', '금영' 같은 반주 영상이 좋아요.</p>
-      </div>
-    </details>
-  </div>
+<section id="kara" hidden aria-label="VERS 노래방">
+  <div class="kbar"><span class="kdot" aria-hidden="true">♪</span><span id="karaNow">지금은 노래하는 사람이 없어요</span><button class="kopen" id="karaOpen" type="button">예약 · 목록 <b id="karaCount"></b></button></div>
+  <div id="karaScreen" class="screen idle"><div id="ytPlayer"></div><button id="karaTap" class="btn-brass tap" type="button" hidden>▶ 반주 듣기</button><button id="karaBig" class="kbig" type="button" aria-label="영상 크기 바꾸기">크게</button></div>
+  <div id="karaLive" class="live" hidden></div>
+  <div id="karaMsg" class="msg"></div>
 </section>
+<div id="karaSheetBg" hidden><div class="sheet" id="karaSheet" role="dialog" aria-label="노래 예약">
+  <div class="shead"><b>VERS 노래방</b><button class="ibtn" id="karaClose" type="button">닫기</button></div>
+  <div class="krow"><button id="karaSkip" class="btn-ghost" type="button" hidden>건너뛰기 (가수 접속 끊김)</button></div>
+  <div class="qhead">예약 목록</div>
+  <ol id="karaQueue" class="queue"></ol>
+  <div class="qhead">노래 예약하기</div>
+  <div class="kform">
+    <label for="karaTitle">노래 제목</label><input id="karaTitle" maxlength="40" placeholder="예: 가수 - 노래 제목" autocomplete="off">
+    <a id="karaSearch" href="https://www.youtube.com/results?search_query=%EB%85%B8%EB%9E%98%EB%B0%A9" target="_blank" rel="noopener">유튜브에서 노래방 영상 찾기 ↗</a>
+    <label for="karaLink">유튜브 링크</label><input id="karaLink" placeholder="https://youtu.be/... 붙여넣기" autocomplete="off">
+    <button id="karaAdd" class="btn-brass" type="button">예약하기</button>
+    <p class="hint">찾은 영상에서 공유 → 링크 복사 후 붙여 넣으세요. 'TJ노래방', '금영' 같은 반주 영상이 좋아요.</p>
+  </div>
+</div></div>
 
 <div class="modal-bg" id="modal" hidden><div class="modal" id="modalBox"></div></div>
 <div class="modal-bg" id="ladder" hidden><div class="modal ladder" id="ladderBox"></div></div>
@@ -818,7 +823,7 @@ const SEATS = []; const seatPickers = [];
 const ents = new Map();
 const signs = [];
 let me = null, bartenders = [], ladderBoard = null, marker, dartsGroup, doorDark, doorVers, boardMesh;
-let camYaw = 0, camDist = 9.5;
+let camYaw = 0, camDist = 11, camPitch = .62;
 let room = null, myPeer = null, connected = false;
 let os = null, pendingInvite = null, worldBuilt = false;
 let lights = {};
@@ -1053,6 +1058,37 @@ function buildFront(wallM, brassM){
   for(const x of [-2.3,2.3,3.6,5.0,6.4,8.6]) haloSconce(x,2.75,7.86,Math.PI);
 }
 
+function ceiling(cx,cz,w,d,y,color,slats){
+  const m = slats
+    ? new THREE.MeshStandardMaterial({roughness:.8, map:canvasTex(256,256,(g,W,H)=>{ g.fillStyle=color; g.fillRect(0,0,W,H); g.fillStyle='rgba(0,0,0,.45)'; for(let x=0;x<W;x+=16) g.fillRect(x,0,5,H); })})
+    : new THREE.MeshStandardMaterial({color, roughness:.9});
+  if(slats){ m.map.wrapS=m.map.wrapT=THREE.RepeatWrapping; m.map.repeat.set(w/1.2, 1); }
+  const c=M(new THREE.PlaneGeometry(w,d), m, cx,y,cz); c.rotation.x=Math.PI/2; scene.add(c); return c;
+}
+function downlight(x,y,z,col=0xffe6c0){
+  const r=M(new THREE.CircleGeometry(.07,16), new THREE.MeshBasicMaterial({color:col}), x,y-.01,z); r.rotation.x=Math.PI/2; scene.add(r);
+  const ring=M(new THREE.RingGeometry(.07,.1,16), new THREE.MeshBasicMaterial({color:0x2a2a2e}), x,y-.012,z); ring.rotation.x=Math.PI/2; scene.add(ring);
+}
+function acUnit(x,y,z){
+  const g=new THREE.Group(); g.position.set(x,y,z);
+  g.add(M(new THREE.BoxGeometry(.9,.08,.9), mat('#2a2a30',.6,.2), 0,-.04,0));
+  const grill=M(new THREE.PlaneGeometry(.5,.5), new THREE.MeshStandardMaterial({color:0x111114,roughness:1}), 0,-.085,0); grill.rotation.x=Math.PI/2; g.add(grill);
+  for(const [dx,dz,ry] of [[0,.36,0],[0,-.36,0],[.36,0,1],[-.36,0,1]]){ const v=M(new THREE.BoxGeometry(ry? .06:.6,.01,ry? .6:.06), mat('#3a3a42',.5), dx,-.085,dz); g.add(v); }
+  scene.add(g);
+}
+function buildCeilings(){
+  // main bar: dark slatted ceiling with downlights, an AC cassette over the lounge
+  ceiling(0,0,20.4,16.4,4.6,'#1c1b1f',true);
+  for(let x=-8;x<=8;x+=2.6) for(const z of [-3.4,.6,4.6]) downlight(x,4.6,z);
+  acUnit(1.0,4.6,-.4); acUnit(-5.5,4.6,1.2);
+  // dark room
+  ceiling((DARK.x1+DARK.x2)/2-.15,(DARK.z1+DARK.z2)/2,DARK.x2-DARK.x1+1.2,DARK.z2-DARK.z1+1.2,3.6,'#140709',false);
+  downlight(DARK.x1+1.6,3.6,-1.9,0xff6080);
+  // VERS: navy ceiling, downlights, AC cassette like the photo
+  ceiling(16.0,2.3,11.6,11.5,4.6,'#0c0b1a',false);
+  for(let x=11.8;x<=20.6;x+=2.2) for(const z of [2.6,5.6]) downlight(x,4.6,z,0xfff0d8);
+  acUnit(14.0,4.6,3.6);
+}
 function buildWorld(){
   scene = new THREE.Scene();
   scene.background = new THREE.Color('#111013');
@@ -1184,6 +1220,7 @@ function buildWorld(){
   for(const [x,z] of [[9.2,7.2],[-9.2,-4.4],[9.2,-4.6]]){ scene.add(M(G.cyl(.26,.2,.5,14), mat('#d9d3c8',.6), x,.25,z)); for(let i=0;i<7;i++){ const l=M(G.sph(.22,8,6), mat(i%2?'#2f5a3c':'#3e6b4f',.9), x+Math.cos(i)*.18,.7+i*.08,z+Math.sin(i*2)*.18); l.scale.y=1.6; scene.add(l);} addObs(x-.3,z-.3,x+.3,z+.3); }
 
   buildFront(wallM, brassM);
+  buildCeilings();
   buildLadderBoard();
   buildDarkRoom(wallM, brassM, mat('#5a1f33',.95), mat('#4a1a2b',.95));
   buildDarts(brassM, wood);
@@ -1331,7 +1368,12 @@ const EMOTES = [['wave','손 흔들기','님이 손을 흔들었어요'],['cheer
 function renderEmotes(){
   const box=$('#emotes'); box.textContent='';
   const add=(label,fn,ctx)=>{ const b=document.createElement('button'); b.type='button'; b.textContent=label; if(ctx) b.className='ctx'; b.addEventListener('click',fn); box.appendChild(b); };
-  if(me && me.vr){ add('VERS 나가기',()=>Vers.leave(), true); if($('#kara').classList.contains('min')) add('리모컨 펼치기',()=>$('#karaMin').click(), true); }
+  if(me && me.vr){
+    add('VERS 나가기',()=>Vers.leave(), true);
+    const n=Karaoke.now, mine = n && n.uid===Karaoke.myId();
+    if(mine){ add(Rtc.stream?'마이크 끄기':'마이크 켜기',()=>{ if(Rtc.stream) Rtc.micOff(); else Rtc.micOn(); }, true); add('곡 끝내기',()=>Karaoke.finish(n.id), true); }
+    add('환호',()=>Karaoke.vfx('cheer'), true); add('스모그',()=>Karaoke.vfx('smoke'), true);
+  }
   if(me && me.dk){ add('다크룸 나가기',()=>Dark.leave(), true); add('스킨십 ♥',()=>openDarkCard(), true); add(me.topless?'상의 입기':'상의 벗기',()=>setTopless(!me.topless), true); }
   for(const [k,label] of EMOTES){ if(k==='sit' && me && me.seat>=0) continue; if(me && me.dk && (k==='bow'||k==='cheers')) continue; add(label,()=>doEmote(k)); }
   if(me && me.seat>=0) add('일어서기',()=>{ standUp(); renderEmotes(); }, true);
@@ -1579,8 +1621,8 @@ const Dark = {
         const h = s=>{ const m=s.val(); if(!m) return; if(m.kind==='act'||m.kind==='actr'){ onDarkAct(m); return; } const text=String(m.text||'').slice(0,200); const mine=m.from===uid; const ent = mine? me : ents.get(m.from); if(ent) say(ent,text,true); addLog((mine? me.nick : nickOf(m.from))+' (다크룸)', text, mine); };
         q.on('child_added', h); this.unsub=()=>q.off('child_added',h);
       }
-      me.dk=true; if(me.seat>=0){ me.seat=-1; } me.anim='idle';
-      me.x=DARK.x2-.6; me.z=(DARK.doorZ1+DARK.doorZ2)/2; me.ry=-Math.PI/2; me.target=null; camYaw=0;
+      flash(); me.dk=true; if(me.seat>=0){ me.seat=-1; } me.anim='idle';
+      me.x=DARK.x2-.6; me.z=(DARK.doorZ1+DARK.doorZ2)/2; me.ry=-Math.PI/2; me.target=null; camYaw=0; me.camJump=true;
       this.lastPartner=this.partnerUid(); this.auto={};
       setAmbience('dark'); Music.play('dark');
       document.body.classList.add('in-dark'); $('#chatForm').classList.add('dark'); $('#chatInput').placeholder='다크룸 대화 (둘만 보여요)…';
@@ -1598,8 +1640,8 @@ const Dark = {
     if(pendingAct){ pendingAct=null; } hideModal();
     if(room && room.fb && this.slotKey){ const r=room.fb.db.ref('darkroom/slots/'+this.slotKey); r.onDisconnect().cancel(); r.remove().catch(()=>{}); }
     this.slotKey=null; this.sess=null;
-    me.dk=false; if(me.seat>=0) me.seat=-1; me.anim='idle';
-    me.x=-9.0; me.z=(DARK.doorZ1+DARK.doorZ2)/2; me.ry=Math.PI/2; me.target=null; this.cool=performance.now()+1500;
+    flash(); me.dk=false; if(me.seat>=0) me.seat=-1; me.anim='idle';
+    me.x=-9.0; me.z=(DARK.doorZ1+DARK.doorZ2)/2; me.ry=Math.PI/2; me.target=null; me.camJump=true; this.cool=performance.now()+1500;
     setAmbience('main'); Music.play('jazz');
     document.body.classList.remove('in-dark'); $('#chatForm').classList.remove('dark'); $('#chatInput').placeholder='라운지에 한마디…';
     for(const e of ents.values()) applyVisibility(e);
@@ -1613,9 +1655,9 @@ const Dark = {
 function setAmbience(mode){
   const dark = mode===true || mode==='dark';
   document.body.classList.toggle('in-vers', mode==='vers');
-  if(mode==='vers'){ scene.fog.color.set('#07061a'); scene.fog.near=14; scene.fog.far=30; scene.background.set('#07061a'); lights.hemi.intensity=.3; lights.dir.intensity=.12; lights.dark.intensity=1.3; if(lights.darkFill) lights.darkFill.intensity=0; camDist=9; return; }
-  if(dark){ scene.fog.color.set('#120609'); scene.fog.near=6; scene.fog.far=17; scene.background.set('#120609'); lights.hemi.intensity=.32; lights.dir.intensity=.14; lights.dark.intensity=2.6; lights.dark.distance=8; if(lights.darkFill) lights.darkFill.intensity=.9; camDist=7; }
-  else { scene.fog.color.set('#111013'); scene.fog.near=16; scene.fog.far=34; scene.background.set('#111013'); lights.hemi.intensity=.5; lights.dir.intensity=.3; lights.dark.intensity=1.3; lights.dark.distance=5.5; if(lights.darkFill) lights.darkFill.intensity=0; camDist=9.5; }
+  if(mode==='vers'){ scene.fog.color.set('#07061a'); scene.fog.near=14; scene.fog.far=30; scene.background.set('#07061a'); lights.hemi.intensity=.3; lights.dir.intensity=.12; lights.dark.intensity=1.3; if(lights.darkFill) lights.darkFill.intensity=0; camDist=10.5; return; }
+  if(dark){ scene.fog.color.set('#120609'); scene.fog.near=6; scene.fog.far=17; scene.background.set('#120609'); lights.hemi.intensity=.32; lights.dir.intensity=.14; lights.dark.intensity=2.6; lights.dark.distance=8; if(lights.darkFill) lights.darkFill.intensity=.9; camDist=8; }
+  else { scene.fog.color.set('#111013'); scene.fog.near=16; scene.fog.far=34; scene.background.set('#111013'); lights.hemi.intensity=.5; lights.dir.intensity=.3; lights.dark.intensity=1.3; lights.dark.distance=5.5; if(lights.darkFill) lights.darkFill.intensity=0; camDist=11; }
 }
 
 /* ================= Dark room skinship (both people must agree) ================= */
@@ -1994,10 +2036,11 @@ function updateVersFx(dt, t){
 
 /* ---- entering / leaving VERS ---- */
 function bgm(){ if(!me || $('#world').hidden) return; if(me.dk) Music.play('dark'); else if(me.vr){ if(Karaoke.now) Music.stop(); else Music.play('club'); } else Music.play('jazz'); }
+function flash(){ const f=$('#fade'); f.classList.add('on'); requestAnimationFrame(()=>requestAnimationFrame(()=>f.classList.remove('on'))); }
 const Vers = {
   cool:0,
   enter(){
-    if(me.vr || me.dk) return;
+    if(me.vr || me.dk) return; flash();
     if(os) leaveOneShot();
     me.seat=-1; me.floorSit=false; me.vr=true;
     me.x=11.3; me.z=(VERS.doorZ1+VERS.doorZ2)/2; me.ry=Math.PI; me.target=null; me.onArrive=null; me.anim='idle'; me.animUntil=0;
@@ -2008,7 +2051,7 @@ const Vers = {
     setTimeout(()=>say(versBt,'VERS에 오신 걸 환영해요! 한 곡 뽑으시죠.'),700);
   },
   leave(){
-    if(!me.vr) return;
+    if(!me.vr) return; flash();
     Karaoke.onLeave();
     me.vr=false; me.seat=-1; me.floorSit=false; me.anim='idle'; me.animUntil=0;
     me.x=9.15; me.z=(VERS.doorZ1+VERS.doorZ2)/2; me.ry=-Math.PI/2; me.target=null; me.onArrive=null;
@@ -2087,7 +2130,7 @@ const Karaoke = {
     const item={uid:this.myId(), nick:me.nick, vid, title};
     if(this.db){ this.db.ref('vers/queue').push(Object.assign({t:room.fb.SV}, item)).then(()=>toast(`${title} 예약했어요`)).catch(()=>toast('예약하지 못했어요. 보안 규칙을 새로 붙여 넣었는지 확인해 주세요')); }
     else { this.queue.push(Object.assign({key:rid(8)}, item)); toast(`${title} 예약했어요`); this.render(); }
-    $('#karaLink').value=''; $('#karaTitle').value=''; $('#karaForm').open=false;
+    $('#karaLink').value=''; $('#karaTitle').value=''; $('#karaSheetBg').hidden=true;
     setTimeout(()=>this.tick(), 600);
   },
   onNow(){
@@ -2101,7 +2144,7 @@ const Karaoke = {
     if(me && me.vr){ if(n && n.mic && n.uid!==my) Rtc.listen(n); else Rtc.stopListen(); }
     if(n && n.id!==this.annId){ this.annId=n.id; $('#karaMsg').textContent=''; if(me && me.vr){ toast(`♪ ${n.nick}님 차례 · ${n.title}`); if(versBt) say(versBt, `다음 무대는 ${n.nick}님입니다! 박수!`); Smoke.burst=4; } }
     Smoke.level = n ? 1 : .2;
-    this.syncPlay(); bgm(); this.render();
+    this.syncPlay(); bgm(); this.render(); renderEmotes();
   },
   onEnter(){ this.render(); this.syncPlay(); const n=this.now; if(n && n.mic && n.uid!==this.myId()) Rtc.listen(n); if(!n && this.queue.length) setTimeout(()=>this.tick(),800); },
   onLeave(){
@@ -2110,6 +2153,7 @@ const Karaoke = {
     Rtc.stopListen();
     if(this.now && this.now.uid===this.myId()) this.finish(this.now.id);
     Rtc.micOff(); if(me.anim==='sing'){ me.anim='idle'; me.animUntil=0; }
+    $('#karaSheetBg').hidden=true;
   },
   loadYT(){
     if(this.ytP) return this.ytP;
@@ -2168,9 +2212,8 @@ const Karaoke = {
     const box=$('#kara'); if(!box) return;
     const n=this.now, my=this.myId();
     $('#karaNow').textContent = n ? `♪ ${n.nick} — ${n.title}` : '지금은 노래하는 사람이 없어요';
-    const mic=$('#karaMic'), end=$('#karaEnd'), skip=$('#karaSkip'), live=$('#karaLive');
-    mic.hidden = !(n && n.uid===my); mic.textContent = Rtc.stream ? '마이크 끄기' : '마이크 켜기';
-    end.hidden = !(n && n.uid===my);
+    const skip=$('#karaSkip'), live=$('#karaLive');
+    $('#karaCount').textContent = this.queue.length ? String(this.queue.length) : '';
     skip.hidden = !(n && n.uid!==my && this.missingSince);
     live.hidden = !(n && n.mic); live.textContent = n && n.uid===my ? '마이크 ON · 내 목소리 전달 중' : (Rtc.connected ? '가수 목소리 연결됨' : '가수 목소리 연결 중…');
     const ol=$('#karaQueue'); ol.textContent='';
@@ -2204,7 +2247,7 @@ const Rtc = {
     const h=s=>this.answer(s.key, s.val());
     this.offRef.on('child_added', h); this.offRef.on('child_changed', h);
     await db.ref('vers/now').transaction(cur=> cur && cur.id===n.id ? Object.assign({}, cur, {mic:true}) : undefined).catch(()=>{});
-    Karaoke.render(); toast('마이크가 켜졌어요. VERS에 있는 사람들에게 목소리가 전달돼요');
+    Karaoke.render(); renderEmotes(); toast('마이크가 켜졌어요. VERS에 있는 사람들에게 목소리가 전달돼요');
   },
   async answer(lid, v){
     if(!v || !v.offer || v.sid!==this.sid || this.pcs.has(lid) || !this.stream) return;
@@ -2224,7 +2267,7 @@ const Rtc = {
     if(this.stream){ this.stream.getTracks().forEach(t=>t.stop()); this.stream=null; }
     for(const pc of this.pcs.values()){ try{pc.close();}catch(e){} } this.pcs.clear();
     if(this.offRef){ this.offRef.off(); this.offRef.onDisconnect().cancel(); this.offRef.remove().catch(()=>{}); this.offRef=null; }
-    this.sid=null; Karaoke.render();
+    this.sid=null; Karaoke.render(); renderEmotes();
   },
   async listen(n){
     const key=n.id+'|'+n.uid; if(this.listenKey===key) return;
@@ -2252,15 +2295,14 @@ const Rtc = {
     this.listenKey=null; this.connected=false; if(this.audio) this.audio.srcObject=null;
   }
 };
-$('#karaMin').addEventListener('click', ()=>{ const k=$('#kara'); k.classList.toggle('min'); $('#karaMin').textContent = k.classList.contains('min') ? '펼치기' : '접기'; });
+$('#karaOpen').addEventListener('click', ()=>{ $('#karaSheetBg').hidden=false; Karaoke.render(); });
+$('#karaClose').addEventListener('click', ()=>{ $('#karaSheetBg').hidden=true; });
+$('#karaSheetBg').addEventListener('click', e=>{ if(e.target.id==='karaSheetBg') $('#karaSheetBg').hidden=true; });
+$('#karaBig').addEventListener('click', ()=>{ const k=$('#kara'); k.classList.toggle('big'); $('#karaBig').textContent = k.classList.contains('big') ? '작게' : '크게'; });
 $('#karaTitle').addEventListener('input', ()=>{ const q=($('#karaTitle').value.trim()||'노래')+' 노래방'; $('#karaSearch').href='https://www.youtube.com/results?search_query='+encodeURIComponent(q); });
 $('#karaAdd').addEventListener('click', ()=>Karaoke.reserve());
-$('#karaMic').addEventListener('click', ()=>{ if(Rtc.stream) Rtc.micOff(); else Rtc.micOn(); });
-$('#karaEnd').addEventListener('click', ()=>{ if(Karaoke.now) Karaoke.finish(Karaoke.now.id); });
 $('#karaSkip').addEventListener('click', ()=>{ if(Karaoke.now) Karaoke.finish(Karaoke.now.id); });
 $('#karaTap').addEventListener('click', ()=>Karaoke.tapPlay());
-$('#karaSmoke').addEventListener('click', ()=>Karaoke.vfx('smoke'));
-$('#karaCheer').addEventListener('click', ()=>Karaoke.vfx('cheer'));
 
 /* ================= Darts ================= */
 const Darts = {
@@ -2434,12 +2476,27 @@ const keys = new Set();
 addEventListener('keydown', e=>{ if(e.target.tagName==='INPUT') return; const k=e.key.toLowerCase(); if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(k)){ keys.add(k); e.preventDefault(); } if(k==='enter' && !$('#hud').hidden){ (os?$('#osInput'):$('#chatInput')).focus(); } if(k==='escape'){ closeCard(); Aim.close(); } });
 addEventListener('keyup', e=>keys.delete(e.key.toLowerCase()));
 addEventListener('blur', ()=>keys.clear());
+const CAM = {pMin:.04, pMax:1.3, rMin:2.6, rMax:15};
 function setupPointer(el){
-  let down=null;
-  el.addEventListener('pointerdown', e=>{ down={x:e.clientX,y:e.clientY,moved:false}; el.setPointerCapture(e.pointerId); });
-  el.addEventListener('pointermove', e=>{ if(!down) return; if(Math.abs(e.clientX-down.x)>8 || down.moved){ down.moved=true; { const d=(e.clientX-(down.lx??down.x))*.006; camYaw = (me && me.dk) ? clamp(camYaw-d,-1.05,1.05) : camYaw-d; } down.lx=e.clientX; } });
-  el.addEventListener('pointerup', e=>{ if(down && !down.moved) tap(e.clientX,e.clientY); down=null; });
-  el.addEventListener('wheel', e=>{ camDist = clamp(camDist + e.deltaY*.01, 5.5, 14); }, {passive:true});
+  const pts=new Map(); let down=null, pinch=null;
+  el.addEventListener('pointerdown', e=>{
+    try{ el.setPointerCapture(e.pointerId); }catch(_){}
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pts.size===1) down={x:e.clientX,y:e.clientY,lx:e.clientX,ly:e.clientY,moved:false};
+    else if(pts.size===2){ const [a,b]=[...pts.values()]; pinch={d:Math.max(20,Math.hypot(a.x-b.x,a.y-b.y)), r:camDist}; if(down) down.moved=true; }
+  });
+  el.addEventListener('pointermove', e=>{
+    if(!pts.has(e.pointerId)) return; pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pinch && pts.size>=2){ const [a,b]=[...pts.values()]; const d=Math.max(20,Math.hypot(a.x-b.x,a.y-b.y)); camDist=clamp(pinch.r*pinch.d/d, CAM.rMin, CAM.rMax); return; }
+    if(!down) return;
+    if(!down.moved && Math.hypot(e.clientX-down.x, e.clientY-down.y)>8) down.moved=true;
+    if(down.moved){ const dx=(e.clientX-down.lx)*.006, dy=(e.clientY-down.ly)*.005;
+      camYaw = (me && me.dk) ? clamp(camYaw-dx,-1.05,1.05) : camYaw-dx;
+      camPitch = clamp(camPitch+dy, CAM.pMin, CAM.pMax); down.lx=e.clientX; down.ly=e.clientY; }
+  });
+  const up=e=>{ const wasTap = e.type==='pointerup' && down && !down.moved && pts.size===1; pts.delete(e.pointerId); if(pts.size<2) pinch=null; if(wasTap) tap(e.clientX,e.clientY); if(!pts.size) down=null; };
+  el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+  el.addEventListener('wheel', e=>{ camDist = clamp(camDist + e.deltaY*.01, CAM.rMin, CAM.rMax); }, {passive:true});
 }
 function tap(cx,cy){
   const ndc = new THREE.Vector2(cx/innerWidth*2-1, -(cy/innerHeight)*2+1);
@@ -2456,7 +2513,7 @@ function tap(cx,cy){
     if(u.myDrink){ closeCard(); pickCounterDrink(); return; }
     if(u.darts){ if(me.dk||me.vr) continue; Darts.open(); return; }
     if(u.ladder){ if(me.dk||me.vr) continue; closeCard(); Ladder.open(); return; }
-    if(u.door==='vers'){ if(me.dk||me.vr) continue; walkTo(9.3,5.5, openVers); return; }
+    if(u.door==='vers'){ if(me.dk||me.vr) continue; closeCard(); walkTo(9.55,5.5, ()=>Vers.enter()); return; }
     if(u.door==='versOut'){ if(!me.vr) continue; closeCard(); walkTo(10.85,5.5); return; }
     if(u.door==='dark'){ if(me.dk){ walkTo(DARK.x2-.2,(DARK.doorZ1+DARK.doorZ2)/2); } else walkTo(-9.6,(DARK.doorZ1+DARK.doorZ2)/2); closeCard(); return; }
     if(u.seat!==undefined){ const s=SEATS[u.seat]; if(seatRoom(s)!==roomOf(me)) continue; closeCard(); if(seatTaken(u.seat)){ toast('이미 누가 앉아 있어요'); return; } if(me.seat===u.seat) return; walkTo(s.ax, s.az, ()=>sitAt(u.seat)); return; }
@@ -2489,7 +2546,7 @@ function step(){
   }
   // door triggers
   const dz0=DARK.doorZ1+.15, dz1=DARK.doorZ2-.15;
-  if(!me.dk && !me.vr && me.x>9.45 && me.z>VERS.doorZ1+.05 && me.z<VERS.doorZ2-.05 && now>Vers.cool && $('#modal').hidden){ me.x=9.1; me.target=null; me.onArrive=null; Vers.cool=now+1500; openVers(); }
+  if(!me.dk && !me.vr && me.x>9.45 && me.z>VERS.doorZ1+.05 && me.z<VERS.doorZ2-.05 && now>Vers.cool) Vers.enter();
   else if(me.vr && me.x<10.95 && me.z>VERS.doorZ1 && me.z<VERS.doorZ2 && now>Vers.cool) Vers.leave();
   if(!me.dk && me.x < -9.38 && me.z>dz0 && me.z<dz1) Dark.enter();
   else if(me.dk && me.x > DARK.x2-.12 && me.z>dz0 && me.z<dz1 && now>Dark.cool) Dark.leave();
@@ -2511,17 +2568,21 @@ function step(){
     if(bt.animUntil && now>bt.animUntil){ bt.anim='idle'; bt.animUntil=0; }
     place(bt, dt, t);
   }
-  const gy = groundY(me.x,me.z);
-  const hf = me.dk ? .95 : .72;
-  const ahead = me.dk ? .6 : (camera.aspect < .8 ? 2.4 : .9);
+  const gy = groundY(me.x,me.z) + (me.seat>=0 ? -.35 : 0);
+  const hk = clamp((camPitch-.25)/.5, 0, 1);               // 0 at eye level, 1 when looking down
+  const ahead = (me.dk ? .4 : (camera.aspect < .8 ? 2.0 : .7)) * hk;
   const fx = me.x - Math.sin(camYaw)*ahead, fz = me.z - Math.cos(camYaw)*ahead;
-  const camTarget = tmpV.set(fx + Math.sin(camYaw)*camDist, gy + camDist*hf, fz + Math.cos(camYaw)*camDist);
-  if(me.vr){ camTarget.x=clamp(camTarget.x,10.5,21.4); camTarget.z=clamp(camTarget.z,-3.1,7.8); }
-  else if(!me.dk){ camTarget.x=clamp(camTarget.x,-9.6,9.6); camTarget.z=clamp(camTarget.z,-7.6,7.6); }
-  if(me.camJump){ camera.position.copy(camTarget); camLook.set(fx, gy+.9, fz); me.camJump=false; }
-  else camera.position.lerp(camTarget, Math.min(1,dt*(me.camSnap? 30 : 5)));
+  const lookY = gy + 1.35 - .45*hk;
+  const horiz = camDist*Math.cos(camPitch), vert = camDist*Math.sin(camPitch);
+  const camTarget = tmpV.set(fx + Math.sin(camYaw)*horiz, lookY + vert, fz + Math.cos(camYaw)*horiz);
+  // keep the camera inside the room so walls never block the view
+  const box = me.vr ? [10.5,21.4,-3.1,7.8] : me.dk ? [DARK.x1-.25,DARK.x2+.2,DARK.z1-.25,4.5] : [-9.7,9.7,-7.7,7.7];
+  camTarget.x=clamp(camTarget.x,box[0],box[1]); camTarget.z=clamp(camTarget.z,box[2],box[3]);
+  camTarget.y=Math.max(camTarget.y, gy+.45);
+  if(me.camJump){ camera.position.copy(camTarget); camLook.set(fx, lookY, fz); me.camJump=false; }
+  else camera.position.lerp(camTarget, Math.min(1,dt*(me.camSnap? 30 : 6)));
   me.camSnap=false;
-  camLook.lerp(new THREE.Vector3(fx, gy+.9, fz), Math.min(1,dt*6));
+  camLook.lerp(new THREE.Vector3(fx, lookY, fz), Math.min(1,dt*7));
   camera.lookAt(camLook);
   if(scene.userData.disco) scene.userData.disco.rotation.y += dt*.8;
   if(mv && !me.dk && !me.vr) mv.update(t);
@@ -2576,7 +2637,7 @@ function enter(){
     worldBuilt=true;
     renderer = new THREE.WebGLRenderer({antialias:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));
     $('#world').appendChild(renderer.domElement);
-    camera = new THREE.PerspectiveCamera(45,1,.1,80);
+    camera = new THREE.PerspectiveCamera(45,1,.08,80);
     buildWorld();
     marker = new THREE.Mesh(new THREE.RingGeometry(.22,.3,28), new THREE.MeshBasicMaterial({color:0xf1d08a,transparent:true,opacity:.8,depthWrite:false})); marker.rotation.x=-Math.PI/2; marker.visible=false; scene.add(marker);
     me = makeEntity({nick, look, mine:true}); me.x=1.6+Math.random()*1.2; me.z=1.2+Math.random()*1.0; me.ry=Math.PI;
