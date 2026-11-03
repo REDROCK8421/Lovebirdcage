@@ -1899,6 +1899,12 @@ function drinkGrid(onPick){
 function openCard(ent){
   if(ent===Tarot.npc){ closeCard(); Tarot.open(); return; }
   if(ent===BJ.dealer){ closeCard(); bjApproach(); return; }
+  if(ent===versAz){
+    const card = cardShell(ent.nick, '홀을 돌아다니는 바텐더예요. 주문하면 자리로 직접 가져다 드려요.', 'bar');
+    card.appendChild(drinkGrid(k=>azOrder(k)));
+    const row=document.createElement('div'); row.className='row'; const tg=document.createElement('button'); tg.className='btn-brass'; tg.type='button'; tg.textContent='오늘의 한 잔 + 운세'; tg.onclick=()=>openTodayGlass(ent); row.appendChild(tg); card.appendChild(row);
+    return;
+  }
   if(ent===versBt){
     const card = cardShell(ent.nick, '주문하면 바로 손에 잔을 쥐여 드려요. 노래하면서 마시세요.', 'bar');
     card.appendChild(drinkGrid(k=>versOrder(k)));
@@ -2370,7 +2376,7 @@ const Ladder = {
 const VERS = {x1:10.8, x2:21.2, z1:-2.95, z2:7.7, doorZ1:4.95, doorZ2:6.05,
   stage:{x1:11.2, x2:17.8, z1:-3.3, z2:-0.8, h:.3}, mic:{x:14.5, z:-1.45}};
 const VOBS = [];
-let versBt = null, versFx = null;
+let versBt = null, versFx = null, versAz = null;
 function roomOf(e){ return !e ? 'main' : (e.dk ? (e.dkr==='secret' ? 'secret' : 'dark') : (e.vr ? 'vers' : 'main')); }
 function seatRoom(s){ return s.dark ? 'dark' : (s.room || 'main'); }
 function inVersStage(x,z){ return x>VERS.stage.x1 && x<VERS.stage.x2 && z>VERS.stage.z1 && z<VERS.stage.z2; }
@@ -2527,8 +2533,10 @@ function buildVersRoom(){
       addSeat({x, z:pz, ry, top:.5, y:.4, ax:x+.75, az:pz, label:'VERS 테이블', room:'vers', tb:'v'+x+','+z}); }
   }
   // bartender V
-  versBt = makeEntity({nick:'바텐더 V', look:{body:'normal',skin:'#eac09a',hair:'side',hairColor:'#1d1715',beard:'stubble',outfit:'shirt',top:'#1f1f24',bottom:'#24242b',acc:['chain']}, npc:true});
+  versBt = makeEntity({nick:'바텐더 SM', look:{body:'normal',skin:'#eac09a',hair:'side',hairColor:'#1d1715',beard:'stubble',outfit:'shirt',top:'#1f1f24',bottom:'#24242b',acc:['chain']}, npc:true});
   versBt.room='vers'; versBt.x=20.45; versBt.z=versBt.tz=2.0; versBt.ry=-Math.PI/2; versBt.baseY=.42; versBt.tag.classList.add('npc'); versBt.nextIdle=performance.now()+5000;
+  versAz = makeEntity({nick:'바텐더 AZ', look:{body:'muscle',face:'round',skin:'#cf9a6e',hair:'fade',hairColor:'#1d1715',beard:'short',outfit:'shirt',top:'#7a1f2e',bottom:'#24242b',acc:['bowtie','earring']}, npc:true});
+  versAz.room='vers'; versAz.x=14.2; versAz.z=3.0; versAz.ry=0; versAz.tag.classList.add('npc'); versAz.nextIdle=performance.now()+3000; versAz.nextChat=performance.now()+25000+Math.random()*20000;
   Smoke.init();
   const sgn=makeSign('VERS 무대', cx, 4.05, -3.1, '', null); sgn.room='vers'; signs.push(sgn);
 }
@@ -2592,9 +2600,67 @@ function updateVersBartender(dt, t, now){
   if(Math.abs(d)>.04){ b.z+=Math.sign(d)*Math.min(Math.abs(d),2.4*dt); b.ry=lerpAngle(b.ry, d>0?0:Math.PI, Math.min(1,dt*10)); if(b.anim!=='mix') b.anim='walk'; }
   else { b.ry=lerpAngle(b.ry,-Math.PI/2,Math.min(1,dt*6)); if(b.anim==='walk') b.anim='idle';
     if(b.after){ const f=b.after; b.after=null; f(); }
-    else if(now>b.nextIdle){ b.nextIdle=now+7000+Math.random()*9000; if(Math.random()<.5) b.tz=clamp(1.9+(Math.random()-.5)*5,-1.2,5.0); else setAnim(b,'mix',1600); } }
+    else if(now>b.nextIdle && !(versAz && versAz.chat)){ b.nextIdle=now+7000+Math.random()*9000; if(Math.random()<.5) b.tz=clamp(1.9+(Math.random()-.5)*5,-1.2,5.0); else setAnim(b,'mix',1600); } }
+  if(versAz && versAz.chat && versAz.chat.on && Math.abs(b.tz-b.z)<.05) b.ry=lerpAngle(b.ry,-Math.PI/2,Math.min(1,dt*6));
   if(b.animUntil && now>b.animUntil){ b.anim='idle'; b.animUntil=0; }
   place(b, dt, t);
+}
+
+/* ---- bartender AZ: walks the VERS floor, serves at your seat, and chats with SM at the bar ---- */
+const AZ_TALK = [
+  [['SM','AZ, 오늘 신청곡 엄청 밀렸다.'],['AZ','형, 3번 테이블은 벌써 세 번째 앵콜이에요.'],['SM','목은 괜찮대? 따뜻한 물이라도 갖다 드려.']],
+  [['AZ','SM 형, 하이볼 얼음 좀 더 주세요!'],['SM','방금 채웠잖아. 오늘 왜 이렇게 잘 나가?'],['AZ','무대가 뜨거우니까요!']],
+  [['SM','저기 손님 노래 진짜 잘한다.'],['AZ','저도 들었어요. 점수 90점 넘을 것 같아요.'],['SM','넘으면 서비스 한 잔 가자.']],
+  [['AZ','형, 오늘 시그니처 몇 잔 나갔어요?'],['SM','열두 잔. 라벤더 시럽 다 떨어지겠어.'],['AZ','내일 제가 장 봐 올게요.']],
+  [['SM','AZ, 스모그 너무 많이 튼 거 아니야?'],['AZ','분위기 살리려고요. 조금만 줄일게요.']],
+  [['AZ','형, 듀엣 들어가실래요?'],['SM','바 비우면 누가 술 만들어.'],['AZ','제가 대신 서 있을게요. 한 곡만요!']],
+  [['SM','오늘 해피아워 끝나고도 손님 그대로네.'],['AZ','VERS가 원래 2차 맛집이잖아요.']],
+  [['AZ','형, 비밀의 방 비밀번호 바꿨어요?'],['SM','쉿. 그건 아는 사람만 아는 거야.']]
+];
+const AZ_IDLE = ['한 잔 더 하실래요?','신청곡 예약은 오른쪽 위 리모컨이에요!','오늘 무대 분위기 좋네요.','목 축이고 한 곡 더 가시죠!','앵콜! 앵콜!'];
+function azPickSpot(a){
+  for(let k=0;k<30;k++){ const x=11.2+Math.random()*7.1, z=-.3+Math.random()*7.6; if(!blocked(x,z,'vers') && clearLine(a.x,a.z,x,z,'vers')) return {x,z}; }
+  return null;
+}
+function azOrder(k){
+  closeCard(); const a=versAz; if(!a) return; a.chat=null;
+  say(a, `${drinkName(k)} 한 잔이요! 자리로 가져다 드릴게요.`);
+  a.goal = {x:me.x+(Math.random()<.5?-.7:.7), z:me.z+.5};
+  if(blocked(a.goal.x,a.goal.z,'vers')) a.goal={x:me.x, z:me.z+.7};
+  a.after = ()=>{ a.ry=Math.atan2(me.x-a.x, me.z-a.z); setAnim(a,'mix',1200); setTimeout(()=>{ if(!me.vr) return; me.hold=k; setAnim(me,'cheers',1500); say(a, `${drinkName(k)} 나왔습니다. 맛있게 드세요!`); pushPresence(true); renderEmotes(); },1200); };
+}
+function updateVersAz(dt, t, now){
+  const a=versAz; if(!a) return;
+  if(me && me.vr){
+    // start a little chat with SM now and then
+    if(!a.chat && !a.after && now>a.nextChat){ a.chat={lines:AZ_TALK[Math.floor(Math.random()*AZ_TALK.length)], i:0, on:false}; a.goal={x:18.42, z:clamp(versBt.z,-1.0,5.0)}; versBt.tz=a.goal.z; versBt.nextIdle=now+30000; }
+    const g=a.goal;
+    if(g){
+      const dx=g.x-a.x, dz=g.z-a.z, d=Math.hypot(dx,dz);
+      if(d>.08){ const st=Math.min(d,1.5*dt), nx=a.x+dx/d*st, nz=a.z+dz/d*st;
+        if(!blocked(nx,nz,'vers') || d<.5){ a.x=nx; a.z=nz; } else { const p=findPath(a.x,a.z,g.x,g.z,'vers'); if(p && p.length){ a.route=p; a.goal=a.route.shift(); } else a.goal=null; }
+        a.ry=lerpAngle(a.ry, Math.atan2(dx,dz), Math.min(1,dt*8)); if(a.anim!=='mix') a.anim='walk'; }
+      else if(a.route && a.route.length){ a.goal=a.route.shift(); }
+      else { a.goal=null; a.route=null; if(a.anim==='walk') a.anim='idle';
+        if(a.after){ const f=a.after; a.after=null; f(); }
+        else if(a.chat && !a.chat.on){ a.chat.on=true; a.chat.next=now+300; } }
+    } else if(a.chat && a.chat.on){
+      a.ry=lerpAngle(a.ry, Math.PI/2, Math.min(1,dt*6));
+      if(now>a.chat.next){
+        const ln=a.chat.lines[a.chat.i];
+        if(ln){ say(ln[0]==='SM'?versBt:a, ln[1]); if(ln[0]==='AZ') setAnim(a,'wave',900); a.chat.i++; a.chat.next=now+2800; }
+        else { a.chat=null; a.nextChat=now+45000+Math.random()*40000; a.nextIdle=now+2000; versBt.nextIdle=now+4000; }
+      }
+    } else if(now>a.nextIdle){
+      a.nextIdle=now+5000+Math.random()*7000;
+      const r=Math.random();
+      if(r<.6){ const sp=azPickSpot(a); if(sp) a.goal=sp; }
+      else if(r<.8){ setAnim(a, Math.random()<.5?'cheers':'wave', 1600); if(Math.hypot(me.x-a.x,me.z-a.z)<3.5) say(a, AZ_IDLE[Math.floor(Math.random()*AZ_IDLE.length)]); }
+      else setAnim(a,'dance',3000);
+    }
+  }
+  if(a.animUntil && now>a.animUntil){ a.anim='idle'; a.animUntil=0; }
+  place(a, dt, t);
 }
 
 /* ================= Karaoke: queue, synced YouTube playback, mic ================= */
@@ -3394,7 +3460,7 @@ function openTodayGlass(bt){
   box.append(n,s,f,l); card.appendChild(box);
   const row=document.createElement('div'); row.className='row';
   const ok=document.createElement('button'); ok.className='btn-brass'; ok.type='button'; ok.textContent='이걸로 주세요';
-  ok.onclick=()=>{ if(bt===versBt) versOrder(g.k); else orderDrink(g.k, bt); };
+  ok.onclick=()=>{ if(bt===versBt) versOrder(g.k); else if(bt===versAz) azOrder(g.k); else orderDrink(g.k, bt); };
   const back=document.createElement('button'); back.className='btn-ghost'; back.type='button'; back.textContent='메뉴 보기'; back.onclick=()=>openCard(bt);
   row.append(back,ok); card.appendChild(row);
   say(bt, `오늘 ${me.nick}님은 ${d[1]}! ${g.fortune}.`);
@@ -3897,7 +3963,7 @@ function tap(cx,cy){
   const ndc = new THREE.Vector2(cx/innerWidth*2-1, -(cy/innerHeight)*2+1);
   raycaster.setFromCamera(ndc, camera);
   const visEnts = [...ents.values()].filter(e=>!e.hidden).map(e=>e.root);
-  const objs = [...bartenders.map(b=>b.root), versBt.root, ...npcs.map(n=>n.root), ...visEnts, ...seatPickers, boardMesh, doorDark, doorVers, ladderBoard]; if(me.cdMesh) objs.push(me.cdMesh);
+  const objs = [...bartenders.map(b=>b.root), versBt.root, versAz.root, ...npcs.map(n=>n.root), ...visEnts, ...seatPickers, boardMesh, doorDark, doorVers, ladderBoard]; if(me.cdMesh) objs.push(me.cdMesh);
   scene.traverse(o=>{ if(o.userData && (o.userData.door==='versOut' || o.userData.door==='secret' || o.userData.door==='secretOut' || o.userData.stage)) objs.push(o); });
   const hits = raycaster.intersectObjects(objs, true);
   const eh = hits.find(h=>{ const en=h.object.userData.ent; return en && en!==me && !(en.npc && (en.room||'main')!==roomOf(me)); });
@@ -3986,12 +4052,13 @@ function step(){
   if(scene.userData.disco) scene.userData.disco.rotation.y += dt*.8;
   if(mv && !me.dk && !me.vr) mv.update(t);
   updateVersBartender(dt, t, now);
+  updateVersAz(dt, t, now);
   updateGameNpcs(dt, t, now);
   updateVersFx(dt, t);
   if(lights.dark) lights.dark.intensity = (me.dk?2.6:1.3) + Math.sin(t*1.3)*.25;
   if(marker.visible){ marker.userData.t+=dt; marker.scale.setScalar(1+marker.userData.t*1.5); marker.material.opacity=Math.max(0,.8-marker.userData.t*1.2); if(marker.userData.t>.7) marker.visible=false; }
   renderer.render(scene,camera);
-  for(const e of [me, ...bartenders, versBt, ...npcs, ...ents.values()]) if(e) placeTag(e, now);
+  for(const e of [me, ...bartenders, versBt, versAz, ...npcs, ...ents.values()]) if(e) placeTag(e, now);
   for(const s of signs) placeSign(s);
   const z = zoneName(me.x,me.z,roomOf(me)); if(z!==step.zone){ step.zone=z; $('#zoneChip').textContent=z; renderEmotes(); }
 }
