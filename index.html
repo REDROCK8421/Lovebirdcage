@@ -3812,6 +3812,16 @@ const Vincent = {
     this.play('Idle'); this.until=performance.now()+4000;
     setTimeout(()=>{ if(this.sameRoom()) this.say(`${me.nick}님, 어서 오세요. 마스터 Vincent입니다.`); }, 3500);
   },
+  hitScreen(cx,cy){
+    const e=this.ent; if(!e || e.hidden || !camera) return false;
+    const gy=groundY(e.x,e.z);
+    const f=new THREE.Vector3(e.x,gy,e.z).project(camera), h=new THREE.Vector3(e.x,gy+1.9,e.z).project(camera);
+    if(f.z>1 || h.z>1) return false;
+    const fx=(f.x+1)/2*innerWidth, fy=(1-f.y)/2*innerHeight, hx=(h.x+1)/2*innerWidth, hy=(1-h.y)/2*innerHeight;
+    const top=Math.min(fy,hy)-10, bot=Math.max(fy,hy)+6, hgt=bot-top; if(hgt<12) return false;
+    const half=Math.max(18, hgt*.2), mx=(fx+hx)/2;
+    return cy>=top && cy<=bot && Math.abs(cx-mx)<=half;
+  },
   sameRoom(){ return !!(this.ent && me && this.ent.room===roomOf(me)); },
   say(t){ if(this.ent) say(this.ent, t); },
   play(name, once){
@@ -4159,6 +4169,8 @@ function setupPointer(el){
   el.addEventListener('wheel', e=>{ camDist = clamp(camDist + e.deltaY*.01, CAM.rMin, CAM.rMax); }, {passive:true});
 }
 function tap(cx,cy){
+  // the manager is easy to hit: any tap on his on-screen figure opens his card first
+  if(Vincent.hitScreen(cx,cy)){ Vincent.card(); return; }
   const ndc = new THREE.Vector2(cx/innerWidth*2-1, -(cy/innerHeight)*2+1);
   raycaster.setFromCamera(ndc, camera);
   const visEnts = [...ents.values()].filter(e=>!e.hidden).map(e=>e.root);
