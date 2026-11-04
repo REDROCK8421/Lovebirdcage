@@ -3786,40 +3786,78 @@ const V_TALK_VERS = [
   ['오늘 무대 점수 높은 손님 많네.','앵콜 요청도 계속 들어와요!']
 ];
 const Vincent = {
-  ent:null, mixer:null, acts:{}, cur:null, curName:'', onceUntil:0, until:0, goal:null, route:null, onArrive:null, H:1.78, SPEED:1.2,
+  ent:null, bones:{}, rest:{}, dirs:{}, curName:'idle', onceUntil:0, until:0, goal:null, route:null, onArrive:null, SPEED:1.15, walkPh:0,
   load(){
     if(!window.GLTFLoader || this.loading) return; this.loading=true;
     try{ new window.GLTFLoader().load('vincent.glb', g=>{ try{ this.setup(g); }catch(e){ console.warn('vincent setup', e); } }, undefined, e=>console.warn('vincent.glb을 불러오지 못했어요', e)); }
     catch(e){ console.warn(e); }
   },
   setup(g){
-    const root=new THREE.Group(), model=g.scene;
-    const box=new THREE.Box3().setFromObject(model); const h=(box.max.y-box.min.y)||1.88;
-    model.scale.setScalar(this.H/h); root.add(model);
+    const root=new THREE.Group(), model=g.scene; root.add(model);
     model.traverse(o=>{ if(o.isMesh){ o.frustumCulled=false; const mt=o.material; if(mt && mt.map){ mt.map.encoding=THREE.LinearEncoding; mt.needsUpdate=true; } } });
-    const blob=new THREE.Mesh(new THREE.CircleGeometry(.42,24), new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.38,depthWrite:false}));
+    // bones by Mixamo name (the loader strips the ':' from "mixamorig:LeftArm")
+    model.traverse(o=>{ if(o.isBone){ const k=o.name.replace(/^mixamorig:?/,''); this.bones[k]=o; this.rest[k]={q:o.quaternion.clone(), p:o.position.clone()}; } });
+    model.updateMatrixWorld(true);
+    const blob=new THREE.Mesh(new THREE.CircleGeometry(.45,24), new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.38,depthWrite:false}));
     blob.rotation.x=-Math.PI/2; blob.position.y=.012; root.add(blob);
-    const pick=new THREE.Mesh(new THREE.CylinderGeometry(.42,.42,1.8,10), new THREE.MeshBasicMaterial({visible:false})); pick.position.y=.9; root.add(pick);
+    const pick=new THREE.Mesh(new THREE.CylinderGeometry(.45,.45,1.9,10), new THREE.MeshBasicMaterial({visible:false})); pick.position.y=.95; root.add(pick);
     scene.add(root);
     const tag=document.createElement('div'); tag.className='tag npc';
     const bubble=document.createElement('div'); bubble.className='bubble'; bubble.hidden=true;
     const name=document.createElement('div'); name.className='name'; name.textContent='마스터 Vincent';
     tag.append(bubble,name); $('#tags').appendChild(tag);
-    const ent={root, tag, bubble, nameEl:name, nick:'마스터 Vincent', npc:true, room:'main', x:2.6, z:3.4, ry:Math.PI, anim:'idle', seat:-1, baseY:.14, hidden:false, bubbleT:0};
+    const ent={root, tag, bubble, nameEl:name, nick:'마스터 Vincent', npc:true, room:'main', x:2.6, z:3.4, ry:Math.PI, anim:'idle', seat:-1, baseY:.24, hidden:false, bubbleT:0};
     root.traverse(o=>{ o.userData.ent=ent; });
-    this.ent=ent; this.mixer=new THREE.AnimationMixer(model);
-    for(const c of (g.animations||[])) this.acts[c.name]=this.mixer.clipAction(c);
+    this.ent=ent; this.model=model;
     this.play('Idle'); this.until=performance.now()+4000;
     setTimeout(()=>{ if(this.sameRoom()) this.say(`${me.nick}님, 어서 오세요. 마스터 Vincent입니다.`); }, 3500);
   },
   sameRoom(){ return !!(this.ent && me && this.ent.room===roomOf(me)); },
   say(t){ if(this.ent) say(this.ent, t); },
   play(name, once){
-    const a=this.acts[name] || this.acts.Idle; if(!a) { this.curName=name; return; }
-    if(this.cur===a && !once) return;
-    a.reset(); a.setLoop(once ? THREE.LoopOnce : THREE.LoopRepeat, once ? 1 : Infinity); a.clampWhenFinished=!!once;
-    a.fadeIn(.25).play(); if(this.cur && this.cur!==a) this.cur.fadeOut(.25);
-    this.cur=a; this.curName=name; this.onceUntil = once ? performance.now()+Math.max(400,a.getClip().duration*1000-200) : 0;
+    const map={Idle:'idle', IdleRelax:'relaxed', WalkForward:'walk', TauntGesture:'welcome', Victory:'clap'};
+    const p=map[name]||name; if(this.curName===p && !once) return;
+    this.curName=p; this.onceUntil = once ? performance.now()+(p==='clap'?2600:1800) : 0;
+  },
+  /* pose by pointing each limb in a direction (character space: +x left, +y up, +z forward) */
+  POSES:{
+    idle:   {LeftArm:[.25,-1,-.42], LeftForeArm:[-.95,-.2,-.3], RightArm:[-.25,-1,-.42], RightForeArm:[.95,-.2,-.3]},
+    relaxed:{LeftArm:[.18,-1,.02], LeftForeArm:[.08,-1,.18], RightArm:[-.18,-1,.02], RightForeArm:[-.08,-1,.18]},
+    welcome:{LeftArm:[.18,-1,.02], LeftForeArm:[.08,-1,.18], RightArm:[-.4,-.75,.5], RightForeArm:[-.5,.1,1]},
+    clap:   {LeftArm:[.3,-.8,.5], LeftForeArm:[-.75,.1,.65], RightArm:[-.3,-.8,.5], RightForeArm:[.75,.1,.65]}
+  },
+  CHILD:{LeftArm:'LeftForeArm', LeftForeArm:'LeftHand', RightArm:'RightForeArm', RightForeArm:'RightHand', LeftUpLeg:'LeftLeg', LeftLeg:'LeftFoot', RightUpLeg:'RightLeg', RightLeg:'RightFoot'},
+  aim(name, dir){
+    const b=this.bones[name], c=this.bones[this.CHILD[name]]; if(!b || !c || !b.parent) return;
+    const bp=new THREE.Vector3().setFromMatrixPosition(b.matrixWorld), cp=new THREE.Vector3().setFromMatrixPosition(c.matrixWorld);
+    const cur=cp.sub(bp); if(cur.lengthSq()<1e-8) return; cur.normalize();
+    const want=dir.clone().applyQuaternion(this.ent.root.quaternion).normalize();
+    const qd=new THREE.Quaternion().setFromUnitVectors(cur, want);
+    const bw=b.getWorldQuaternion(new THREE.Quaternion()), pw=b.parent.getWorldQuaternion(new THREE.Quaternion());
+    b.quaternion.copy(pw.invert().multiply(qd.multiply(bw)));
+    b.updateMatrixWorld(true);
+  },
+  animate(dt, t){
+    if(!this.model) return;
+    for(const k in this.rest){ const b=this.bones[k]; b.quaternion.copy(this.rest[k].q); b.position.copy(this.rest[k].p); }
+    const walking=this.curName==='walk';
+    let pose=this.POSES[walking ? 'idle' : this.curName] || this.POSES.idle;
+    if(this.curName==='clap'){ const o=Math.sin(t*16)*.5+.5; pose={...pose, LeftForeArm:[-.75+.35*o,.1,.65], RightForeArm:[.75-.35*o,.1,.65]}; }
+    const k=Math.min(1,dt*8);
+    for(const n in pose){ const v=new THREE.Vector3(...pose[n]).normalize(); this.dirs[n] = this.dirs[n] ? this.dirs[n].lerp(v,k).normalize() : v; }
+    const hips=this.bones.Hips;
+    if(walking){ this.walkPh += dt*this.SPEED*5.4; if(hips) hips.position.y += Math.abs(Math.sin(this.walkPh))*.018; }
+    else if(hips) hips.position.y += Math.sin(t*1.6)*.003;
+    this.ent.root.updateMatrixWorld(true);
+    for(const n of ['LeftArm','LeftForeArm','RightArm','RightForeArm']) this.aim(n, this.dirs[n]);
+    if(walking){
+      const ph=this.walkPh;
+      for(const [side,sx,off] of [['Left',1,0],['Right',-1,Math.PI]]){
+        const a=.35*Math.sin(ph+off), knee=Math.max(0,-Math.sin(ph+off))*.6+.06;
+        this.aim(side+'UpLeg', new THREE.Vector3(sx*.04,-Math.cos(a),Math.sin(a)));
+        this.aim(side+'Leg', new THREE.Vector3(sx*.02,-Math.cos(a-knee),Math.sin(a-knee)));
+      }
+    }
   },
   go(x,z,cb){
     const e=this.ent; if(!e) return; this.onArrive=cb||null; this.route=null;
@@ -3881,17 +3919,17 @@ const Vincent = {
   },
   update(dt, t, now){
     const e=this.ent; if(!e) return;
-    if(this.mixer) this.mixer.update(dt);
     const vis = e.room===roomOf(me); e.root.visible=vis; e.hidden=!vis;
     if(this.goal){
       const dx=this.goal.x-e.x, dz=this.goal.z-e.z, d=Math.hypot(dx,dz);
-      if(d>.08){ const st=Math.min(d,this.SPEED*dt); e.x+=dx/d*st; e.z+=dz/d*st; e.ry=lerpAngle(e.ry, Math.atan2(dx,dz), Math.min(1,dt*7)); if(this.curName!=='WalkForward') this.play('WalkForward'); }
+      if(d>.08){ const st=Math.min(d,this.SPEED*dt); e.x+=dx/d*st; e.z+=dz/d*st; e.ry=lerpAngle(e.ry, Math.atan2(dx,dz), Math.min(1,dt*7)); if(this.curName!=='walk') this.play('WalkForward'); }
       else if(this.route && this.route.length) this.goal=this.route.shift();
       else { this.goal=null; this.route=null; this.play('Idle'); const cb=this.onArrive; this.onArrive=null; if(cb) cb(); }
     } else if(this.onceUntil && now>this.onceUntil){ this.play('Idle'); }
-    else if(!this.onceUntil && now>this.until && this.curName!=='IdleRelax') this.think(now);
-    else if(this.curName==='IdleRelax' && now>this.until) { this.play('Idle'); this.until=now+1500; }
+    else if(!this.onceUntil && now>this.until && this.curName!=='relaxed') this.think(now);
+    else if(this.curName==='relaxed' && now>this.until) { this.play('Idle'); this.until=now+1500; }
     e.root.position.set(e.x, groundY(e.x,e.z), e.z); e.root.rotation.y=e.ry;
+    if(vis) this.animate(dt, t);
   },
   /* tap card */
   card(){
@@ -3900,18 +3938,14 @@ const Vincent = {
     const card=cardShell('마스터 Vincent', '버드케이지 매장을 관리하는 마스터예요. 무엇을 도와드릴까요?', 'bar');
     const grid=document.createElement('div'); grid.className='drinks';
     const add=(label,sub,fn)=>{ const b=document.createElement('button'); b.type='button'; b.textContent=label; const s=document.createElement('small'); s.textContent=sub; b.appendChild(s); b.onclick=()=>{ closeCard(); fn(); }; grid.appendChild(b); };
+    const inMain = fn => ()=>{ if(me.vr){ Vers.leave(); setTimeout(fn, 700); } else fn(); };
     add('오늘의 테마','해피아워 안내', ()=>Theme.open());
     add('빈자리 안내','가까운 빈자리로', ()=>this.guideSeat());
-    if(me.vr){
-      add('노래 예약','VERS 노래방', ()=>{ $('#karaSheetBg').hidden=false; Karaoke.render(); });
-      add('메인 바로','라운지로 이동', ()=>Vers.leave());
-    } else {
-      add('댄스 배틀','스테이지', ()=>DB.offer());
-      add('블랙잭','딜러 에이스', ()=>bjApproach());
-      add('타로','타로 마스터', ()=>Tarot.open());
-      add('술값 사다리','사다리 타기', ()=>Ladder.open());
-      add('VERS 노래방','가라오케로', ()=>walkTo(9.55,5.5, ()=>Vers.enter()));
-    }
+    add('댄스 배틀','스테이지', inMain(()=>DB.offer()));
+    add('블랙잭','딜러 에이스', inMain(()=>bjApproach()));
+    add('타로','타로 마스터', inMain(()=>Tarot.open()));
+    add('술값 사다리','사다리 타기', ()=>Ladder.open());
+    add('VERS 노래방', me.vr ? '노래 예약' : '가라오케로', ()=>{ if(me.vr){ $('#karaSheetBg').hidden=false; Karaoke.render(); } else walkTo(9.55,5.5, ()=>Vers.enter()); });
     card.appendChild(grid);
     this.say(me.vr ? '노래 한 곡 어떠세요?' : '오늘은 뭐 하고 노실래요?');
   },
